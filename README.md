@@ -1,0 +1,1 @@
+English Rules Django project
