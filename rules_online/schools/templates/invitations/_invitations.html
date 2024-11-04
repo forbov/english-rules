@@ -1,0 +1,30 @@
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if collection %}
+      {% for invitation in collection %}
+        <tr>
+          <td>
+            <a href="{% url 'schools:invitation_show' invitation_id=invitation.id %}">
+              {{ invitation.email }}
+            </a>
+          </td>
+          <td>{{ invitation.full_name }}</td>
+          <td>{{ invitation.gender_description }}</td>
+          <td>{{ invitation.group_name.title }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="4">No invitations found.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <table class="table table-light">
+        <thead>
+          <tr>
+            <th class="text-center" colspan="2">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-end">Type</td>
+            <td>{{ school.school_type }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Address</td>
+            <td>{{ school.street_address_as_html | safe }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Postal Address</td>
+            <td>{{ school.postal_address_as_html | safe }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">LGA</td>
+            <td>{{ school.lga_name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Location</td>
+            <td>Latitude: {{ school.latitude }}<br>Longitude: {{ school.longitude }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:school_edit' school.id %}" class="btn btn-primary">Edit</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:school_delete' school.id %}" class="btn btn-danger">Delete</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:invitation_new' %}?school_id={{ school.id }}&role=teacher" class="btn btn-primary">Add Teacher</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:invitation_new' %}?school_id={{ school.id }}&role=student" class="btn btn-primary">Add Student</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:schools_index' %}" class="btn btn-primary">Schools</a>
+      </div>
+    </div>
+  </div>
+  {% if has_tabs %}
+    <ul class="nav nav-tabs" id="bootstrapTab" role="tablist">
+      {{ tab_headers | safe }}
+    </ul>
+    <div class="tab-content" id="bootstrapTabContent">
+      {{ tab_contents | safe }}
+    </div>
+  {% endif %}
+{% endblock content %}

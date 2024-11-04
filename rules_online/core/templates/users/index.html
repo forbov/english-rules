@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  {% include 'users/_users.html' with collection=users source='index' %}
+{% endblock content %}

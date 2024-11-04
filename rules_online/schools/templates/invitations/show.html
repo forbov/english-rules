@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+<div class="row my-3">
+  <div class="col-md-9 col-lg-10 order-md-1 order-2">
+    <table class="table table-light">
+        <thead>
+          <tr>
+            <th class="text-center" colspan="2">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-end">First Name</td>
+            <td>{{ invitation.first_name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Last Name</td>
+            <td>{{ invitation.last_name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Email</td>
+            <td>{{ invitation.email }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Role</td>
+            <td>{{ invitation.group_description }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">School</td>
+            <td>{{ invitation.school.school_name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Phone</td>
+            <td>{{ invitation.phone }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Student No</td>
+            <td>{{ invitation.student_no }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Date of Birth</td>
+            <td>{{ invitation.date_of_birth }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Status</td>
+            <td>{{ invitation.status_description }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Created by</td>
+            <td>{{ invitation.invited_by.full_name }} at {{ invitation.created_at }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Expires at</td>
+            <td>{{ invitation.expires_at }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Invited at</td>
+            <td>{{ invitation.invited_at }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Accepted at</td>
+            <td>{{ invitation.accepted_at }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:invitation_edit' invitation.id %}" class="btn btn-primary">Edit</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:invitation_delete' invitation.id %}" class="btn btn-danger">Delete</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:invitation_reset' invitation.id %}" class="btn btn-primary">Reset Invite</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:school_show' invitation.school.id %}" class="btn btn-primary">School</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

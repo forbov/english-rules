@@ -1,0 +1,33 @@
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Suburb</th>
+      <th>State</th>
+      <th>LGA</th>
+    <tr>
+    </tr>
+  </thead>
+  <tbody>
+    {% if collection %}
+      {% for school in collection %}
+        <tr>
+          <td>
+            <a href="{% url 'schools:show' school_id=school.id %}">
+              {{ school.school_name }}
+            </a>
+          </td>
+          <td>{{ school.school_type }}</td>
+          <td>{{ school.address_town }}</td>
+          <td>{{ school.address_state }}</td>
+          <td>{{ school.lga_name }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="5">No schools found.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

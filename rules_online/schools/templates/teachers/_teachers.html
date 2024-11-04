@@ -1,0 +1,33 @@
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>School</th>
+      <th>Phone</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if collection %}
+      {% for teacher in collection %}
+        <tr>
+          <td>
+            <a href="{% url 'schools:teacher_show' teacher_id=teacher.id %}">
+              {{ teacher.user.email }}
+            </a>
+          </td>
+          <td>{{ teacher.user.full_name }}</td>
+          <td>{{ teacher.user.gender_description }}</td>
+          <td>{{ teacher.current_school.school.school_name }}</td>
+          <td>{{ teacher.user.phone }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td class="text-center" colspan="6">No teachers found.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

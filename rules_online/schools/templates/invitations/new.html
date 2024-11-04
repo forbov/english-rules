@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+{{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  {{ form.media }}
+  <form action="{% url 'schools:invitation_new' %}" method="post">
+    <div class="row my-3">
+      <div class="col-md-9 col-lg-10 order-md-1 order-2">
+        <input type="hidden" name="role" value="{{ role }}"/>
+        {% if school %}
+          <input type="hidden" name="school_id" value="{{ school.id }}"/>
+          <div class="row my-3">
+            <div class="col-md-3 text-md-end">
+              <label>School</label>
+            </div>
+            <div class="col-md">
+              {{ school.school_name }}
+            </div>
+          </div>
+        {% endif %}
+        <div class="form-group">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="row my-3">
+              <div class="col-md-3 text-md-end">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              </div>
+              <div class="col-md">
+                {{ field }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-2 order-md-2 order-1">
+        <div class="d-grid my-3">
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+        <div class="d-grid my-3">
+          <a href="{% url 'schools:school_show' school.id %}" class="btn btn-primary">School</a>
+        </div>
+        </div>
+    </div>
+  </form>
+{% endblock content %}

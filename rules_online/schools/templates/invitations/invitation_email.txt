@@ -1,0 +1,6 @@
+{{ invitation.first_name }},
+
+You have been invited to join the English Rules community.
+
+Please click the link below to accept the invitation:
+{{ accept_url }}?token={{ invitation.invitation_token }}">{{ accept_url }}?token={{ invitation.invitation_token }}

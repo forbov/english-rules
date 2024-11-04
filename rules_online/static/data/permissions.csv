@@ -1,0 +1,13 @@
+group,permission
+teacher,add_user
+teacher,change_user
+teacher,delete_user
+teacher,view_user
+teacher,add_post
+teacher,change_post
+teacher,delete_post
+teacher,view_post
+student,add_post
+student,change_post
+student,delete_post
+student,view_post

@@ -1,0 +1,32 @@
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>School</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if collection %}
+      {% for student in collection %}
+        <tr>
+          <td>
+            <a href="{% url 'schools:student_show' student_id=student.id %}">
+              {{ student.user.email }}
+            </a>
+          </td>
+          <td>{{ student.user.full_name }}</td>
+          <td>{{ student.user.gender_description }}</td>
+          <td>{{ student.current_school.school.school_name }}</td>
+          <td>{{ student.current_school.grade_level }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td class="text-center" colspan="5">No students found.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

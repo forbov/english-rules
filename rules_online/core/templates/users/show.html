@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <table class="table table-light">
+    <thead>
+      <tr>
+        <th colspan="2">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Username</td>
+        <td>{{ user.username }}</td>
+      </tr>
+      <tr>
+        <td>First Name</td>
+        <td>{{ user.first_name }}</td>
+      </tr>
+      <tr>
+        <td>Last Name</td>
+        <td>{{ user.last_name }}</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>{{ user.email }}</td>
+      </tr>
+    </tbody>
+  </table>
+  {% if has_tabs %}
+    <ul class="nav nav-tabs" id="bootstrapTab" role="tablist">
+      {{ tab_headers | safe }}
+    </ul>
+    <div class="tab-content" id="bootstrapTabContent">
+      {{ tab_contents | safe }}
+    </div>
+  {% endif %}
+{% endblock content %}
