@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from core.models import get_group_description, get_token_expiry
 from .models import Invitation
 
-def send_email(subject, text_content, html_content, from_email, to_email):
+def send_er_email(subject, text_content, html_content, from_email, to_email):
   # Create the email
   # email = EmailMultiAlternatives(
   #   subject=subject,
@@ -48,7 +48,7 @@ def send_invitation_email(invitation):
   html_content = render_to_string(html_template, context)
   text_content = render_to_string(text_template, context)
 
-  send_email(subject, html_content, text_content, settings.DEFAULT_FROM_EMAIL, invitation.email)
+  send_er_email(subject, html_content, text_content, settings.DEFAULT_FROM_EMAIL, invitation.email)
 
 def send_pending_invites(user, school):
   pending_invitations = None
@@ -59,15 +59,6 @@ def send_pending_invites(user, school):
   else:
     pending_invitations = Invitation.filter(status='PENDING',
                                             invited_by=user)
-  for invitation in pending_invitations:
-    # Send the invitation email
-    send_invitation_email(invitation)
-    
-    # Mark the invitation as sent
-    invitation.status = 'INVITED'
-    invitation.invited_at = datetime.now()
-    invitation.expires_at = invitation.invited_at + timedelta(days=get_token_expiry())
-  
 
   for invitation in pending_invitations:
     invitation_count += 1
