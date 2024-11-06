@@ -6,17 +6,6 @@ from core.models import get_group_description, get_token_expiry
 from .models import Invitation
 
 def send_er_email(subject, text_content, html_content, from_email, to_email):
-  # Create the email
-  # email = EmailMultiAlternatives(
-  #   subject=subject,
-  #   body=text_content,
-  #   from_email=from_email,
-  #   to=[to_email],
-  # )
-  # email.attach_alternative(html_content, 'text/html')
-
-  # # Send the email
-  # email.send()
   send_mail(subject=subject, message=text_content, from_email=from_email, recipient_list=[to_email], html_message=html_content)
 
 def send_invitation_email(invitation):
@@ -48,7 +37,8 @@ def send_invitation_email(invitation):
   html_content = render_to_string(html_template, context)
   text_content = render_to_string(text_template, context)
 
-  send_er_email(subject, html_content, text_content, settings.DEFAULT_FROM_EMAIL, invitation.email)
+  send_er_email(subject=subject, text_content=text_content, html_content=html_content, 
+                from_email=settings.DEFAULT_FROM_EMAIL, to_email=invitation.email)
 
 def send_pending_invites(user, school):
   pending_invitations = None
