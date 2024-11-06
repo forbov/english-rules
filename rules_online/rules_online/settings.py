@@ -33,6 +33,8 @@ environ.Env.read_env(os.path.join(BASE_DIR, f'.env_{ENVIRONMENT}'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
+APP_NAME = 'English Rules'
+SITE_URL = env('SITE_URL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'core',
     'schools',
+    'invitations',
 ]
 
 MIDDLEWARE = [
@@ -169,4 +172,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
-ACCEPT_URL = f'{env('SITE_URL')}/users/accept/'
+ACCEPT_URL = f'{SITE_URL}/invitations/accept/'

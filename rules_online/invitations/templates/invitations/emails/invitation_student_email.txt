@@ -1,0 +1,7 @@
+{{ invitation.first_name }},
+
+You have been invited to join the {{ app_name }} community as a {{ role }} attending the {{ school.school_name }}.
+
+Please copy the link below into your browser to accept the invitation:
+
+{{ accept_url }}

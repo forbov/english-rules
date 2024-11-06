@@ -75,13 +75,13 @@
     </div>
     <div class="col-md-3 col-lg-2 order-md-2 order-1">
       <div class="d-grid my-3">
-        <a href="{% url 'schools:invitation_edit' invitation.id %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'invitations:invitation_edit' invitation.id %}" class="btn btn-primary">Edit</a>
       </div>
       <div class="d-grid my-3">
-        <a href="{% url 'schools:invitation_delete' invitation.id %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'invitations:invitation_delete' invitation.id %}" class="btn btn-danger">Delete</a>
       </div>
       <div class="d-grid my-3">
-        <a href="{% url 'schools:invitation_reset' invitation.id %}" class="btn btn-primary">Reset Invite</a>
+        <a href="{% url 'invitations:invitation_reset' invitation.id %}" class="btn btn-primary">Reset Invite</a>
       </div>
       <div class="d-grid my-3">
         <a href="{% url 'schools:school_show' invitation.school.id %}" class="btn btn-primary">School</a>

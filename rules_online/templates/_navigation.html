@@ -12,15 +12,14 @@
         <li class="nav-item">
           <a class="nav-link" href="#">About</a>
         </li>
-        {% comment %} {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Posts</a>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Schools</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'posts:index' %}">All Posts</a></li>             
-              <li><a class="dropdown-item" href="{% url 'posts:create' %}">Create</a></li>
+              <li><a class="dropdown-item" href="{% url 'schools:schools_index' %}">All Schools</a></li>
             </ul>
           </li>
-        {% endif %} {% endcomment %}        
+        {% endif %}      
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Users</a>
           <ul class="dropdown-menu">

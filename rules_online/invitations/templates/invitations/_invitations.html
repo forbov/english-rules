@@ -12,7 +12,7 @@
       {% for invitation in collection %}
         <tr>
           <td>
-            <a href="{% url 'schools:invitation_show' invitation_id=invitation.id %}">
+            <a href="{% url 'invitations:invitation_show' invitation_id=invitation.id %}">
               {{ invitation.email }}
             </a>
           </td>

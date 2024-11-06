@@ -109,6 +109,7 @@ class SystemCode(models.Model):
 GENDER_DOMAIN = 'GENDER'
 STATE_DOMAIN = 'STATE'
 INVITE_STATUS_DOMAIN = 'INVITE_STATUS'
+TOKEN_DOMAIN = 'TOKEN'
 
 # CodeSet and CodeRecord classes to manage system code sets and descriptions
 
@@ -170,3 +171,12 @@ def get_invite_status_choices():
 
 def get_invite_status_description(code):
   return CodeRecord(INVITE_STATUS_DOMAIN, code).get_descripton()
+
+def get_token_choices():
+  return CodeSet(TOKEN_DOMAIN).as_choices()
+
+def get_token_description(code):
+  return CodeRecord(TOKEN_DOMAIN, code).get_descripton()
+
+def get_token_expiry():
+  return CodeRecord(TOKEN_DOMAIN, 'EXPIRY').get_integer_value()

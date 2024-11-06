@@ -19,7 +19,38 @@ from django.utils.text import capfirst
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib import messages
 
+class PasswordValidator():
+  def __init__(self, password1, password2):
+    self.password1 = password1
+    self.password2 = password2
+    self.error_messages = {'password_mismatch': _("The two password fields didn't match."),
+                           'password_too_short': _("The password must be at least 8 characters long."),
+                           'password_not_mixed_case': _("The password must contain upper and lower case characters."),
+                           'password_not_mixed': _("The password must contain both letters and numbers."),
+                           'password_lockout': _("Your password has been locked out. Please contact the site administrator for assistance.")
+                          }
 
+  def validate(self):
+    if len(self.password1) < 8:
+      raise forms.ValidationError(self.error_messages['password_too_short'],
+                                  code='password_too_short')
+    
+    if not any(char.isupper() for char in self.password1):
+      raise forms.ValidationError(self.error_messages['password_not_mixed_case'],
+                                  code='password_not_mixed_case')
+    
+    if not any(char.islower() for char in self.password1):
+      raise forms.ValidationError(self.error_messages['password_not_mixed_case'],
+                                  code='password_not_mixed_case')
+    
+    if not any(char.isdigit() for char in self.password1):
+      raise forms.ValidationError(self.error_messages['password_not_mixed'],
+                                  code='password_not_mixed')
+    
+    if self.password1 != self.password2:
+      raise forms.ValidationError(self.error_messages['password_mismatch'],
+        code='password_mismatch',
+      )
 
 class ReadOnlyPasswordHashWidget(forms.Widget):
   def render(self, name, value, attrs):
@@ -65,9 +96,6 @@ class UserCreationForm(forms.ModelForm):
   A form that creates a user, with no privileges, from the given username and
   password.
   """
-  error_messages = {
-    'password_mismatch': _("The two password fields didn't match."),
-  }
   password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
   password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, 
                               help_text=_("Enter the same password as above, for verification."))
@@ -80,11 +108,8 @@ class UserCreationForm(forms.ModelForm):
   def clean_password2(self):
     password1 = self.cleaned_data.get("password1")
     password2 = self.cleaned_data.get("password2")
-    if password1 and password2 and password1 != password2:
-      raise forms.ValidationError(
-        self.error_messages['password_mismatch'],
-        code='password_mismatch',
-      )
+    validator = PasswordValidator(password1, password2)
+    validator.validate()
     return password2
 
   def save(self, commit=True):
@@ -93,7 +118,6 @@ class UserCreationForm(forms.ModelForm):
     if commit:
       user.save()
     return user
-
 
 class UserChangeForm(forms.ModelForm):
   password = ReadOnlyPasswordHashField(label=_("Password"),

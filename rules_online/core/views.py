@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import User
 
 from core.app_helper import BootstrapTabs
-from .decorators import authenticated_user
+from .decorators import authenticated_user, unauthenticated_user
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
@@ -14,6 +14,7 @@ def index(request):
   users = User.objects.all()
   return render(request, 'users/index.html', {'users': users, 'page_header': page_header})
 
+@authenticated_user
 def show(request, user_id):
   user = User.objects.get(id=user_id)
   bootstrap_tabs = BootstrapTabs({'posts': {'label': 'Posts', 
@@ -25,7 +26,7 @@ def show(request, user_id):
                                              'has_tabs': bootstrap_tabs.has_tabs, 
                                              'tab_headers': bootstrap_tabs.render_tab_headers(), 
                                              'tab_contents': bootstrap_tabs.render_tab_contents()})
-
+@unauthenticated_user
 def register(request):
   page_header = 'Register User'
   if request.method == 'POST':
@@ -42,6 +43,7 @@ def register(request):
     form = RegisterForm()
     return render(request, 'users/register.html', {'form': form, 'page_header': page_header})
 
+# @unauthenticated_user
 def login_user(request):
   page_header = 'Login'
   if request.method == 'POST':

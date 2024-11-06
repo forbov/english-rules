@@ -14,7 +14,7 @@
       {% for school in collection %}
         <tr>
           <td>
-            <a href="{% url 'schools:show' school_id=school.id %}">
+            <a href="{% url 'schools:school_show' school_id=school.id %}">
               {{ school.school_name }}
             </a>
           </td>
