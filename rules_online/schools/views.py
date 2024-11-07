@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from invitations.utilities import send_pending_invites
-from .models import School
+from .models import School, Student, Teacher
 from core.app_helper import BootstrapTabs
 
 # Create your views here.
@@ -20,11 +20,11 @@ def school_show(request, school_id):
 
   bootstrap_tabs = BootstrapTabs({'teachers': {'label': 'Teachers', 
                                                'render': 'teachers/_teachers.html', 
-                                               'dataset': school.teachers.all(), 
+                                               'dataset': school.current_teachers(), 
                                                'source': 'school'},
                                   'students': {'label': 'Students', 
                                                'render': 'students/_students.html', 
-                                               'dataset': school.students.all(), 
+                                               'dataset': school.current_students(), 
                                                'source':'school'},
                                   'invitations': {'label': 'Invitations', 
                                                   'render': 'invitations/_invitations.html', 
@@ -57,3 +57,49 @@ def send_invites(request, school_id):
   invite_count = send_pending_invites(user=request.user, school=school)
   messages.success(request, f'Sent {invite_count} invitations.')
   return redirect('schools:school_show', school_id=school.id)
+
+# Students
+
+def student_show(request, student_id):
+  student = Student.objects.get(id=student_id)
+  page_header = f'Student: {student.user.full_name()}'
+
+  # bootstrap_tabs = BootstrapTabs({'teachers': {'label': 'Teachers', 
+  #                                              'render': 'teachers/_teachers.html', 
+  #                                              'dataset': school.teachers.all(), 
+  #                                              'source': 'school'},
+  #                                 'students': {'label': 'Students', 
+  #                                              'render': 'students/_students.html', 
+  #                                              'dataset': school.students.all(), 
+  #                                              'source':'school'},
+  #                                 'invitations': {'label': 'Invitations', 
+  #                                                 'render': 'invitations/_invitations.html', 
+  #                                                 'dataset': school.invitations.all(), 
+  #                                                 'source':'school'}})
+  
+  return render(request, 'students/show.html', {'student': student, 'page_header': page_header, })
+                                              #  'has_tabs': bootstrap_tabs.has_tabs, 
+                                              #  'tab_headers': bootstrap_tabs.render_tab_headers(), 
+                                              #  'tab_contents': bootstrap_tabs.render_tab_contents()})
+
+def teacher_show(request, teacher_id):
+  teacher = Teacher.objects.get(id=teacher_id)
+  page_header = f'Teacher: {teacher.user.full_name()}'
+
+  # bootstrap_tabs = BootstrapTabs({'teachers': {'label': 'Teachers', 
+  #                                              'render': 'teachers/_teachers.html', 
+  #                                              'dataset': school.teachers.all(), 
+  #                                              'source': 'school'},
+  #                                 'students': {'label': 'Students', 
+  #                                              'render': 'students/_students.html', 
+  #                                              'dataset': school.students.all(), 
+  #                                              'source':'school'},
+  #                                 'invitations': {'label': 'Invitations', 
+  #                                                 'render': 'invitations/_invitations.html', 
+  #                                                 'dataset': school.invitations.all(), 
+  #                                                 'source':'school'}})
+  
+  return render(request, 'teachers/show.html', {'teacher': teacher, 'page_header': page_header, })
+                                              #  'has_tabs': bootstrap_tabs.has_tabs, 
+                                              #  'tab_headers': bootstrap_tabs.render_tab_headers(), 
+                                              #  'tab_contents': bootstrap_tabs.render_tab_contents()})

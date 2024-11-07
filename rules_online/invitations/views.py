@@ -64,31 +64,7 @@ def invitation_new(request):
       form = OthersInvitationForm(data=request.POST)
 
     if form.is_valid():
-      email = request.POST['email']
-      invitation_token = uuid4()
-      invited_by = user
-      created_at = datetime.now()
-      expires_at = created_at + timedelta(days=get_token_expiry())
-      first_name = request.POST['first_name']
-      last_name = request.POST['last_name']
-      gender = request.POST['gender']
-      phone = None
-      student_no = None
-      date_of_birth = None
-
-      if role in ['admin', 'teacher', 'manager']:
-        phone = request.POST['phone']
-      elif role =='student':
-        student_no = request.POST['student_no']
-        date_of_birth = request.POST['date_of_birth']
-        
-      # Create the invitation
-      invitation = Invitation.objects.create(email=email, invitation_token=invitation_token, invited_by=invited_by, 
-                                             created_at=created_at, expires_at=expires_at,
-                                             first_name=first_name, last_name=last_name, gender=gender, 
-                                             group_name=role, phone=phone,
-                                             student_no=student_no, date_of_birth=date_of_birth, school=school)
-      invitation.save()
+      invitation = form.save(user=user, school=school, role=role)
       messages.success(request, f'Invitation for {invitation.full_name()} saved successfully.')
       return redirect('schools:school_show', school_id=school.id)
     else:
@@ -176,7 +152,8 @@ def invitation_accept(request):
       elif invitation.group_name =='student':
         student = Student.objects.create(user=user, date_of_birth=invitation.date_of_birth, student_no=invitation.student_no)
         student.save()
-        school_student = SchoolStudent.objects.create(student=student, school=invitation.school, date_start=datetime.now())
+        school_student = SchoolStudent.objects.create(student=student, school=invitation.school, 
+                                                      date_start=datetime.now(), school_grade=invitation.school_grade)
         school_student.save()
 
       invitation.status = 'ACCEPTED'

@@ -17,11 +17,11 @@ def index(request):
 @authenticated_user
 def show(request, user_id):
   user = User.objects.get(id=user_id)
-  bootstrap_tabs = BootstrapTabs({'posts': {'label': 'Posts', 
-                                            'render': 'posts', 
-                                            'dataset': user.post_set.all(), 
+  bootstrap_tabs = BootstrapTabs({'invitations': {'label': 'Invitations', 
+                                            'render': 'invitations/_invitations.html', 
+                                            'dataset': user.invitations_created.all(), 
                                             'source': 'user'}})
-  page_header = f'{user.username} Profile'
+  page_header = f'{user.full_name()} Profile'
   return render(request, 'users/show.html', {'user': user, 'page_header': page_header, 
                                              'has_tabs': bootstrap_tabs.has_tabs, 
                                              'tab_headers': bootstrap_tabs.render_tab_headers(), 

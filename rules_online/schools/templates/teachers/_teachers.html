@@ -4,7 +4,9 @@
       <th>Email</th>
       <th>Name</th>
       <th>Gender</th>
-      <th>School</th>
+      {% if source != 'school' %}
+        <th>School</th>
+      {% endif %}
       <th>Phone</th>
       <th>Role</th>
     </tr>
@@ -20,13 +22,20 @@
           </td>
           <td>{{ teacher.user.full_name }}</td>
           <td>{{ teacher.user.gender_description }}</td>
-          <td>{{ teacher.current_school.school.school_name }}</td>
+          {% if source != 'school' %}
+            <td>{{ teacher.current_school.school.school_name }}</td>
+          {% endif %}  
           <td>{{ teacher.user.phone }}</td>
+          <td>{{ teacher.user.group_description }}</td>
         </tr>
       {% endfor %}
     {% else %}
       <tr>
-        <td class="text-center" colspan="6">No teachers found.</td>
+        {% if source == 'school' %}
+          <td class="text-center" colspan="5">No teachers found.</td>
+        {% else %}
+          <td class="text-center" colspan="6">No teachers found.</td>
+        {% endif %}
       </tr>
     {% endif %}
   </tbody>

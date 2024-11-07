@@ -88,6 +88,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   def full_name(self):
     return f'{self.first_name} {self.last_name}'
+  
+  def group_description(self):
+    group_names = []
+    for group in self.groups.all():
+      group_names.append(get_group_description(group.name))
+
+    return ', '.join(group_names)
 
 # Create the SystemCode model.
 
@@ -110,6 +117,7 @@ GENDER_DOMAIN = 'GENDER'
 STATE_DOMAIN = 'STATE'
 INVITE_STATUS_DOMAIN = 'INVITE_STATUS'
 TOKEN_DOMAIN = 'TOKEN'
+SCHOOL_GRADE_DOMAIN = 'SCHOOL_GRADE'
 
 # CodeSet and CodeRecord classes to manage system code sets and descriptions
 
@@ -180,3 +188,9 @@ def get_token_description(code):
 
 def get_token_expiry():
   return CodeRecord(TOKEN_DOMAIN, 'EXPIRY').get_integer_value()
+
+def get_school_grade_choices():
+  return CodeSet(SCHOOL_GRADE_DOMAIN).as_choices()
+
+def get_school_grade_description(code):
+  return CodeRecord(SCHOOL_GRADE_DOMAIN, code).get_descripton()

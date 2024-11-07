@@ -1,5 +1,5 @@
 from django.db import models
-from core.models import User, get_gender_description, get_group_description, get_invite_status_description
+from core.models import User, get_school_grade_description
 
 # Create your models here.
 class School(models.Model): 
@@ -44,6 +44,38 @@ class School(models.Model):
     return self.invitations.filter(status='PENDING',
                                    invited_by=user).exists()
   
+  def current_teachers(self):
+    sql = f"""select tch.*
+               from schools_school sch
+               inner join schools_schoolteacher sct
+                 on sct.school_id = sch.id
+                and sct.date_end is null
+              inner join schools_teacher tch
+                 on tch.id = sct.teacher_id
+              inner join core_user usr
+                 on usr.id = tch.user_id
+              where sch.id = {self.id}
+              order by usr.last_name
+                  , usr.first_name"""
+    
+    return Teacher.objects.raw(sql)
+
+  def current_students(self):
+    sql = f"""select std.*
+               from schools_school sch
+               inner join schools_schoolstudent scs
+                 on scs.school_id = sch.id
+                and scs.date_end is null
+              inner join schools_student std
+                 on std.id = scs.student_id
+              inner join core_user usr
+                 on usr.id = std.user_id
+              where sch.id = {self.id}
+              order by usr.last_name
+                  , usr.first_name"""
+    
+    return Student.objects.raw(sql)
+
 # Create the Student model.
 
 class Student(models.Model):
@@ -55,7 +87,7 @@ class Student(models.Model):
     return self.user.full_name()
   
   def current_school(self):
-    return self.attends.filter(date_ended__isnull=True).first()
+    return self.attends.filter(date_end__isnull=True).first()
 
 # Create the Teacher model.
 
@@ -66,7 +98,7 @@ class Teacher(models.Model):
     return self.user.full_name()
   
   def current_school(self):
-    return self.teaches_at.filter(date_ended__isnull=True).first()
+    return self.teaches_at.filter(date_end__isnull=True).first()
 
 # Create the School-Teacher model.
 
@@ -87,7 +119,10 @@ class SchoolStudent(models.Model):
   student = models.ForeignKey(Student, related_name='attends', on_delete=models.CASCADE, null=False)
   date_start = models.DateField(null=False)
   date_end = models.DateField(null=True)
-  grade_level = models.CharField(max_length=20, null=False)
+  school_grade = models.CharField(max_length=20, null=False)
 
   def __str__(self):
     return f'{self.school.school_name} - {self.student.user.full_name()}'
+  
+  def school_grade_description(self):
+    return get_school_grade_description(self.school_grade)

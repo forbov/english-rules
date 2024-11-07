@@ -5,6 +5,7 @@
       <th>Name</th>
       <th>Phone</th>
       <th>Gender</th>
+      <th>Role</th>
     </tr>
   </thead>
   <tbody>
@@ -12,18 +13,19 @@
       {% for user in collection %}
         <tr>
           <td>
-            <a href="{% url 'core:show' user_id=user.id %}">
+            <a href="{% url 'core:user_show' user_id=user.id %}">
               {{ user.email }}
             </a>
           </td>
           <td>{{ user.full_name }}</td>
           <td>{{ user.phone }}</td>
           <td>{{ user.gender_description }}</td>
+          <td>{{ user.group_description }}</td>
         </tr>
       {% endfor %}
     {% else %}
       <tr>
-        <td colspan="4">No users found.</td>
+        <td colspan="5">No users found.</td>
       </tr>
     {% endif %}
   </tbody>

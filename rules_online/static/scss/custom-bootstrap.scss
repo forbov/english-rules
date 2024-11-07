@@ -1,3 +1,10 @@
-$primary:       #28aa98 !default;
+$er-primary: #28aa98;
+$er-1: #5edac8;
+$er-2: #35d0ba;
+$er-3: #fefed5;
+$er-dark: #111111;
+$er-white: #ffffff;
+
+$primary: $er-primary;
 
 @import './bootstrap.scss';

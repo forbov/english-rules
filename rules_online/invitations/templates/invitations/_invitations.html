@@ -5,6 +5,10 @@
       <th>Name</th>
       <th>Gender</th>
       <th>Role</th>
+      <th>Status</th>
+      {% if source != 'school' %}
+        <th>School</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -19,11 +23,19 @@
           <td>{{ invitation.full_name }}</td>
           <td>{{ invitation.gender_description }}</td>
           <td>{{ invitation.group_name.title }}</td>
+          <td>{{ invitation.status_description }}</td>
+          {% if source != 'school' %}
+            <td>{{ invitation.school.school_name }}</td>
+          {% endif %}  
         </tr>
       {% endfor %}
     {% else %}
       <tr>
-        <td colspan="4">No invitations found.</td>
+        {% if source == 'school' %}
+          <td colspan="5">No invitations found.</td>
+        {% else %}
+          <td colspan="6">No invitations found.</td>
+        {% endif %}
       </tr>
     {% endif %}
   </tbody>

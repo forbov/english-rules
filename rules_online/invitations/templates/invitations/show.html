@@ -34,22 +34,31 @@
             <td class="text-end">Role</td>
             <td>{{ invitation.group_description }}</td>
           </tr>
-          <tr>
-            <td class="text-end">School</td>
-            <td>{{ invitation.school.school_name }}</td>
-          </tr>
-          <tr>
-            <td class="text-end">Phone</td>
-            <td>{{ invitation.phone }}</td>
-          </tr>
-          <tr>
-            <td class="text-end">Student No</td>
-            <td>{{ invitation.student_no }}</td>
-          </tr>
-          <tr>
-            <td class="text-end">Date of Birth</td>
-            <td>{{ invitation.date_of_birth }}</td>
-          </tr>
+          {% if invitation.group_name != 'admin' %}
+            <tr>
+              <td class="text-end">School</td>
+              <td>{{ invitation.school.school_name }}</td>
+            </tr>
+          {% endif %}
+          {% if invitation.group_name != 'student' %}
+            <tr>
+              <td class="text-end">Phone</td>
+              <td>{{ invitation.phone }}</td>
+            </tr>
+          {% else %}
+            <tr>
+              <td class="text-end">Student No</td>
+              <td>{{ invitation.student_no }}</td>
+            </tr>
+            <tr>
+              <td class="text-end">Date of Birth</td>
+              <td>{{ invitation.date_of_birth }}</td>
+            </tr>
+            <tr>
+              <td class="text-end">Grade</td>
+              <td>{{ invitation.school_grade_description }}</td>
+            </tr>
+          {% endif %}
           <tr>
             <td class="text-end">Status</td>
             <td>{{ invitation.status_description }}</td>
@@ -62,14 +71,18 @@
             <td class="text-end">Expires at</td>
             <td>{{ invitation.expires_at }}</td>
           </tr>
-          <tr>
-            <td class="text-end">Invited at</td>
-            <td>{{ invitation.invited_at }}</td>
-          </tr>
-          <tr>
-            <td class="text-end">Accepted at</td>
-            <td>{{ invitation.accepted_at }}</td>
-          </tr>
+          {% if invitation.invited_at %}
+            <tr>
+              <td class="text-end">Invited at</td>
+              <td>{{ invitation.invited_at }}</td>
+            </tr>
+          {% endif %}
+          {% if invitation.accepted_at %}
+            <tr>
+              <td class="text-end">Accepted at</td>
+              <td>{{ invitation.accepted_at }}</td>
+            </tr>
+          {% endif %}  
         </tbody>
       </table>
     </div>
