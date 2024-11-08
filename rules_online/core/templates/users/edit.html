@@ -1,17 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-  Login
-{% endblock title %}
+  {{ page_header }}
+{% endblock title%}
 
 {% block heading %}
-  Login
+  {{ page_heading }}
 {% endblock heading %}
 
 {% block content %}
-  <form action="{% url 'core:user_login' %}" method="post">
+  <form action="{% url 'core:user_edit' user.id %}" method="post">
     <div class="row my-3">
       <div class="col-md-9 col-lg-10 order-md-1 order-2">
+        <div class="row my-3">
+          <div class="col-md-3 text-md-end">
+            <label>Email</label>
+          </div>
+          <div class="col-md">
+            {{ user.email }}
+          </div>
+        </div>
         <div class="form-group">
           {% csrf_token %}
           {% for field in form %}
@@ -24,14 +32,14 @@
               </div>
             </div>
           {% endfor %}
-          {% if request.GET.next %}
-            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-          {% endif %}
         </div>
       </div>
       <div class="col-md-3 col-lg-2 order-md-2 order-1">
         <div class="d-grid my-3">
-          <button class="btn btn-primary" type="submit">Login</button>
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+        <div class="d-grid my-3">
+          <a href="{% url 'core:user_show' user.id %}" class="btn btn-primary">User</a>
         </div>
       </div>
     </div>

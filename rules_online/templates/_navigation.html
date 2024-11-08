@@ -1,4 +1,4 @@
-<nav class="navbar bg-dark navbar-expand-md bg-body-tertiary" data-bs-theme="dark">
+<nav class="navbar navbar-dark bg-dark navbar-expand-md bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="/"><img src="/static/images/english-rules-banner-50.png" alt="english-rules"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="/about">About</a>
         </li>
         {% if user.is_authenticated %}
           <li class="nav-item dropdown">
@@ -19,18 +19,24 @@
               <li><a class="dropdown-item" href="{% url 'schools:schools_index' %}">All Schools</a></li>
             </ul>
           </li>
-        {% endif %}      
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Users</a>
-          <ul class="dropdown-menu">
-            {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Users</a>
+            <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% url 'core:users_index' %}">All Users</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Profile</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'core:user_show' user_id=user.id %}">{{ user.email }}</a></li>
               <li><a class="dropdown-item" href="{% url 'core:user_logout' %}">Logout</a></li>
-            {% else %}
-              <li><a class="dropdown-item" href="{% url 'core:user_login' %}">Login</a></li>
-              <li><a class="dropdown-item" href="{% url 'core:user_register' %}">Register</a></li>
-            {% endif %}
-          </ul>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:user_login' %}">Login</a>
+          </li>
+        {% endif %}
         </li>
       </ul>
     </div>

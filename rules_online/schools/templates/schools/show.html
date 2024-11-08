@@ -51,6 +51,9 @@
         <a href="{% url 'schools:school_delete' school.id %}" class="btn btn-danger">Delete</a>
       </div>
       <div class="d-grid my-3">
+        <a href="{% url 'invitations:invitation_new' %}?school_id={{ school.id }}&role=manager" class="btn btn-primary">Add Manager</a>
+      </div>
+      <div class="d-grid my-3">
         <a href="{% url 'invitations:invitation_new' %}?school_id={{ school.id }}&role=teacher" class="btn btn-primary">Add Teacher</a>
       </div>
       <div class="d-grid my-3">

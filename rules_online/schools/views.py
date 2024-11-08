@@ -3,16 +3,20 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from invitations.utilities import send_pending_invites
-from .models import School, Student, Teacher
-from core.app_helper import BootstrapTabs
+from schools.models import School, Student, Teacher
+from core.utilities import BootstrapTabs
+from schools.filters import SchoolFilter
 
 # Create your views here.
 
 @login_required
 def schools_index(request):
   page_header = 'Schools'
-  schools = School.objects.all()
-  return render(request, 'schools/index.html', {'schools': schools, 'page_header': page_header})
+  schools = School.objects.all().order_by('school_name')
+  schools_filter = SchoolFilter(request.GET, queryset=schools)
+  schools = schools_filter.qs
+  return render(request, 'schools/index.html', {'schools': schools, 'page_header': page_header,
+                                                'schools_filter': schools_filter})
 
 def school_show(request, school_id):
   school = School.objects.get(id=school_id)

@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils import timezone
 
+from core.utilities import BootstrapTabs
+
 # Define the User manager class.
 
 class UserManager(BaseUserManager):
@@ -95,6 +97,57 @@ class User(AbstractBaseUser, PermissionsMixin):
       group_names.append(get_group_description(group.name))
 
     return ', '.join(group_names)
+
+  def has_pending_invites(self):
+    return self.invitations_created.filter(status='PENDING').exists()
+
+  def bootstrap_tabs(self):
+    return BootstrapTabs({'invitations': {'label': 'Invitations', 
+                                          'render': 'invitations/_invitations.html', 
+                                          'dataset': self.invitations_created.all(), 
+                                          'source': 'user'}})
+  def is_admin(self):
+    return self.groups.filter(name='admin').exists()
+
+  def is_manager(self):
+    return self.groups.filter(name='manager').exists()
+
+  def is_teacher(self):
+    return self.groups.filter(name='teacher').exists()
+
+  def is_student(self):
+    return self.groups.filter(name='student').exists()
+
+  def is_manager_or_teacher_at_school(self, school):
+    sql = f"""select usr.*
+                from schools_teacher tch
+               inner join schools_schoolteacher sct
+                  on sct.teacher_id = tch.id
+                 and sct.school_id = {school.id}
+               inner join core_user usr
+                  on usr.id = tch.user_id
+               where tch.user_id = {self.id}"""
+    
+    return User.objects.raw(sql).exists()
+               
+  def is_teacher_at_school(self, school):
+    return self.is_teacher() and self.is_manager_or_teacher_at_school() 
+
+  def is_manager_at_school(self, school):
+    return self.is_manager() and self.is_manager_or_teacher_at_school()
+
+  def is_student_at_school(self, school):
+    sql = f"""select usr.*
+                from schools_student std
+               inner join schools_schoolstudent scs
+                  on scs.student_id = std.id
+                 and scs.school_id = {school.id}
+               inner join core_user usr
+                  on usr.id = std.user_id
+               where std.user_id = {self.id}"""
+    
+    return self.is_student() and User.objects.raw(sql).exists()
+  
 
 # Create the SystemCode model.
 

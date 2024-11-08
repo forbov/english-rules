@@ -47,8 +47,7 @@ def send_pending_invites(user, school):
     pending_invitations = school.invitations.filter(status='PENDING',
                                                     invited_by=user)
   else:
-    pending_invitations = Invitation.filter(status='PENDING',
-                                            invited_by=user)
+    pending_invitations = user.invitations_created.filter(status='PENDING')
 
   for invitation in pending_invitations:
     invitation_count += 1

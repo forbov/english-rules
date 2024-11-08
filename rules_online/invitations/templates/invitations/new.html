@@ -43,10 +43,16 @@
         <div class="d-grid my-3">
           <button class="btn btn-primary" type="submit">Save</button>
         </div>
-        <div class="d-grid my-3">
-          <a href="{% url 'schools:school_show' school.id %}" class="btn btn-primary">School</a>
-        </div>
-        </div>
+        {% if school %}
+          <div class="d-grid my-3">
+            <a href="{% url 'schools:school_show' school.id %}" class="btn btn-primary">School</a>
+          </div>
+        {% else %}
+          <div class="d-grid my-3">
+            <a href="{% url 'core:users_index' %}" class="btn btn-primary">Users</a>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </form>
 {% endblock content %}

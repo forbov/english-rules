@@ -66,7 +66,10 @@ def invitation_new(request):
     if form.is_valid():
       invitation = form.save(user=user, school=school, role=role)
       messages.success(request, f'Invitation for {invitation.full_name()} saved successfully.')
-      return redirect('schools:school_show', school_id=school.id)
+      if school:
+        return redirect('schools:school_show', school_id=school.id)
+      else:
+        return redirect('core:users_index')
     else:
       messages.error(request, f'<p><strong>Save failed with the following errors:</strong></p>{form.errors}')
       return render(request, 'invitations/new.html', {'form': form, 'page_header': page_header, 'school': school, 'role': role})
@@ -125,10 +128,12 @@ def invitation_edit(request, invitation_id):
 @login_required
 def invitation_delete(request, invitation_id):
   invitation = Invitation.objects.get(id=invitation_id)
-  school_id = invitation.school.id
   invitation.delete()
   messages.success(request, 'Invitation deleted successfully.')
-  return redirect('schools:school_show', school_id=school_id)
+  if invitation.school:
+    return redirect('schools:school_show', school_id=invitation.school.id)
+  else:
+    return redirect('core:users_index')
 
 # @unauthenticated_user
 def invitation_accept(request):
@@ -143,6 +148,9 @@ def invitation_accept(request):
       # Create the user
       user = form.save()
       user.groups.add(Group.objects.get(name=invitation.group_name))
+      
+      if invitation.group_name == 'manager':
+        user.groups.add(Group.objects.get(name='teacher'))
       
       if invitation.group_name in ['teacher', 'manager']:
         teacher = Teacher.objects.create(user=user)
@@ -162,7 +170,7 @@ def invitation_accept(request):
 
       login(request, user)
       messages.success(request, f'{user.full_name()} registered successfully and now logged in.')
-      return redirect('core:index')
+      return redirect('core:user_dashboard', user_id=user.id)
     else:
       messages.error(request, f'<p><strong>Registration failed with the following errors:</strong></p>{form.errors}')
       return render(request, 'invitations/accept.html', {'form': form, 'page_header': page_header, 'invitation': invitation})

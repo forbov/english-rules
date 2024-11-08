@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th class="text-center" colspan="2">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="text-center" colspan="2">Content to come</td>
+    </tr>
+  </tbody>
+</table>
+{% if has_tabs %}
+    <ul class="nav nav-tabs" id="bootstrapTab" role="tablist">
+      {{ tab_headers | safe }}
+    </ul>
+    <div class="tab-content" id="bootstrapTabContent">
+      {{ tab_contents | safe }}
+    </div>
+  {% endif %}
+{% endblock content %}
