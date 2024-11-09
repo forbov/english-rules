@@ -35,12 +35,12 @@ environ.Env.read_env(os.path.join(BASE_DIR, f'.env_{ENVIRONMENT}'))
 SECRET_KEY = env('SECRET_KEY')
 APP_NAME = 'English Rules'
 SITE_URL = env('SITE_URL')
+ROWS_PER_PAGE = 25
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap_datepicker_plus',
-    'django_filters',
     'core',
     'schools',
     'invitations',

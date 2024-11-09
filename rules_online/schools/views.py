@@ -12,9 +12,30 @@ from schools.filters import SchoolFilter
 @login_required
 def schools_index(request):
   page_header = 'Schools'
-  schools = School.objects.all().order_by('school_name')
-  schools_filter = SchoolFilter(request.GET, queryset=schools)
-  schools = schools_filter.qs
+
+  school_name = ''
+  address_state = ''
+  lga_name = ''
+  school_type = ''
+  address_town = ''
+
+  if 'search' in request.GET:
+    school_name = request.GET.get('school_name', '')
+    address_state = request.GET.get('address_state', '')
+    lga_name = request.GET.get('lga_name', '')
+    school_type = request.GET.get('school_type', '')
+    address_town = request.GET.get('address_town', '')
+
+    schools_filter = SchoolFilter( initial={'school_name': school_name, 'school_type': school_type,
+                                            'address_state': address_state, 'lga_name': lga_name,
+                                            'address_town': address_town})
+  else:
+    schools_filter = SchoolFilter(initial=None)
+
+  schools = School.objects.filter(school_name__icontains=school_name, address_state__icontains=address_state,
+                                  lga_name__icontains=lga_name, school_type__icontains=school_type,
+                                  address_town__icontains=address_town).order_by('school_name')
+  
   return render(request, 'schools/index.html', {'schools': schools, 'page_header': page_header,
                                                 'schools_filter': schools_filter})
 

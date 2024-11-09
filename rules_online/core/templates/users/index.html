@@ -11,7 +11,41 @@
 {% block content %}
   <div class="row my-3">
     <div class="col-md-9 col-lg-10 order-md-1 order-2">
-      {% include 'users/_users.html' with collection=users source='index' %}
+      <div class="row my-3">
+        <div class="accordion" id="accordionSearch">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Search
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionSearch">
+              <div class="accordion-body">
+                <form method="get">
+                  {% for field in users_filter %}
+                    <div class="row my-3">
+                      <div class="col-md-3 text-md-end">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                      </div>
+                      <div class="col-md">
+                        {{ field }}
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <div class="row my-3">
+                    <div class="col-md-6 d-grid">
+                      <button class="btn btn-primary" name="search" type="submit">Search</button>
+                    </div>
+                    <div class="col-md-6 d-grid">
+                      <button class="btn btn-primary" name="clear" type="submit">All Users</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-md-3 col-lg-2 order-md-2 order-1">
       <div class="d-grid my-3">
@@ -24,4 +58,5 @@
       {% endif %}
     </div>
   </div>
+  {% include 'users/_users.html' with collection=users source='index' %}
 {% endblock content %}

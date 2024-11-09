@@ -114,13 +114,13 @@ def invitation_edit(request, invitation_id):
   else:
     if invitation.group_name == 'student':
       form = StudentInvitationForm(initial={'email': invitation.email, 'first_name': invitation.first_name, 
-                                              'last_name': invitation.last_name, 'gender': invitation.gender, 
-                                              'phone': invitation.phone, 'student_no': invitation.student_no, 
-                                              'date_of_birth': invitation.date_of_birth})
+                                            'last_name': invitation.last_name, 'gender': invitation.gender, 
+                                            'phone': invitation.phone, 'student_no': invitation.student_no, 
+                                            'date_of_birth': invitation.date_of_birth})
     else:
       form = OthersInvitationForm(initial={'email': invitation.email, 'first_name': invitation.first_name, 
-                                              'last_name': invitation.last_name, 'gender': invitation.gender, 
-                                              'phone': invitation.phone})
+                                           'last_name': invitation.last_name, 'gender': invitation.gender, 
+                                           'phone': invitation.phone})
       
     return render(request, 'invitations/edit.html', {'form': form, 'invitation': invitation, 
                                                      'page_header': page_header, 'school': invitation.school})

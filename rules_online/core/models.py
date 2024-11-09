@@ -171,6 +171,7 @@ STATE_DOMAIN = 'STATE'
 INVITE_STATUS_DOMAIN = 'INVITE_STATUS'
 TOKEN_DOMAIN = 'TOKEN'
 SCHOOL_GRADE_DOMAIN = 'SCHOOL_GRADE'
+BLANK_LIST_ITEM = [('', '<All>')]
 
 # CodeSet and CodeRecord classes to manage system code sets and descriptions
 
@@ -207,17 +208,26 @@ class CodeRecord():
 def get_gender_choices():
   return CodeSet(GENDER_DOMAIN).as_choices()
 
+def get_gender_choices_with_blank():
+  return BLANK_LIST_ITEM + get_gender_choices()
+
 def get_gender_description(code):
   return CodeRecord(GENDER_DOMAIN, code).get_descripton()
 
 def get_state_choices():
   return CodeSet(STATE_DOMAIN).as_choices()
 
+def get_state_choices_with_blank():
+  return BLANK_LIST_ITEM + get_gender_choices()
+
 def get_state_description(code):
   return CodeRecord(STATE_DOMAIN, code).get_descripton()
 
 def get_group_choices():
   return [(group.name, group.name.title()) for group in Group.objects.all()]
+
+def get_group_choices_with_blank():
+  return BLANK_LIST_ITEM + get_group_choices()
 
 def get_group_description(group_name):
   try:

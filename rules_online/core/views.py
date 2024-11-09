@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 
 from invitations.utilities import send_pending_invites
-from .models import User
+from core.models import User
 
-from .decorators import authenticated_user, unauthenticated_user
-from .forms import LoginForm, RegisterForm, UserForm
+from core.decorators import authenticated_user, unauthenticated_user
+from core.forms import LoginForm, RegisterForm, UserForm
+from core.filters import UserFilter
 from django.contrib.auth import login, logout
 from django.contrib import messages
 
@@ -12,10 +13,42 @@ from django.contrib import messages
 @authenticated_user
 def users_index(request):
   page_header = 'Users'
-  users = User.objects.all()
-  user = request.user
+  first_name = ''
+  last_name = ''
+  gender = ''
+  group_name = ''
+
+  if 'search' in request.GET:
+    first_name = request.GET.get('first_name', '')
+    last_name = request.GET.get('last_name', '')
+    gender = request.GET.get('gender', '')
+    group_name = request.GET.get('group_name', '')
+
+    users_filter = UserFilter(initial={'first_name': first_name, 'last_name': last_name, 
+                                       'gender': gender, 'group_name': group_name})
+  else:
+    users_filter = UserFilter(initial=None)
+
+  sql = f""" select distinct usr.*
+               from core_user usr
+              inner join core_user_groups ugr
+                 on ugr.user_id = usr.id
+              inner join auth_group grp
+                 on grp.id = ugr.group_id
+                and ('{group_name}' = '' or grp.name = '{group_name}')
+              where lower(usr.first_name) like lower('%%{first_name}%%')
+                and lower(usr.last_name) like lower('%%{last_name}%%')
+                and ('{gender}' = '' or usr.gender = '{gender}')
+              order by usr.last_name
+                  , usr.first_name"""
+
+  users = User.objects.raw(sql)
+  print(f'Users count: {len(users)}')
+  print([(user.id, user.first_name, user.last_name) for user in users])
+
   return render(request, 'users/index.html', {'users': users, 'page_header': page_header,
-                                              'has_pending_invites': user.has_pending_invites(),})
+                                              'users_filter': users_filter,
+                                              'has_pending_invites': request.user.has_pending_invites(),})
 
 @authenticated_user
 def user_show(request, user_id):

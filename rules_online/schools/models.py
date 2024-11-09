@@ -22,6 +22,9 @@ class School(models.Model):
   lga_name = models.CharField(max_length=50, null=False)
   longitude = models.DecimalField(max_digits=10, decimal_places=6, null=False)
   latitude = models.DecimalField(max_digits=10, decimal_places=6, null=False)
+  phone = models.CharField(max_length=20, null=True)
+  email = models.EmailField(max_length=255, null=True)
+  website = models.URLField(max_length=200, null=True)
 
   def __str__(self):
       return self.school_name

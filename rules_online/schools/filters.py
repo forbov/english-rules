@@ -1,22 +1,25 @@
-from django.forms import TextInput, ChoiceField
-from django_filters import FilterSet, CharFilter, ChoiceFilter
-from core.models import get_state_choices
-from schools.utilities import distinct_school_lgas, distinct_school_types
-from schools.models import School
+from django.forms import CharField, Form, ChoiceField
+from core.models import get_state_choices_with_blank
+from schools.utilities import distinct_school_lgas_with_blank, distinct_school_types_with_blank
 
-class SchoolFilter(FilterSet):
-  school_name = CharFilter(lookup_expr='icontains', widget=TextInput(attrs={"class": "form-control"}))
-  address_town = CharFilter(lookup_expr='icontains', widget=TextInput(attrs={"class": "form-control"}))
-  school_type = ChoiceFilter(choices=distinct_school_types())
-  lga_name = ChoiceFilter(choices=distinct_school_lgas())
-  address_state = ChoiceFilter(choices=get_state_choices())
 
-  class Meta:
-    model = School
-    fields = ['school_name', 'school_type', 'address_town', 'lga_name', 'address_state']
-    
-    # for field in fields:
-    #   if field in ['school_type', 'lga_name', 'address_state']:
-    #     fields[field].widget.attrs.update({'class': 'form-select'})
-    #   else:
-    #     fields[field].widget.attrs.update({'class': 'form-control'})
+class SchoolFilter(Form):
+  school_type = ChoiceField(label='School Type', choices=distinct_school_types_with_blank(), required=False)
+  lga_name = ChoiceField(label='LGA', choices=distinct_school_lgas_with_blank(), required=False)
+  address_state = ChoiceField(label='State', choices=get_state_choices_with_blank(), required=False)
+  school_name = CharField(label='School Name', required=False)
+  address_town = CharField(label='Town', required=False)
+
+  fields = ['school_name', 'school_type', 'address_town', 'lga_name', 'address_state']
+
+  def __init__(self, initial, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+
+    for field in self.fields:
+      if field in ['school_type', 'lga_name', 'address_state']:
+        self.fields[field].widget.attrs.update({'class': 'form-select'})
+      else:
+        self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+      if initial and field in initial:
+        self.fields[field].initial = initial[field]

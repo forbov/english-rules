@@ -8,34 +8,42 @@
   {{ page_header }}
 {% endblock heading %}
 
+
 {% block content %}
-  <div class="accordion" id="accordionSearch">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Search
-        </button>
-      </h2>
-      <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionSearch">
-        <div class="accordion-body">
-          <form method="get">
-            {% for field in schools_filter.form %}
-              <div class="row my-3">
-                <div class="col-md-3 text-md-end">
-                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+  <div class="row my-3">
+    <div class="accordion" id="accordionSearch">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Search
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionSearch">
+          <div class="accordion-body">
+            <form method="get">
+              {% for field in schools_filter %}
+                <div class="row my-3">
+                  <div class="col-md-3 text-md-end">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  </div>
+                  <div class="col-md">
+                    {{ field }}
+                  </div>
                 </div>
-                <div class="col-md">
-                  {{ field }}
+              {% endfor %}
+              <div class="row my-3">
+                <div class="col-md-6 d-grid">
+                  <button class="btn btn-primary" name="search" type="submit">Search</button>
+                </div>
+                <div class="col-md-6 d-grid">
+                  <button class="btn btn-primary" name="clear" type="submit">All Schools</button>
                 </div>
               </div>
-            {% endfor %}
-            <div class="d-grid my-3">
-              <button class="btn btn-primary" type="submit">Search</button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
+    {% include 'schools/_schools.html' with collection=schools source='index' %}
   </div>
-  {% include 'schools/_schools.html' with collection=schools source='index' %}
 {% endblock content %}
