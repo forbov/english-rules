@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div id="wordlist" class="container" style="display:block">
+    <form action="{% url 'modules:sample_spell_wordlist' %}" method="post">
+      <input type="hidden" id="hidden_word_id">
+      <div class="row my-3">
+        <div class="col-md-9 col-lg-10 order-md-1 order-2">
+          <div class="row my-3">
+            <div class="col-md-3 text-md-end">
+              <label>Task:</label>
+            </div>
+            <div class="col-md">
+              Click on any word to practice how to spell it. Green means you are correct, red means try again.
+            </div>
+          </div>
+          <div class="form-group">
+            {% csrf_token %}
+              <div class="row my-3">
+                {% for field in form %}
+                {{ field }}
+                <input type="hidden" id="{{ field.name }}_entered" name="{{ field_name }}_entered">
+                <div class="col-4 col-md">
+                  <div class="d-grid my-3">
+                    <button id="{{ field.name }}_button" class="btn btn-outline-primary btn-sm" type="button" onclick="spellWord('{{ field.value }}', '{{ field.name }}')">{{ field.value }}</button>
+                  </div>
+                </div>
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-lg-2 order-md-2 order-1">
+          <div class="d-grid my-3">
+            <button class="btn btn-primary" type="submit">Save</button>
+          </div>
+          <div class="d-grid my-3">
+            <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="student_entry" class="container" style="display:none">
+    <div class="row my-3">
+      <div class="col"></div>
+      <div class="col-sm-6 col-md-4">
+        <div id="word_display" class="text-center">
+          <h3 id="word_text"></h3>
+        </div>
+        <div id="student_entry_input_div" style="display:none">          
+          <input id="student_entry_input_id" type="text" class="form-control">
+          <div class="d-grid my-3">
+            <button id="student_entry_button" class="btn btn-primary" onclick="recordStudentEntry()">Submit</button>
+          </div>
+        </div>
+      </div>
+      <div class="col"></div>
+    </div>
+  </div>
+  {% endblock content %}
