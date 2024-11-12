@@ -7,4 +7,19 @@ $er-white: #ffffff;
 
 $primary: $er-primary;
 
+.bg-er-1 {
+  --bs-bg-opacity: 1;
+  background-color: $er-1;
+}
+
+.bg-er-2 {
+  --bs-bg-opacity: 1;
+  background-color: $er-2;
+}
+
+.bg-er-3 {
+  --bs-bg-opacity: 1;
+  background-color: $er-3;
+}
+
 @import './bootstrap.scss';

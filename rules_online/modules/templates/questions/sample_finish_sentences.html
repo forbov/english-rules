@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row my-3 mx-3">
+        <div class="col small bg-er-3">
+          <h3>Starting and finishing sentences</h3>
+          <p>
+            A <strong>sentence</strong> is a group of words <strong>starting</strong> with a capital letter. Most <strong>sentences</strong> <strong>end</strong> in a full stop.<br>
+            These are either:&nbsp;&nbsp; &nbsp;<strong>Statements</strong> &nbsp;&nbsp; &nbsp;– sentences that state a fact<br>
+            or:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Commands</strong> &nbsp;&nbsp; &nbsp;– sentences that give orders or requests.
+          </p>
+          <p>
+            Some <strong>sentences</strong>, however, <strong>end</strong> with a question mark (<strong>?</strong>) or an exclamation mark (<strong>!</strong>).<br>
+            These are either:&nbsp;&nbsp; &nbsp;<strong>Questions</strong> &nbsp;&nbsp; &nbsp;– sentences that ask something<br>
+            or:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Exclamations</strong> &nbsp;&nbsp; &nbsp;– sentences that express strong emotions.
+          </p>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-3 text-md-end">
+          <label><strong>Task:</strong></label>
+        </div>
+        <div class="col-md">
+          <p>Drag a full stop, a question mark or an exclamation mark from above to correctly complete each sentence. Use all nine punctuation marks.</p>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5><span class="text-primary" id="drag1" draggable="true" ondragstart="drag(event)">?</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag2" draggable="true" ondragstart="drag(event)">!</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag3" draggable="true" ondragstart="drag(event)">?</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag4" draggable="true" ondragstart="drag(event)">.</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag5" draggable="true" ondragstart="drag(event)">.</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag6" draggable="true" ondragstart="drag(event)">?</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag7" draggable="true" ondragstart="drag(event)">!</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag8" draggable="true" ondragstart="drag(event)">.</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag9" draggable="true" ondragstart="drag(event)">!</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>The set is falling - watch out<span class="text-primary" id="span1" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>Which is the best seat in the theatre<span class="text-primary" id="span2" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>Three cheers for the actors - hip, hip hooray<span class="text-primary" id="span3" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>"War Games" is a popular play in the city<span class="text-primary" id="span4" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>What is the best film to see at the moment<span class="text-primary" id="span5" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>The family went to a concert at the Opera House<span class="text-primary" id="span6" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>Send the usher to heelp the lady in the wheelchair<span class="text-primary" id="span7" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>What a magnificent actor<span class="text-primary" id="span8" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5>Did you enjoy tonight's performance<span class="text-primary" id="span9" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+      </div>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sample_finish_sentences' %}" class="btn btn-primary">Reset</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

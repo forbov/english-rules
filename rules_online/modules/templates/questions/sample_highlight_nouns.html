@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %} 
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row my-3">
+        <div class="col-md-3 text-md-end">
+          <label>Task:</label>
+        </div>
+        <div class="col-md">
+          Highlight the three nouns in each list.
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-1 text-md-end"><label>1:</label></div>
+        <div class="col">
+          <div class="row">
+            <div class="col d-grid mb-3"><button id="john_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">John</button></div>
+            <div class="col d-grid mb-3"><button id="jumped_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">jumped</button></div>
+            <div class="col d-grid mb-3"><button id="grow_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">grow</button></div>
+            <div class="col d-grid mb-3"><button id="penguin_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">penguin</button></div>
+            <div class="col d-grid mb-3"><button id="quickly_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">quickly</button></div>
+            <div class="col d-grid mb-3"><button id="town_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">town</button></div>
+            <div class="col d-grid mb-3"><button id="howver_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">however</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-1 text-md-end"><label>2:</label></div>
+        <div class="col">
+          <div class="row">
+            <div class="col d-grid mb-3"><button id="played_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">played</button></div>
+            <div class="col d-grid mb-3"><button id="africa_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">Africa</button></div>
+            <div class="col d-grid mb-3"><button id="decide_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">decide</button></div>
+            <div class="col d-grid mb-3"><button id="through_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">through</button></div>
+            <div class="col d-grid mb-3"><button id="because_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">because</button></div>
+            <div class="col d-grid mb-3"><button id="doctor_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">doctor</button></div>
+            <div class="col d-grid mb-3"><button id="weather_button" class="btn btn-outline-primary btn-sm" type="button" onclick="toggleButtonClass(this)">weather</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sample_highlight_nouns' %}" class="btn btn-primary">Reset</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

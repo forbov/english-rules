@@ -1,0 +1,194 @@
+<div class="er-dropdown">
+  <button onclick="myFunction()" class="er-dropbtn">Dropdown</button>
+  <div id="dropdown1" class="er-dropdown-content">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+</div>
+
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row my-3 mx-3">
+        <div class="col small bg-er-3">
+          <h3><strong>Pronouns</strong></h3>
+          <p>Instructions ...</p>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-3 text-md-end">
+          <label><strong>Task:</strong></label>
+        </div>
+        <div class="col-md">
+          <p>Click on the pronoun(s) in each sentence and change them to the person and number indicated in the bracket at the end of each sentence.</p>
+        </div>
+      </div>
+      <table class="table table-light">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Sentence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1.</td>
+            <td>
+              <h5>The real estate agent told 
+                <span class="er-span" id="span1_1" onclick="toggleDropdown('dropdown1_1')">us</span>
+                <div id="dropdown1_1" class="er-dropdown-content">
+                  <span id="option_him" onclick="setSelectedValue('span1_1', this)">him</span>
+                  <span id="option_her" onclick="setSelectedValue('span1_1', this)">her</span>
+                  <span id="option_we" onclick="setSelectedValue('span1_1', this)">we</span>
+                  <span id="option_they" onclick="setSelectedValue('span1_1', this)">they</span>
+                  <span id="option_them" onclick="setSelectedValue('span1_1', this)">them</span>
+                  <span id="option_theirs" onclick="setSelectedValue('span1_1', this)">theirs</span>
+                  <span id="option_you" onclick="setSelectedValue('span1_1', this)">you</span>
+                  <span id="option_yours" onclick="setSelectedValue('span1_1', this)">yours</span>
+                  <span id="option_us" onclick="setSelectedValue('span1_1', this)">us</span>
+                  <span id="option_she" onclick="setSelectedValue('span1_1', this)">she</span>
+                  <span id="option_he" onclick="setSelectedValue('span1_1', this)">he</span>
+                  <span id="option_I" onclick="setSelectedValue('span1_1', this)">I</span>
+                  <span id="option_hers" onclick="setSelectedValue('span1_1', this)">hers</span>
+                  <span id="option_his" onclick="setSelectedValue('span1_1', this)">his</span>
+                  <span id="option_mine" onclick="setSelectedValue('span1_1', this)">mine</span>
+                </div>
+                that 
+                <span class="er-span" id="span1_2" onclick="toggleDropdown('dropdown1_2')">we</span>
+                <div id="dropdown1_2" class="er-dropdown-content">
+                  <span id="option_him" onclick="setSelectedValue('span1_2', this)">him</span>
+                  <span id="option_her" onclick="setSelectedValue('span1_2', this)">her</span>
+                  <span id="option_we" onclick="setSelectedValue('span1_2', this)">we</span>
+                  <span id="option_they" onclick="setSelectedValue('span1_2', this)">they</span>
+                  <span id="option_them" onclick="setSelectedValue('span1_2', this)">them</span>
+                  <span id="option_theirs" onclick="setSelectedValue('span1_2', this)">theirs</span>
+                  <span id="option_you" onclick="setSelectedValue('span1_2', this)">you</span>
+                  <span id="option_yours" onclick="setSelectedValue('span1_2', this)">yours</span>
+                  <span id="option_us" onclick="setSelectedValue('span1_2', this)">us</span>
+                  <span id="option_she" onclick="setSelectedValue('span1_2', this)">she</span>
+                  <span id="option_he" onclick="setSelectedValue('span1_2', this)">he</span>
+                  <span id="option_I" onclick="setSelectedValue('span1_2', this)">I</span>
+                  <span id="option_hers" onclick="setSelectedValue('span1_2', this)">hers</span>
+                  <span id="option_his" onclick="setSelectedValue('span1_2', this)">his</span>
+                  <span id="option_mine" onclick="setSelectedValue('span1_2', this)">mine</span>
+                </div>
+                owned a valuable piece of land. (third person plural)
+              </h5>
+            </td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>
+              <h5>
+                <span class="er-span" id="span2_1" onclick="toggleDropdown('dropdown2_1')">You</span>
+                <div id="dropdown2_1" class="er-dropdown-content">
+                  <span id="option_him" onclick="setSelectedValue('span2_1', this)">Him</span>
+                  <span id="option_her" onclick="setSelectedValue('span2_1', this)">Her</span>
+                  <span id="option_we" onclick="setSelectedValue('span2_1', this)">We</span>
+                  <span id="option_they" onclick="setSelectedValue('span2_1', this)">They</span>
+                  <span id="option_them" onclick="setSelectedValue('span2_1', this)">Them</span>
+                  <span id="option_theirs" onclick="setSelectedValue('span2_1', this)">Theirs</span>
+                  <span id="option_you" onclick="setSelectedValue('span2_1', this)">You</span>
+                  <span id="option_yours" onclick="setSelectedValue('span2_1', this)">Yours</span>
+                  <span id="option_us" onclick="setSelectedValue('span2_1', this)">Us</span>
+                  <span id="option_she" onclick="setSelectedValue('span2_1', this)">She</span>
+                  <span id="option_he" onclick="setSelectedValue('span2_1', this)">He</span>
+                  <span id="option_I" onclick="setSelectedValue('span2_1', this)">I</span>
+                  <span id="option_hers" onclick="setSelectedValue('span2_1', this)">Hers</span>
+                  <span id="option_his" onclick="setSelectedValue('span2_1', this)">His</span>
+                  <span id="option_mine" onclick="setSelectedValue('span2_1', this)">Mine</span>
+                </div>
+                will need to have money for the deposit if that is to be
+                <span class="er-span" id="span2_2" onclick="toggleDropdown('dropdown2_2')">yours</span>
+                <div id="dropdown2_2" class="er-dropdown-content">
+                  <span id="option_him" onclick="setSelectedValue('span2_2', this)">him</span>
+                  <span id="option_her" onclick="setSelectedValue('span2_2', this)">her</span>
+                  <span id="option_we" onclick="setSelectedValue('span2_2', this)">we</span>
+                  <span id="option_they" onclick="setSelectedValue('span2_2', this)">they</span>
+                  <span id="option_them" onclick="setSelectedValue('span2_2', this)">them</span>
+                  <span id="option_theirs" onclick="setSelectedValue('span2_2', this)">theirs</span>
+                  <span id="option_you" onclick="setSelectedValue('span2_2', this)">you</span>
+                  <span id="option_yours" onclick="setSelectedValue('span2_2', this)">yours</span>
+                  <span id="option_us" onclick="setSelectedValue('span2_2', this)">us</span>
+                  <span id="option_she" onclick="setSelectedValue('span2_2', this)">she</span>
+                  <span id="option_he" onclick="setSelectedValue('span2_2', this)">he</span>
+                  <span id="option_I" onclick="setSelectedValue('span2_2', this)">I</span>
+                  <span id="option_hers" onclick="setSelectedValue('span2_2', this)">hers</span>
+                  <span id="option_his" onclick="setSelectedValue('span2_2', this)">his</span>
+                  <span id="option_mine" onclick="setSelectedValue('span2_2', this)">mine</span>
+                </div>
+                after the auction. (first person plural)
+              </h5>
+            </td>
+          </tr>
+          <tr>
+            <td>3.</td>
+            <td>
+              <h5>The council said that
+                <span class="er-span" id="span3_1" onclick="toggleDropdown('dropdown3_1')">we</span>
+                <div id="dropdown3_1" class="er-dropdown-content">
+                  <span id="option_him" onclick="setSelectedValue('span3_1', this)">him</span>
+                  <span id="option_her" onclick="setSelectedValue('span3_1', this)">her</span>
+                  <span id="option_we" onclick="setSelectedValue('span3_1', this)">we</span>
+                  <span id="option_they" onclick="setSelectedValue('span3_1', this)">they</span>
+                  <span id="option_them" onclick="setSelectedValue('span3_1', this)">them</span>
+                  <span id="option_theirs" onclick="setSelectedValue('span3_1', this)">theirs</span>
+                  <span id="option_you" onclick="setSelectedValue('span3_1', this)">you</span>
+                  <span id="option_yours" onclick="setSelectedValue('span3_1', this)">yours</span>
+                  <span id="option_us" onclick="setSelectedValue('span3_1', this)">us</span>
+                  <span id="option_she" onclick="setSelectedValue('span3_1', this)">she</span>
+                  <span id="option_he" onclick="setSelectedValue('span3_1', this)">he</span>
+                  <span id="option_I" onclick="setSelectedValue('span3_1', this)">I</span>
+                  <span id="option_hers" onclick="setSelectedValue('span3_1', this)">hers</span>
+                  <span id="option_his" onclick="setSelectedValue('span3_1', this)">his</span>
+                  <span id="option_mine" onclick="setSelectedValue('span3_1', this)">mine</span>
+                </div>
+                had no-one to blame but 
+                <span class="er-span" id="span3_2" onclick="toggleDropdown('dropdown3_2')">ourselves</span>
+                <div id="dropdown3_2" class="er-dropdown-content">
+                  <span id="option_him" onclick="setSelectedValue('span3_2', this)">him</span>
+                  <span id="option_her" onclick="setSelectedValue('span3_2', this)">her</span>
+                  <span id="option_we" onclick="setSelectedValue('span3_2', this)">we</span>
+                  <span id="option_they" onclick="setSelectedValue('span3_2', this)">they</span>
+                  <span id="option_them" onclick="setSelectedValue('span3_2', this)">them</span>
+                  <span id="option_theirs" onclick="setSelectedValue('span3_2', this)">theirs</span>
+                  <span id="option_you" onclick="setSelectedValue('span3_2', this)">you</span>
+                  <span id="option_yours" onclick="setSelectedValue('span3_2', this)">yours</span>
+                  <span id="option_us" onclick="setSelectedValue('span3_2', this)">us</span>
+                  <span id="option_himself" onclick="setSelectedValue('span3_2', this)">himself</span>
+                  <span id="option_herself" onclick="setSelectedValue('span3_2', this)">herself</span>
+                  <span id="option_ourselves" onclick="setSelectedValue('span3_2', this)">ourselves</span>
+                  <span id="option_yourselves" onclick="setSelectedValue('span3_2', this)">yourselves</span>
+                  <span id="option_yourself" onclick="setSelectedValue('span3_2', this)">yourself</span>
+                </div>
+                for the bad condition of the house. (second person plural)
+              </h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sample_pronouns' %}" class="btn btn-primary">Reset</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

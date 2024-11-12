@@ -13,6 +13,11 @@ var masterSuffix = "_master";
 var emptyButtonClass = "btn btn-outline-primary btn-sm";
 var correctButtonClass = "btn btn-success btn-sm";
 var incorrectButtonClass = "btn btn-danger btn-sm";
+var bodyTextClass = "text-body";
+var incorrectTextClass = "text-danger";
+var correctTextClass = "text-success";
+var secondaryTextClass = "text-secondary";
+var primaryTextClass = "text-primary";
 var waitTime = 1000;
 
 function delay(time) {
@@ -96,5 +101,50 @@ function drop(ev) {
 }
 
 function toggleButtonClass(element) {
-  element.classList.toggle(correctButtonClass);
+  if (element.className == correctButtonClass) {
+    element.className = emptyButtonClass;
+  } else {
+    element.className = correctButtonClass;
+  }
+}
+
+function toggleTextClass(element, partnerId) {
+  var partnerElement = document.getElementById(partnerId);
+
+  if (element.className == correctTextClass) {
+    element.className = secondaryTextClass;
+    partnerElement.className = correctTextClass;
+  } else {
+    element.className = correctTextClass;
+    partnerElement.className = secondaryTextClass;
+  }
+}
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+
+
+function toggleDropdown(dropdownId) {
+  document.getElementById(dropdownId).classList.toggle("er-show");
+} // Close the dropdown menu if the user clicks outside of it
+
+
+window.onclick = function (event) {
+  if (!event.target.matches('.er-span')) {
+    // var dropdowns = document.getElementsByClassName("er-dropdown-content");
+    var dropdowns = document.getElementsByClassName("er-dropdown-content");
+    var i;
+
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+
+      if (openDropdown.classList.contains('er-show')) {
+        openDropdown.classList.remove('er-show');
+      }
+    }
+  }
+};
+
+function setSelectedValue(spanId, selectedElement) {
+  spanElement = document.getElementById(spanId);
+  spanElement.innerHTML = selectedElement.innerHTML;
 }

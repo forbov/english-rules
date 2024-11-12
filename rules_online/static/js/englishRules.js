@@ -11,6 +11,11 @@ const masterSuffix = "_master";
 const emptyButtonClass = "btn btn-outline-primary btn-sm";
 const correctButtonClass = "btn btn-success btn-sm";
 const incorrectButtonClass = "btn btn-danger btn-sm";
+const bodyTextClass = "text-body";
+const incorrectTextClass = "text-danger";
+const correctTextClass = "text-success";
+const secondaryTextClass = "text-secondary";
+const primaryTextClass = "text-primary";
 const waitTime = 1000;
 
 function delay(time) {
@@ -65,4 +70,64 @@ function recordStudentEntry() {
   // Hide the student entry form
   studentEntryElement.style.display = "none"
   wordlistElement.style.display = "block"
+}
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  // ev.target.appendChild(document.getElementById(data));
+  ev.target.replaceChild(document.getElementById(data), ev.target.firstChild);
+}
+
+function toggleButtonClass(element) {
+  if (element.className == correctButtonClass) {
+    element.className  = emptyButtonClass;
+  } else {
+    element.className = correctButtonClass;
+  }
+}
+
+function toggleTextClass(element, partnerId) {
+  var partnerElement = document.getElementById(partnerId);
+  if (element.className == correctTextClass) {
+    element.className  = secondaryTextClass;
+    partnerElement.className = correctTextClass;
+  } else {
+    element.className = correctTextClass;
+    partnerElement.className = secondaryTextClass;
+  }
+}
+
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function toggleDropdown(dropdownId) {
+  document.getElementById(dropdownId).classList.toggle("er-show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.er-span')) {
+    // var dropdowns = document.getElementsByClassName("er-dropdown-content");
+    var dropdowns = document.getElementsByClassName("er-dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('er-show')) {
+        openDropdown.classList.remove('er-show');
+      }
+    }
+  }
+}
+
+function setSelectedValue(spanId, selectedElement) {
+  spanElement = document.getElementById(spanId);
+  spanElement.innerHTML = selectedElement.innerHTML;
 }

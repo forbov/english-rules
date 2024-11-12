@@ -1,4 +1,6 @@
-from django.forms import Form, HiddenInput, CharField
+from django.forms import ChoiceField, Form, HiddenInput, CharField
+
+from core.models import get_noun_type_choices_with_blank
 
 
 class WordListForm(Form):
@@ -25,3 +27,8 @@ class WordListForm(Form):
 
   fields = ['word01', 'word02', 'word03', 'word04', 'word05', 'word06', 'word07', 'word08', 'word09', 'word10', 
             'word11', 'word12', 'word13', 'word14', 'word15', 'word16', 'word17', 'word18', 'word19', 'word20']
+
+class NounsForm(Form):
+  noun_type = ChoiceField(label = "Type", choices=get_noun_type_choices_with_blank())
+
+  fields = ['noun_type']

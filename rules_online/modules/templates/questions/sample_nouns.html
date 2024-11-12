@@ -1,0 +1,165 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row my-3 mx-3">
+        <div class="col small bg-er-3">
+          <h3><strong>Nouns</strong></h3>
+          <p><strong>Nouns</strong> are words that provide names for all people, places and things.<br>
+          •&nbsp;&nbsp; &nbsp;common <strong>nouns</strong> provide names for general people, places and things.<br>
+          For example:&nbsp;&nbsp; &nbsp;tourist, island, tent<br>
+          •&nbsp;&nbsp; &nbsp;proper <strong>nouns</strong> provide names for particular people, places and things. They always start with a capital letter.<br>
+          For example:&nbsp;&nbsp; &nbsp;Captain Lopez, San Francisco, Boeing 747<br>
+          •&nbsp;&nbsp; &nbsp;abstract <strong>nouns</strong> are names for feelings, ideas or emotions.<br>
+          For example:&nbsp;&nbsp; &nbsp;happiness, intelligence, pleasure<br>
+          •&nbsp;&nbsp; &nbsp;collective <strong>nouns</strong> provide names for groups of people, places or things.<br>
+          For example:&nbsp;&nbsp; &nbsp;forest, hive, album</p>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-3 text-md-end">
+          <label><strong>Task:</strong></label>
+        </div>
+        <div class="col-md">
+          <p>Choose from above the noun that goes with each definition. Then, select whether the noun is common, proper, abstract or collective.</p>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col"><h5><span class="text-primary" id="drag1" draggable="true" ondragstart="drag(event)">hotel</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag2" draggable="true" ondragstart="drag(event)">Bali</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag3" draggable="true" ondragstart="drag(event)">swarm</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag4" draggable="true" ondragstart="drag(event)">New York</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag5" draggable="true" ondragstart="drag(event)">rest</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag6" draggable="true" ondragstart="drag(event)">bikini</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag7" draggable="true" ondragstart="drag(event)">delete</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag8" draggable="true" ondragstart="drag(event)">flight</span></h5></div>
+      </div>
+      <table class="table table-light">
+        <thead>
+          <tr>
+            <th>Sentence</th>
+            <th>Type of Noun</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><h5>Two-piece swimsuit: <span class="text-primary" id="span1" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td>
+              <select class="form-select" name="type_1">
+                <option value="none">----</option>
+                <option value="common">Common</option>
+                <option value="proper">Proper</option>
+                <option value="abstract">Abstract</option>
+                <option value="collective">Collective</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><h5>A famous Indonesian holiday island: <span class="text-primary" id="span2" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td>
+              <select class="form-select" name="type_2">
+                <option value="none">----</option>
+                <option value="common">Common</option>
+                <option value="proper">Proper</option>
+                <option value="abstract">Abstract</option>
+                <option value="collective">Collective</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><h5>A break from exercise: <span class="text-primary" id="span3" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td>
+              <select class="form-select" name="type_3">
+                <option value="none">----</option>
+                <option value="common">Common</option>
+                <option value="proper">Proper</option>
+                <option value="abstract">Abstract</option>
+                <option value="collective">Collective</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><h5>A group of ships: <span class="text-primary" id="span4" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td>
+              <select class="form-select" name="type_4">
+                <option value="none">----</option>
+                <option value="common">Common</option>
+                <option value="proper">Proper</option>
+                <option value="abstract">Abstract</option>
+                <option value="collective">Collective</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><h5>A place providing accommodation<span class="text-primary" id="span5" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td>
+              <select class="form-select" name="type_5">
+                <option value="none">----</option>
+                <option value="common">Common</option>
+                <option value="proper">Proper</option>
+                <option value="abstract">Abstract</option>
+                <option value="collective">Collective</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><h5>The statue of Liberty is there: <span class="text-primary" id="span6" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td>
+              <select class="form-select" name="type_6">
+                <option value="none">----</option>
+                <option value="common">Common</option>
+                <option value="proper">Proper</option>
+                <option value="abstract">Abstract</option>
+                <option value="collective">Collective</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><h5>A group of locusts: <span class="text-primary" id="span7" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td>
+              <select class="form-select" name="type_7">
+                <option value="none">----</option>
+                <option value="common">Common</option>
+                <option value="proper">Proper</option>
+                <option value="abstract">Abstract</option>
+                <option value="collective">Collective</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><h5>A feeling of great pleasure: <span class="text-primary" id="span8" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td>
+              <select class="form-select" name="type_8">
+                <option value="none">----</option>
+                <option value="common">Common</option>
+                <option value="proper">Proper</option>
+                <option value="abstract">Abstract</option>
+                <option value="collective">Collective</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sample_finish_sentences' %}" class="btn btn-primary">Reset</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

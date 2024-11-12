@@ -1,0 +1,94 @@
+<div class="er-dropdown">
+  <button onclick="myFunction()" class="er-dropbtn">Dropdown</button>
+  <div id="dropdown1" class="er-dropdown-content">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+</div>
+
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row my-3 mx-3">
+        <div class="col small bg-er-3">
+          <h3>Common errors with apostrophes</h3>
+          <p><p>Common errors with <strong>apostrophes</strong> include:</p>
+          <p>•&nbsp;&nbsp;&nbsp; using <strong>apostrophes</strong> with the possessive pronouns, <strong>its</strong>, <strong>his</strong>, <strong>hers</strong>, <strong>ours</strong>, <strong>yours</strong>, which do not take apostrophes.<br>
+          •&nbsp;&nbsp;&nbsp; confusing <strong>its</strong> (meaning ‘owned by it’) with <strong>it’s</strong> (the abbreviation for ‘it is’).<br>
+          •&nbsp;&nbsp;&nbsp; confusing <strong>his</strong> (the possessive pronoun) with <strong>he’s</strong> (the abbreviation for ‘he is’).<br>
+          •&nbsp;&nbsp;&nbsp; putting <strong>apostrophes</strong> before the ‘s’ in plurals.<br>
+          •&nbsp;&nbsp;&nbsp; putting <strong>apostrophes</strong> between the ‘n’ and ‘t’ in words like <strong>want</strong>, which are not abbreviations.</p></p>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-3 text-md-end">
+          <label><strong>Task:</strong></label>
+        </div>
+        <div class="col-md">
+          <p>Highlight the correct alternative in each bracket.</p>
+        </div>
+      </div>
+      <table class="table table-light">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Sentence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1.</td>
+            <td>
+              <h5>If ( 
+                <span id="span1_1" onclick="toggleTextClass(this, 'span1_2')">his</span>
+                /
+                <span id="span1_2" onclick="toggleTextClass(this, 'span1_1')">he's</span>
+                ) not careful with the installation, (
+                <span id="span1_3" onclick="toggleTextClass(this, 'span1_4')">his</span>
+                /
+                <span id="span1_4" onclick="toggleTextClass(this, 'span1_3')">he's</span>
+                ) television may not work.
+              </h5>
+            </td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>
+              <h5>Although we (
+                <span id="span2_1" onclick="toggleTextClass(this, 'span2_2')">went</span>
+                /
+                <span id="span2_2" onclick="toggleTextClass(this, 'span2_1')">wen't</span>
+                ) to the vet our dog still had to have (
+                <span id="span2_3" onclick="toggleTextClass(this, 'span2_4')">its</span>
+                /
+                <span id="span2_4" onclick="toggleTextClass(this, 'span2_3')">it's</span>
+                ) tail removed after it was hit by a car.</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sample_apostrophes' %}" class="btn btn-primary">Reset</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
