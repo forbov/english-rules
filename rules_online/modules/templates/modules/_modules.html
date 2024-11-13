@@ -1,0 +1,26 @@
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Level</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if collection %}
+      {% for module in collection %}
+        <tr>
+          <td>
+            <a href="{% url 'modules:module_show' module_id=module.id %}">
+              {{ module.name }}
+            </a>
+          </td>
+          <td>{{ module.level_description }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td class="text-center" colspan="2">No modules found.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

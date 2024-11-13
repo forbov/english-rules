@@ -1,7 +1,33 @@
-from django.forms import ChoiceField, Form, HiddenInput, CharField
+from django.forms import ChoiceField, Form, ModelForm, HiddenInput, CharField
+from django_ckeditor_5.widgets import CKEditor5Widget
+from core.models import get_module_level_choices, get_noun_type_choices_with_blank
+from modules.models import Module
 
-from core.models import get_noun_type_choices_with_blank
+class ModuleForm(ModelForm):
+  level = ChoiceField(label='Level', choices=get_module_level_choices())
 
+  class Meta:
+    model = Module
+    fields = ['name', 'level', 'description']
+    widgets = {
+              "description": CKEditor5Widget(attrs={"class": "django_ckeditor_5"})
+              }
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+
+    for field in self.fields:
+      if field == 'level':
+        self.fields[field].widget.attrs.update({'class': 'form-select'})
+      elif field != 'description':
+        self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+  def save(self):
+    module = Module.objects.create(name=self.cleaned_data['name'],
+                                   level=self.cleaned_data['level'],
+                                   description=self.cleaned_data['description'])
+    module.save()
+    return module
 
 class WordListForm(Form):
   word01 = CharField(widget=HiddenInput(attrs={'id': 'word01_master'}), required = False, initial="annually")

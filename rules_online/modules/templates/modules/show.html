@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+<div class="row my-3">
+  <div class="col-md-9 col-lg-10 order-md-1 order-2">
+    <table class="table table-light">
+        <thead>
+          <tr>
+            <th class="text-center" colspan="2">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-end">Name</td>
+            <td>{{ module.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Level</td>
+            <td>{{ module.level_description }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Description</td>
+            <td>{{ module.description | safe }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:module_edit' module.id %}" class="btn btn-primary">Edit</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:module_delete' module.id %}" class="btn btn-danger">Delete</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:modules_index' %}" class="btn btn-primary">Modules</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

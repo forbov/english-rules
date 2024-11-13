@@ -9,6 +9,7 @@ from core.filters import UserFilter
 from django.contrib.auth import login, logout
 from django.contrib import messages
 
+
 # Create your views here.
 @authenticated_user
 def users_index(request):

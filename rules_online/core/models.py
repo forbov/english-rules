@@ -173,6 +173,7 @@ TOKEN_DOMAIN = 'TOKEN'
 SCHOOL_GRADE_DOMAIN = 'SCHOOL_GRADE'
 NOUN_TYPE_DOMAIN = 'NOUN_TYPE'
 BLANK_LIST_ITEM = [('', '<All>')]
+MODULE_LEVEL_DOMAIN = 'MODULE_LEVEL'
 
 # CodeSet and CodeRecord classes to manage system code sets and descriptions
 
@@ -267,3 +268,9 @@ def get_noun_type_choices_with_blank():
 
 def get_noun_type_description(code):
   return CodeRecord(NOUN_TYPE_DOMAIN, code).get_descripton()
+
+def get_module_level_choices():
+  return CodeSet(MODULE_LEVEL_DOMAIN).as_choices()
+
+def get_module_level_description(code):
+  return CodeRecord(MODULE_LEVEL_DOMAIN, code).get_descripton()
