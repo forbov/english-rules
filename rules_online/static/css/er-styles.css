@@ -32,3 +32,11 @@
   display: none;
   position: absolute;
 }
+
+.er-square {
+  width: 100%;
+  padding-top: 25%;
+  padding-bottom: 25%;
+  text-align: center;
+  font-size: 2.5rem;
+}

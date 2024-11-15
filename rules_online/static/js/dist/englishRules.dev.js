@@ -89,15 +89,21 @@ function allowDrop(ev) {
   ev.preventDefault();
 }
 
-function drag(ev) {
-  ev.dataTransfer.setData("text", ev.target.id);
+function drag(ev, defaultValue) {
+  var element = document.getElementById(ev.target.id);
+  ev.dataTransfer.setData("sourceId", element.id);
 }
 
 function drop(ev) {
   ev.preventDefault();
-  var data = ev.dataTransfer.getData("text"); // ev.target.appendChild(document.getElementById(data));
+  var sourceId = ev.dataTransfer.getData("sourceId");
+  var newChild = document.getElementById(sourceId);
 
-  ev.target.replaceChild(document.getElementById(data), ev.target.firstChild);
+  if (ev.target.hasChildNodes()) {
+    ev.target.replaceChild(newChild, ev.target.firstChild);
+  } else {
+    ev.target.appendChild(newChild);
+  }
 }
 
 function toggleButtonClass(element) {

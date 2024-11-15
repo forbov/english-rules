@@ -22,21 +22,43 @@
       </div>
       <div class="row my-3">
         <div class="col-md-3 text-md-end">
-          <label><strong>Task:</strong></label>
+          <label><strong>Exercise:</strong></label>
         </div>
         <div class="col-md">
           Choose nouns from above the sentence to fill the gaps so they make sense. There are more words than you will need.
         </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5><span class="text-primary" id="drag1" draggable="true" ondragstart="drag(event)">dog</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag2" draggable="true" ondragstart="drag(event)">cat</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag3" draggable="true" ondragstart="drag(event)">fox</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag4" draggable="true" ondragstart="drag(event)">giraffe</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag5" draggable="true" ondragstart="drag(event)">elephant</span></h5></div>
+        <div class="col">
+          <h5 id="drag1" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="word1" class="text-primary" draggable="true">dog</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag2" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="word2" class="text-primary" draggable="true">cat</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag3" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="word3" class="text-primary" draggable="true">fox</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag4" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="word4" class="text-primary" draggable="true">giraffe</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag5" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="word5" class="text-primary" draggable="true">elephant</span>
+          </h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col text-center"><h5>The quick brown <span class="text-primary" id="span1" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span> jumped over the lazy <span class="text-primary" id="span2" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span>.</h5></div>
+        <div class="col text-center">
+          <h5>The quick brown <span class="text-primary" id="span1" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span> jumped over the lazy <span class="text-primary" id="span2" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span>.</h5>
+        </div>
       </div>
     </div>
     <div class="col-md-3 col-lg-2 order-md-2 order-1">

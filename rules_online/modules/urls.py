@@ -17,4 +17,5 @@ urlpatterns = [
     path('sample_nouns', views.sample_nouns, name='sample_nouns'),
     path('sample_pronouns', views.sample_pronouns, name='sample_pronouns'),
     path('sample_apostrophes', views.sample_apostrophes, name='sample_apostrophes'),
+    path('sample_grid', views.sample_grid, name='sample_grid'),
 ]

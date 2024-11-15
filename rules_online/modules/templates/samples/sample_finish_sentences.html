@@ -28,49 +28,104 @@
       </div>
       <div class="row my-3">
         <div class="col-md-3 text-md-end">
-          <label><strong>Task:</strong></label>
+          <label><strong>Exercise:</strong></label>
         </div>
         <div class="col-md">
           <p>Drag a full stop, a question mark or an exclamation mark from above to correctly complete each sentence. Use all nine punctuation marks.</p>
         </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5><span class="text-primary" id="drag1" draggable="true" ondragstart="drag(event)">?</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag2" draggable="true" ondragstart="drag(event)">!</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag3" draggable="true" ondragstart="drag(event)">?</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag4" draggable="true" ondragstart="drag(event)">.</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag5" draggable="true" ondragstart="drag(event)">.</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag6" draggable="true" ondragstart="drag(event)">?</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag7" draggable="true" ondragstart="drag(event)">!</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag8" draggable="true" ondragstart="drag(event)">.</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag9" draggable="true" ondragstart="drag(event)">!</span></h5></div>
+        <div class="col">
+          <h5 id="drag1" draggable="true" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol1" draggable="true" class="text-primary">?</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag2" draggable="true" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol2" draggable="true" class="text-primary">!</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag3" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol3" draggable="true" class="text-primary">?</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag4" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol4" draggable="true" class="text-primary">.</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag5" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol5" draggable="true" class="text-primary">.</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag6" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol6" draggable="true" class="text-primary">?</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag7" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol7" draggable="true" class="text-primary">!</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag8" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol8" draggable="true" class="text-primary">.</span>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 id="drag9" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <span id="symbol9" draggable="true" class="text-primary">!</span>
+          </h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>The set is falling - watch out<span class="text-primary" id="span1" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>The set is falling - watch out<span class="text-primary" id="span1" ondragstart="drag(event, '[.]')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>Which is the best seat in the theatre<span class="text-primary" id="span2" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>Which is the best seat in the theatre<span class="text-primary" id="span2" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>Three cheers for the actors - hip, hip hooray<span class="text-primary" id="span3" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>Three cheers for the actors - hip, hip hooray<span class="text-primary" id="span3" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>"War Games" is a popular play in the city<span class="text-primary" id="span4" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>"War Games" is a popular play in the city<span class="text-primary" id="span4" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>What is the best film to see at the moment<span class="text-primary" id="span5" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>What is the best film to see at the moment<span class="text-primary" id="span5" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>The family went to a concert at the Opera House<span class="text-primary" id="span6" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>The family went to a concert at the Opera House<span class="text-primary" id="span6" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>Send the usher to heelp the lady in the wheelchair<span class="text-primary" id="span7" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>Send the usher to help the lady in the wheelchair<span class="text-primary" id="span7" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>What a magnificent actor<span class="text-primary" id="span8" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>What a magnificent actor<span class="text-primary" id="span8" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5>
+        </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5>Did you enjoy tonight's performance<span class="text-primary" id="span9" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span></h5></div>
+        <div class="col">
+          <h5>Did you enjoy tonight's performance<span class="text-primary" id="span9" ondragstart="drag(event, '')" ondrop="drop(event)" ondragover="allowDrop(event)">[.]</span>
+          </h5>
+        </div>
       </div>
     </div>
     <div class="col-md-3 col-lg-2 order-md-2 order-1">

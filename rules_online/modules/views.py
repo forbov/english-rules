@@ -86,3 +86,7 @@ def sample_pronouns(request):
 def sample_apostrophes(request):
   page_header = 'Sample Apostrophes'
   return render(request,'samples/sample_apostrophes.html', {'page_header': page_header})
+
+def sample_grid(request):
+  page_header = 'Sample Grid'
+  return render(request,'samples/sample_grid.html', {'page_header': page_header})

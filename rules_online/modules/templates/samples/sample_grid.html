@@ -1,0 +1,199 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row m-3">
+        <div class="col small bg-er-3">
+          <p>The vast majority of words in the English language are names for people, places or things. These words are called <strong>nouns</strong>.<strong></strong></p>
+          <p><strong>People</strong>&nbsp;&nbsp; &nbsp;–&nbsp;&nbsp; &nbsp;e.g. author, Thomas, Nicole Kidman.<br>
+            <strong>Places</strong>&nbsp;&nbsp; &nbsp;–&nbsp;&nbsp; &nbsp;e.g. stage, Hollywood, China.<br>
+            <strong>Things</strong>&nbsp;&nbsp; &nbsp;–&nbsp;&nbsp; &nbsp;e.g. face, mirror, talent.
+          </p>
+        </div>
+      </div>
+      <div class="row m-3">
+        <div class="col-md-3 text-md-end">
+          <label><strong>Exercise:</strong></label>
+        </div>
+        <div class="col-md">
+          Choose nouns from above the sentence to fill the gaps so they make sense. There are more words than you will need.
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sample_grid' %}" class="btn btn-primary">Reset</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>
+  <div class="row m-3">
+    <div class="col-lg-6 text-center">
+      <div class="row my-3">
+        <div class="col"><label><strong>Drag and drop:</strong></label></div>
+      </div>
+      <div class="row my-3">
+        <div class="col">
+          <div class="row">
+            <div class="col-2">
+              <div id="drag01" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child01" draggable="true" class="text-primary">A</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag02" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child02" draggable="true" class="text-primary">A</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag03" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child03" draggable="true" class="text-primary">D</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag04" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child04" draggable="true" class="text-primary">F</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag05" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child05" draggable="true" class="text-primary">I</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag06" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child06" draggable="true" class="text-primary">I</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag07" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child07" draggable="true" class="text-primary">L</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag08" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child08" draggable="true" class="text-primary">L</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag09" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child09" draggable="true" class="text-primary">S</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag10" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child10" draggable="true" class="text-primary">S</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag11" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child11" draggable="true" class="text-primary">S</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div id="drag12" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+                <span id="child12" draggable="true" class="text-primary">Y</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row my-3">
+        <div class="col bg-er-3">
+          <div class="row">
+            <div class="col-3 border border-dark">
+              <div id="grid_a1" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_b1" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_c1" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div> 
+            <div class="col-3 border border-dark">
+              <div id="grid_d1" class="er-square">
+                <span>E</span>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-3 border border-dark">
+              <div id="grid_a2" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_b2" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_c2" class="er-square">
+                <span>E</span>
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_d2" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-3 border border-dark">
+              <div id="grid_a3" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_b3" class="er-square">
+                <span>E</span>
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_c3" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_d3" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-3 border border-dark">
+              <div id="grid_a4" class="er-square">
+                <span>E</span>
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_b4" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_c4" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div>
+            <div class="col-3 border border-dark">
+              <div id="grid_d4" class="er-square" ondrop="drop(event)" ondragover="allowDrop(event)" ondragstart="drag(event, '')">
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
