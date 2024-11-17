@@ -1,0 +1,26 @@
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Instructions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if collection %}
+      {% for exercise_type in collection %}
+        <tr>
+          <td>
+            <a href="{% url 'modules:exercise_type_show' exercise_type_id=exercise_type.id %}">
+              {{ exercise_type.name }}
+            </a>
+          </td>
+          <td>{{ exercise_type.instructions }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td class="text-center" colspan="2">No exercise types found.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

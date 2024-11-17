@@ -171,9 +171,12 @@ STATE_DOMAIN = 'STATE'
 INVITE_STATUS_DOMAIN = 'INVITE_STATUS'
 TOKEN_DOMAIN = 'TOKEN'
 SCHOOL_GRADE_DOMAIN = 'SCHOOL_GRADE'
+DROPDOWN_TYPE_DOMAIN = 'DROPDOWN_TYPE'
+SPEECH_TYPE_DOMAIN = 'SPEECH_TYPE'
 NOUN_TYPE_DOMAIN = 'NOUN_TYPE'
-BLANK_LIST_ITEM = [('', '<All>')]
 MODULE_LEVEL_DOMAIN = 'MODULE_LEVEL'
+
+BLANK_LIST_ITEM = [('', '-----')]
 
 # CodeSet and CodeRecord classes to manage system code sets and descriptions
 
@@ -190,19 +193,31 @@ class CodeRecord():
     self.domain = domain
     self.code = code
 
-    try:
-      self.code_record = SystemCode.objects.get(domain=domain, code=code)
+    if code:
+      try:
+        self.code_record = SystemCode.objects.get(domain=domain, code=code)
 
-    except SystemCode.DoesNotExist:
-      raise ValueError(f'System code {domain}-{code} does not exist.')
+      except SystemCode.DoesNotExist:
+        raise ValueError(f'System code {domain}-{code} does not exist.')
+    else:
+      self.code_record = None
 
   def get_descripton(self):
+    if self.code_record is None:
+      return None
+    
     return self.code_record.description
   
   def get_integer_value(self):
+    if self.code_record is None:
+      return None
+    
     return self.code_record.integer_value
   
   def get_alt_description(self):
+    if self.code_record is None:
+      return None
+    
     return self.code_record.alt_description
 
 # Resolution for each domain 
@@ -259,6 +274,24 @@ def get_school_grade_choices():
 
 def get_school_grade_description(code):
   return CodeRecord(SCHOOL_GRADE_DOMAIN, code).get_descripton()
+
+def get_dropdown_type_choices():
+  return CodeSet(DROPDOWN_TYPE_DOMAIN).as_choices()
+
+def get_dropdown_type_choices_with_blank():
+  return BLANK_LIST_ITEM + get_dropdown_type_choices()
+
+def get_dropdown_type_description(code):
+  return CodeRecord(DROPDOWN_TYPE_DOMAIN, code).get_descripton()
+
+def get_speech_type_choices():
+  return CodeSet(SPEECH_TYPE_DOMAIN).as_choices()
+
+def get_speech_type_choices_with_blank():
+  return BLANK_LIST_ITEM + get_speech_type_choices()
+
+def get_speech_type_description(code):
+  return CodeRecord(SPEECH_TYPE_DOMAIN, code).get_descripton()
 
 def get_noun_type_choices():
   return CodeSet(NOUN_TYPE_DOMAIN).as_choices()

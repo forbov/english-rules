@@ -1,0 +1,42 @@
+<table class="table table-light">
+  <thead>
+    <tr>
+      {% if source != 'module' %}
+        <th>Module</th>
+      {% endif %}
+      <th>Name</th>
+      <th>Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if collection %}
+      {% for sheet in collection %}
+        <tr>
+          {% if source != 'module' %}
+            <td>
+              <a href="{% url 'modules:module_show' module_id=sheet.module.id %}">
+                {{ sheet.module.name }}
+              </a>
+            </td>
+          {% endif %}
+          <td>
+            <a href="{% url 'modules:sheet_show' sheet_id=sheet.id %}">
+              {{ sheet.name }}
+            </a>
+          </td>
+          <td>{{ sheet.sheet_number }}</td>
+          <td>{{ sheet.description }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        {% if source == 'index' %}
+          <td class="text-center" colspan="4">No sheets found.</td>
+        {% else %}
+          <td class="text-center" colspan="3">No sheets found.</td>
+        {% endif %}
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

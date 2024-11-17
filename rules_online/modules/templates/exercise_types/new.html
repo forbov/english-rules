@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+{{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  {{ form.media }}
+  <form action="{% url 'modules:exercise_type_new' %}" method="post">
+    <div class="row my-3">
+      <div class="col-md-9 col-lg-10 order-md-1 order-2">
+        <div class="form-group">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="row my-3">
+              <div class="col-md-3 text-md-end">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              </div>
+              <div class="col-md">
+                {{ field }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-2 order-md-2 order-1">
+        <div class="d-grid my-3">
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+        <div class="d-grid my-3">
+          <a href="{% url 'modules:exercise_types_index' %}" class="btn btn-primary">Exercise Types</a>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock content %}

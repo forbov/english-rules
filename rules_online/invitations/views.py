@@ -48,10 +48,10 @@ def invitation_new(request):
 
   if role == 'admin':
     role_options = ['teacher','manager','student']
-  if role == None:
+  if role is None:
     raise ValueError('You must have role as a parameter')
   
-  if role in ['teacher', 'manager', 'student'] and school == None:
+  if role in ['teacher', 'manager', 'student'] and school is None:
     raise ValueError('Must have school_id as a parameter in the request for everything except an admin user.')
 
   page_header = f'Create {role.title()} Invitation'

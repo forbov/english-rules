@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+<div class="row my-3">
+  <div class="col-md-9 col-lg-10 order-md-1 order-2">
+    <table class="table table-light">
+        <thead>
+          <tr>
+            <th class="text-center" colspan="2">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-end">Module</td>
+            <td>{{ sheet_exercise.sheet.module.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Sheet</td>
+            <td>{{ sheet_exercise.sheet.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Order</td>
+            <td>{{ sheet_exercise.order }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Type</td>
+            <td>{{ sheet_exercise.exercise_type.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Banner</td>
+            <td>{{ sheet_exercise.banner | safe }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Instructions</td>
+            <td>{{ sheet_exercise.instructions }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Line Items</td>
+            <td>{{ sheet_exercise.line_items_for_student }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Dropdown Type</td>
+            <td>{{ sheet_exercise.dropdown_type_description }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sheet_exercise_edit' sheet_exercise.id %}" class="btn btn-primary">Edit</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sheet_exercise_delete' sheet_exercise.id %}" class="btn btn-danger">Delete</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sheet_exercise_item_new' sheet_exercise.id %}" class="btn btn-primary">Add Item</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sheet_show' sheet_exercise.sheet.id %}" class="btn btn-primary">Sheet</a>
+      </div>
+    </div>
+  </div>
+  {% if has_tabs %}
+    <ul class="nav nav-tabs" id="bootstrapTab" role="tablist">
+      {{ tab_headers | safe }}
+    </ul>
+    <div class="tab-content" id="bootstrapTabContent">
+      {{ tab_contents | safe }}
+    </div>
+  {% endif %}  
+{% endblock content %}

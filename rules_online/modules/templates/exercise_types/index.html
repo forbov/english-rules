@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row my-3">
+        {% include 'exercise_types/_exercise_types.html' with collection=exercise_types source='index' %}
+      </div>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:exercise_type_new' %}" class="btn btn-primary">New Exercise Type</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

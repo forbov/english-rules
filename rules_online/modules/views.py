@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
-from modules.forms import ModuleForm, NounsForm, WordListForm
-from modules.models import Module
+from modules.forms import ExerciseTypeForm, ModuleForm, NounsForm, SheetExerciseForm, SheetExerciseItemForm, SheetForm, WordListForm
+from modules.models import ExerciseType, Module, Sheet, SheetExercise, SheetExerciseItem
 from django.contrib import messages
+from core.utilities import BootstrapTabs
 
 # Create your views here.
 
@@ -19,7 +20,16 @@ def module_delete(request, module_id):
 def module_show(request, module_id):
   module = Module.objects.get(id=module_id)
   page_header = f'{module.name}'
-  return render(request,'modules/show.html', {'module': module, 'page_header': page_header})
+
+  bootstrap_tabs = BootstrapTabs({'sheets': {'label': 'Sheets', 
+                                             'render': 'sheets/_sheets.html', 
+                                             'dataset': module.sheets.all(), 
+                                             'source': 'module'}})
+
+  return render(request,'modules/show.html', {'module': module, 'page_header': page_header,
+                                              'has_tabs': bootstrap_tabs.has_tabs, 
+                                               'tab_headers': bootstrap_tabs.render_tab_headers(), 
+                                               'tab_contents': bootstrap_tabs.render_tab_contents()})
 
 def module_new(request):
   page_header = 'New Module'
@@ -55,6 +65,252 @@ def module_edit(request, module_id):
   form = ModuleForm(instance=module)
   return render(request,'modules/edit.html', {'form': form, 'module': module, 
                                                       'page_header': page_header, })
+
+def exercise_types_index(request):
+  page_header = 'Exercise Types'
+  exercise_types = ExerciseType.objects.all()
+  return render(request,'exercise_types/index.html', {'exercise_types': exercise_types, 'page_header': page_header})
+
+def exercise_type_delete(request, exercise_type_id):
+  exercise_type = ExerciseType.objects.get(id=exercise_type_id)
+  exercise_type.delete()
+  messages.success(request, 'Exercise Type deleted successfully.')
+  return redirect('modules:exercise_types_index')
+
+def exercise_type_show(request, exercise_type_id):
+  exercise_type = ExerciseType.objects.get(id=exercise_type_id)
+  page_header = f'{exercise_type.name}'
+  return render(request,'exercise_types/show.html', {'exercise_type': exercise_type, 'page_header': page_header})
+
+def exercise_type_new(request):
+  page_header = 'New Exercise Type'
+  if request.method == 'POST':
+    form = ExerciseTypeForm(request.POST)
+    if form.is_valid():
+      exercise_type = form.save()
+      messages.success(request, f'Exercise Type {exercise_type.name} created successfully.')
+      return redirect('modules:exercise_type_show', exercise_type.id)
+    else:
+      messages.error(request, f'<p><strong>Create failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'exercise_types/new.html', {'form': form, 'page_header': page_header})
+    
+  form = ExerciseTypeForm()
+  return render(request,'exercise_types/new.html', {'form': form, 'page_header': page_header})
+
+def exercise_type_edit(request, exercise_type_id):
+  exercise_type = ExerciseType.objects.get(id=exercise_type_id)
+  page_header = f'Edit {exercise_type.name}'
+  if request.method == 'POST':
+    form = ExerciseTypeForm(request.POST, instance=exercise_type)
+    if form.is_valid():
+      exercise_type.name = form.cleaned_data['name']
+      exercise_type.banner = form.cleaned_data['banner']
+      exercise_type.instructions = form.cleaned_data['instructions']
+      exercise_type.html_pt1 = form.cleaned_data['html_pt1']
+      exercise_type.html_pt2 = form.cleaned_data['html_pt2']
+      exercise_type.html_pt3 = form.cleaned_data['html_pt3']
+      exercise_type.save()
+      messages.success(request, f'Exercise Type {exercise_type.name} updated successfully.')
+      return redirect('modules:exercise_type_show', exercise_type.id)
+    else:
+      messages.error(request, f'<p><strong>Update failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'exercise_types/edit.html', {'form': form, 'exercise_type': exercise_type, 
+                                                          'page_header': page_header, })
+    
+  form = ExerciseTypeForm(instance=exercise_type)
+  return render(request,'exercise_types/edit.html', {'form': form, 'exercise_type': exercise_type, 
+                                                      'page_header': page_header, })
+def sheet_show(request, sheet_id):
+  sheet = Sheet.objects.get(id=sheet_id)
+  page_header = f'{sheet.name} for {sheet.module.name}'
+  
+  bootstrap_tabs = BootstrapTabs({'exercises': {'label': 'Exercises', 
+                                             'render': 'sheet_exercises/_sheet_exercises.html', 
+                                             'dataset': sheet.exercises.all(), 
+                                             'source': 'sheet'}})
+
+  return render(request,'sheets/show.html', {'sheet': sheet, 'page_header': page_header,
+                                             'has_tabs': bootstrap_tabs.has_tabs, 
+                                             'tab_headers': bootstrap_tabs.render_tab_headers(), 
+                                             'tab_contents': bootstrap_tabs.render_tab_contents()})
+
+def sheet_new(request, module_id):
+  module = Module.objects.get(id=module_id)
+  page_header = f'New Sheet in {module.name}'
+
+  if request.method == 'POST':
+    form = SheetForm(request.POST)
+
+    if form.is_valid():
+      sheet = form.save(module)
+      messages.success(request, f'Sheet {sheet.name} created successfully.')
+      return redirect('modules:sheet_show', sheet.id)
+    else:
+      messages.error(request, f'<p><strong>Create failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'sheets/new.html', {'form': form, 'module': module, 
+                                                        'page_header': page_header, })
+  
+  form = SheetForm()
+  return render(request,'sheets/new.html', {'form': form, 'module': module, 
+                                            'page_header': page_header})
+
+def sheet_delete(request, sheet_id):
+  sheet = Sheet.objects.get(id=sheet_id)
+  module = sheet.module
+  sheet.delete()
+  messages.success(request, 'Sheet deleted successfully.')
+  return redirect('modules:module_show', module_id=module.id)
+
+def sheet_edit(request, sheet_id):
+  sheet = Sheet.objects.get(id=sheet_id)
+  module = sheet.module
+  page_header = f'Edit {sheet.name} for {module.name}'
+  if request.method == 'POST':
+    form = SheetForm(request.POST, instance=sheet)
+    if form.is_valid():
+      sheet.module_id = module.id
+      sheet.name = form.cleaned_data['name']
+      sheet.sheet_number = form.cleaned_data['sheet_number']
+      sheet.description = form.cleaned_data['description']
+      sheet.save()
+      messages.success(request, f'{sheet.name} updated successfully.')
+      return redirect('modules:sheet_show', sheet.id)
+    else:
+      messages.error(request, f'<p><strong>Update failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'sheets/edit.html', {'form': form, 'sheet': sheet, 
+                                                 'module': module, 'page_header': page_header, })
+    
+  form = SheetForm(instance=sheet)
+  return render(request,'sheets/edit.html', {'form': form, 'sheet': sheet, 
+                                             'module': module, 'page_header': page_header, })
+
+
+def sheet_exercise_show(request, sheet_exercise_id):
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
+  page_header = f'Exercise {sheet_exercise.exercise_type.name} for Sheet {sheet_exercise.sheet.name}'
+  
+  bootstrap_tabs = BootstrapTabs({'exercise_items': {'label': 'Items', 
+                                             'render': 'sheet_exercise_items/_sheet_exercise_items.html', 
+                                             'dataset': sheet_exercise.exercise_items.all(), 
+                                             'source': 'sheet_exercise'}})
+
+  return render(request,'sheet_exercises/show.html', {'sheet_exercise': sheet_exercise, 
+                                                      'page_header': page_header,
+                                                      'has_tabs': bootstrap_tabs.has_tabs, 
+                                                      'tab_headers': bootstrap_tabs.render_tab_headers(), 
+                                                      'tab_contents': bootstrap_tabs.render_tab_contents()})
+
+def sheet_exercise_new(request, sheet_id):
+  sheet = Sheet.objects.get(id=sheet_id)
+  page_header = f'New Exercise for Sheet {sheet.name}'
+  if request.method == 'POST':
+    form = SheetExerciseForm(request.POST)
+    if form.is_valid():
+      sheet_exercise = form.save(sheet)
+      messages.success(request, f'Exercise {sheet_exercise.exercise_type.name} created successfully.')
+      return redirect('modules:sheet_show', sheet_id=sheet.id)
+    else:
+      messages.error(request, f'<p><strong>Create failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'sheet_exercises/new.html', {'form': form, 'page_header': page_header, 
+                                                         'sheet': sheet})
+    
+  form = SheetExerciseForm()
+  return render(request,'sheet_exercises/new.html', {'form': form, 'page_header': page_header, 
+                                                     'sheet': sheet})
+
+def sheet_exercise_delete(request, sheet_exercise_id):
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
+  sheet = sheet_exercise.sheet
+  sheet_exercise.delete()
+  messages.success(request, 'Exercise deleted successfully.')
+  return redirect('modules:sheet_show', sheet_id=sheet.id)
+
+def sheet_exercise_edit(request, sheet_exercise_id):
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
+  sheet = sheet_exercise.sheet
+  page_header = f'Edit Exercise {sheet_exercise.exercise_type.name} for Sheet {sheet.name}'
+  if request.method == 'POST':
+    form = SheetExerciseForm(request.POST, instance=sheet_exercise)
+    if form.is_valid():
+      # exercise_type = ExerciseType.objects.get(id=form.cleaned_data['exercise_type'])
+      sheet_exercise.exercise_type = form.cleaned_data['exercise_type']
+      sheet_exercise.order = form.cleaned_data['order']
+      sheet_exercise.banner = form.cleaned_data['banner']
+      sheet_exercise.instructions = form.cleaned_data['instructions']
+      sheet_exercise.line_items_for_student = form.cleaned_data['line_items_for_student']
+      sheet_exercise.dropdown_type = form.cleaned_data['dropdown_type']
+
+      sheet_exercise.save()
+      messages.success(request, f'Exercise updated successfully.')
+      return redirect('modules:sheet_exercise_show', sheet_exercise_id=sheet_exercise.id)
+    else:
+      messages.error(request, f'<p><strong>Update failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'sheet_exercises/edit.html', {'form': form, 'sheet_exercise': sheet_exercise, 
+                                                        'sheet': sheet, 'page_header': page_header, })
+    
+  form = SheetExerciseForm(instance=sheet_exercise)
+  return render(request,'sheet_exercises/edit.html', {'form': form, 'sheet_exercise': sheet_exercise, 
+                                                     'sheet': sheet, 'page_header': page_header, })
+
+
+def sheet_exercise_item_show(request, sheet_exercise_item_id):
+  sheet_exercise_item = SheetExerciseItem.objects.get(id=sheet_exercise_item_id)
+  page_header = f'Exercise Item for Sheet Exercise {sheet_exercise_item.sheet_exercise.exercise_type.name}'
+
+  return render(request,'sheet_exercise_items/show.html', {'sheet_exercise_item': sheet_exercise_item, 
+                                                           'page_header': page_header})
+
+def sheet_exercise_item_new(request, sheet_exercise_id):
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
+  page_header = f'New Exercise Item for Sheet Exercise {sheet_exercise.exercise_type.name}'
+  if request.method == 'POST':
+    form = SheetExerciseItemForm(request.POST)
+    if form.is_valid():
+      sheet_exercise_item = form.save(sheet_exercise)
+      messages.success(request, f'Exercise Item created successfully.')
+      return redirect('modules:sheet_exercise_show', sheet_id=sheet_exercise.sheet.id)
+    else:
+      messages.error(request, f'<p><strong>Create failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'sheet_exercise_items/new.html', {'form': form, 'page_header': page_header, 
+                                                            'sheet_exercise': sheet_exercise})
+    
+  form = SheetExerciseItemForm()
+  return render(request,'sheet_exercise_items/new.html', {'form': form, 'page_header': page_header, 
+                                                        'sheet_exercise': sheet_exercise})
+
+def sheet_exercise_item_delete(request, sheet_exercise_item_id):
+  sheet_exercise_item = SheetExerciseItem.objects.get(id=sheet_exercise_item_id)
+  sheet_exercise = sheet_exercise_item.sheet_exercise
+  sheet_exercise_item.delete()
+  messages.success(request, 'Exercise Item deleted successfully.')
+  return redirect('modules:sheet_exercise_show', sheet_id=sheet_exercise.id)
+
+def sheet_exercise_item_edit(request, sheet_exercise_item_id):
+  sheet_exercise_item = SheetExerciseItem.objects.get(id=sheet_exercise_item_id)
+  sheet_exercise = sheet_exercise_item.sheet_exercise
+  page_header = f'Edit Exercise Item for Sheet Exercise {sheet_exercise.exercise_type_description()}'
+  if request.method == 'POST':
+    form = SheetExerciseItemForm(request.POST, instance=sheet_exercise_item)
+    if form.is_valid():
+      sheet_exercise_item.content1 = form.cleaned_data['content1']
+      sheet_exercise_item.content2 = form.cleaned_data['content2']
+      sheet_exercise_item.content3 = form.cleaned_data['content3']
+      sheet_exercise_item.answer1 = form.cleaned_data['answer1']
+      sheet_exercise_item.answer2 = form.cleaned_data['answer2']
+      sheet_exercise_item.save()
+      messages.success(request, f'Exercise Item updated successfully.')
+      return redirect('modules:sheet_exercise_item_show', sheet_exercise_item_id=sheet_exercise_item.id)
+    else:
+      messages.error(request, f'<p><strong>Update failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'sheet_exercise_items/edit.html', {'form': form, 'sheet_exercise_item': sheet_exercise_item, 
+                                                               'sheet_exercise': sheet_exercise, 'page_header': page_header})
+    
+  form = SheetExerciseItemForm(instance=sheet_exercise_item)
+  return render(request,'sheet_exercise_items/edit.html', {'form': form, 'sheet_exercise_item': sheet_exercise_item, 
+                                                           'sheet_exercise': sheet_exercise, 'page_header': page_header})
+
+    
+
 # sample views
 
 def sample_spell_wordlist(request):

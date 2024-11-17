@@ -19,32 +19,36 @@
         </thead>
         <tbody>
           <tr>
-            <td class="text-end">Name</td>
-            <td>{{ module.name }}</td>
+            <td class="text-end">Module</td>
+            <td>{{ sheet.module.name }}</td>
           </tr>
           <tr>
-            <td class="text-end">Level</td>
-            <td>{{ module.level_description }}</td>
+            <td class="text-end">Name</td>
+            <td>{{ sheet.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Number</td>
+            <td>{{ sheet.sheet_number }}</td>
           </tr>
           <tr>
             <td class="text-end">Description</td>
-            <td>{{ module.description | safe }}</td>
+            <td>{{ sheet.description }}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="col-md-3 col-lg-2 order-md-2 order-1">
       <div class="d-grid my-3">
-        <a href="{% url 'modules:module_edit' module.id %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'modules:sheet_edit' sheet.id %}" class="btn btn-primary">Edit</a>
       </div>
       <div class="d-grid my-3">
-        <a href="{% url 'modules:module_delete' module.id %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'modules:sheet_delete' sheet.id %}" class="btn btn-danger">Delete</a>
       </div>
       <div class="d-grid my-3">
-        <a href="{% url 'modules:sheet_new' module.id %}" class="btn btn-primary">Add Sheet</a>
+        <a href="{% url 'modules:sheet_exercise_new' sheet.id %}" class="btn btn-primary">Add Exercise</a>
       </div>
       <div class="d-grid my-3">
-        <a href="{% url 'modules:modules_index' %}" class="btn btn-primary">Modules</a>
+        <a href="{% url 'modules:module_show' sheet.module.id %}" class="btn btn-primary">Module</a>
       </div>
     </div>
   </div>

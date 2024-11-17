@@ -76,20 +76,31 @@ function allowDrop(ev) {
   ev.preventDefault();
 }
 
-function drag(ev, defaultValue) {  
+function drag(ev) {  
   var element = document.getElementById(ev.target.id);
   ev.dataTransfer.setData("sourceId", element.id);
+  ev.dataTransfer.setData("sourceParentId", element.parentElement.id);
 }
 
-function drop(ev) {
+function drop(ev, defaultValue) {
   ev.preventDefault();
   var sourceId = ev.dataTransfer.getData("sourceId");
+  var sourceParentId = ev.dataTransfer.getData("sourceParentId");
+  var sourceParentElement = document.getElementById(sourceParentId);
   var newChild = document.getElementById(sourceId);
 
   if (ev.target.hasChildNodes()) {
     ev.target.replaceChild(newChild, ev.target.firstChild);
   } else {
     ev.target.appendChild(newChild);
+  }
+
+  if (defaultValue) {
+    var newSpan = document.createElement('span')
+    newSpan.innerHTML = defaultValue
+    newSpan.className = primaryTextClass
+    newSpan.draggable = true
+    sourceParentElement.appendChild(newSpan)
   }
 }
 

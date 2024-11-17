@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+<div class="row my-3">
+  <div class="col-md-9 col-lg-10 order-md-1 order-2">
+    <table class="table table-light">
+        <thead>
+          <tr>
+            <th class="text-center" colspan="2">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-end">Module</td>
+            <td>{{ sheet_exercise_item.sheet_exercise.sheet.module.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Sheet</td>
+            <td>{{ sheet_exercise_item.sheet_exercise.sheet.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Exercise</td>
+            <td>{{ sheet_exercise_item.sheet_exercise.exercise_type.description }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Content 1</td>
+            <td>{{ sheet_exercise_item.content1 | safe }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Content 2</td>
+            <td>{{ sheet_exercise_item.content2 | safe }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Content 3</td>
+            <td>{{ sheet_exercise_item.content3 | safe }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Answer 1</td>
+            <td>{{ sheet_exercise_item.answer1 }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Answer 2</td>
+            <td>{{ sheet_exercise_item.answer2 }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sheet_exercise_item_edit' sheet_exercise_item.id %}" class="btn btn-primary">Edit</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sheet_exercise_item_delete' sheet_exercise_item.id %}" class="btn btn-danger">Delete</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sheet_exercise_show' sheet_exercise_item.sheet_exercise.id %}" class="btn btn-primary">Exercise</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

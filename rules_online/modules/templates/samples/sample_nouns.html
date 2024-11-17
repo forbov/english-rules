@@ -11,7 +11,7 @@
 {% block content %}
   <div class="row my-3">
     <div class="col-md-9 col-lg-10 order-md-1 order-2">
-      <div class="row my-3 mx-3">
+      <div class="row m-3">
         <div class="col small bg-er-3">
           <h3><strong>Nouns</strong></h3>
           <p><strong>Nouns</strong> are words that provide names for all people, places and things.<br>
@@ -34,14 +34,14 @@
         </div>
       </div>
       <div class="row my-3">
-        <div class="col"><h5><span class="text-primary" id="drag1" draggable="true" ondragstart="drag(event, '')">hotel</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag2" draggable="true" ondragstart="drag(event, '')">Bali</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag3" draggable="true" ondragstart="drag(event, '')">swarm</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag4" draggable="true" ondragstart="drag(event, '')">New York</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag5" draggable="true" ondragstart="drag(event, '')">rest</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag6" draggable="true" ondragstart="drag(event, '')">bikini</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag7" draggable="true" ondragstart="drag(event, '')">delete</span></h5></div>
-        <div class="col"><h5><span class="text-primary" id="drag8" draggable="true" ondragstart="drag(event, '')">flight</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag1" draggable="true" ondragstart="drag(event)">hotel</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag2" draggable="true" ondragstart="drag(event)">Bali</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag3" draggable="true" ondragstart="drag(event)">swarm</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag4" draggable="true" ondragstart="drag(event)">New York</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag5" draggable="true" ondragstart="drag(event)">rest</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag6" draggable="true" ondragstart="drag(event)">bikini</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag7" draggable="true" ondragstart="drag(event)">delete</span></h5></div>
+        <div class="col"><h5><span class="text-primary" id="drag8" draggable="true" ondragstart="drag(event)">flight</span></h5></div>
       </div>
       <table class="table table-light">
         <thead>
@@ -52,7 +52,7 @@
         </thead>
         <tbody>
           <tr>
-            <td><h5>Two-piece swimsuit: <span class="text-primary" id="span1" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td><h5>Two-piece swimsuit: <span class="text-primary" id="span1" ondrop="drop(event, '[....]')" ondragover="allowDrop(event)">[....]</span></h5></td>
             <td>
               <select class="form-select" name="type_1">
                 <option value="none">----</option>
@@ -64,7 +64,7 @@
             </td>
           </tr>
           <tr>
-            <td><h5>A famous Indonesian holiday island: <span class="text-primary" id="span2" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td><h5>A famous Indonesian holiday island: <span class="text-primary" id="span2" ondrop="drop(event, '[....]')" ondragover="allowDrop(event)">[....]</span></h5></td>
             <td>
               <select class="form-select" name="type_2">
                 <option value="none">----</option>
@@ -76,7 +76,7 @@
             </td>
           </tr>
           <tr>
-            <td><h5>A break from exercise: <span class="text-primary" id="span3" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td><h5>A break from exercise: <span class="text-primary" id="span3" ondrop="drop(event, '[....]')" ondragover="allowDrop(event)">[....]</span></h5></td>
             <td>
               <select class="form-select" name="type_3">
                 <option value="none">----</option>
@@ -88,7 +88,7 @@
             </td>
           </tr>
           <tr>
-            <td><h5>A group of ships: <span class="text-primary" id="span4" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td><h5>A group of ships: <span class="text-primary" id="span4" ondrop="drop(event, '[....]')" ondragover="allowDrop(event)">[....]</span></h5></td>
             <td>
               <select class="form-select" name="type_4">
                 <option value="none">----</option>
@@ -100,7 +100,7 @@
             </td>
           </tr>
           <tr>
-            <td><h5>A place providing accommodation<span class="text-primary" id="span5" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td><h5>A place providing accommodation<span class="text-primary" id="span5" ondrop="drop(event, '[....]')" ondragover="allowDrop(event)">[....]</span></h5></td>
             <td>
               <select class="form-select" name="type_5">
                 <option value="none">----</option>
@@ -112,7 +112,7 @@
             </td>
           </tr>
           <tr>
-            <td><h5>The statue of Liberty is there: <span class="text-primary" id="span6" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td><h5>The statue of Liberty is there: <span class="text-primary" id="span6" ondrop="drop(event, '[....]')" ondragover="allowDrop(event)">[....]</span></h5></td>
             <td>
               <select class="form-select" name="type_6">
                 <option value="none">----</option>
@@ -124,7 +124,7 @@
             </td>
           </tr>
           <tr>
-            <td><h5>A group of locusts: <span class="text-primary" id="span7" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td><h5>A group of locusts: <span class="text-primary" id="span7" ondrop="drop(event, '[....]')" ondragover="allowDrop(event)">[....]</span></h5></td>
             <td>
               <select class="form-select" name="type_7">
                 <option value="none">----</option>
@@ -136,7 +136,7 @@
             </td>
           </tr>
           <tr>
-            <td><h5>A feeling of great pleasure: <span class="text-primary" id="span8" ondrop="drop(event)" ondragover="allowDrop(event)">[....]</span></h5></td>
+            <td><h5>A feeling of great pleasure: <span class="text-primary" id="span8" ondrop="drop(event, '[....]')" ondragover="allowDrop(event)">[....]</span></h5></td>
             <td>
               <select class="form-select" name="type_8">
                 <option value="none">----</option>

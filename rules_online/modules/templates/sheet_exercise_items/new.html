@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+{{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  {{ form.media }}
+  <form action="{% url 'modules:sheet_exercise_item_new' sheet_exercise.id %}" method="post">
+    <input type="hidden" name="sheet_exercise_id" value="{{ sheet_exercise.id }}"/>
+    <div class="row my-3">
+      <div class="col-md-9 col-lg-10 order-md-1 order-2">
+        <div class="row my-3">
+          <div class="col-md-3 text-md-end">
+            <label>Module</label>
+          </div>
+          <div class="col-md">
+            {{ sheet_exercise.sheet.module.name }}
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-md-3 text-md-end">
+            <label>Sheet</label>
+          </div>
+          <div class="col-md">
+            {{ sheet_exercise.sheet.name }}
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-md-3 text-md-end">
+            <label>Exercise</label>
+          </div>
+          <div class="col-md">
+            {{ sheet_exercise.exercise_type.name }}
+          </div>
+        </div>
+        <div class="form-group">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="row my-3">
+              <div class="col-md-3 text-md-end">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              </div>
+              <div class="col-md">
+                {{ field }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-2 order-md-2 order-1">
+        <div class="d-grid my-3">
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+        <div class="d-grid my-3">
+          <a href="{% url 'modules:sheet_exercise_show' sheet_exercise.id %}" class="btn btn-primary">Exercise</a>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock content %}
