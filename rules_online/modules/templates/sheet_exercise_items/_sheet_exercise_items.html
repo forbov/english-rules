@@ -7,7 +7,6 @@
         <th>Exercise</th>
       {% endif %}
       <th>Content 1</th>
-      <th>Content 2</th>
       <th>Answer</th>
     </tr>
   </thead>
@@ -34,11 +33,10 @@
           {% endif %}
           <td>
             <a href="{% url 'modules:sheet_exercise_item_show' sheet_exercise_item_id=sheet_exercise_item.id %}">
-              {{ sheet_exercise_item.content1 }}
+              {{ sheet_exercise_item.content1 | safe }}
             </a>
           </td>
-          <td>{{ sheet_exercise_item.content2 }}</td>
-          <td>{{ sheet_exercise_item.answer1 }}</td>
+          <td>{{ sheet_exercise_item.answer1_description }}</td>
         </tr>
       {% endfor %}
     {% else %}
@@ -46,7 +44,7 @@
         {% if source != 'sheet_exercise' %}
           <td class="text-center" colspan="6">No sheet exercise items found.</td>
         {% else %}
-          <td class="text-center" colspan="3">No sheet exercise items found.</td>
+          <td class="text-center" colspan="2">No sheet exercise items found.</td>
         {% endif %}
       </tr>
     {% endif %}

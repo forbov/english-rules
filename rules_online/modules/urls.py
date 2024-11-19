@@ -39,4 +39,5 @@ urlpatterns = [
     path('sample_pronouns', views.sample_pronouns, name='sample_pronouns'),
     path('sample_apostrophes', views.sample_apostrophes, name='sample_apostrophes'),
     path('sample_grid', views.sample_grid, name='sample_grid'),
+    path('sample_sentence_with_dropdown', views.sample_sentence_with_dropdown, name='sample_sentence_with_dropdown')
 ]

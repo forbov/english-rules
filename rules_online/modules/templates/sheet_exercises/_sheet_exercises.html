@@ -5,6 +5,7 @@
         <th>Module</th>
         <th>Sheet</th>
       {% endif %}
+      <th>Title</th>
       <th>Type</th>
       <th>Order</th>
       <th>Line Items</th>
@@ -28,9 +29,10 @@
           {% endif %}
           <td>
             <a href="{% url 'modules:sheet_exercise_show' sheet_exercise_id=sheet_exercise.id %}">
-              {{ sheet_exercise.exercise_type.name }}
+              {{ sheet_exercise.title }}
             </a>
           </td>
+          <td>{{ sheet_exercise.exercise_type.name }}</td>
           <td>{{ sheet_exercise.order }}</td>
           <td>{{ sheet_exercise.line_items_for_student }}</td>
         </tr>
@@ -38,9 +40,9 @@
     {% else %}
       <tr>
         {% if source == 'index' %}
-          <td class="text-center" colspan="5">No sheet exercises found.</td>
+          <td class="text-center" colspan="6">No sheet exercises found.</td>
         {% else %}
-          <td class="text-center" colspan="3">No sheet exercises found.</td>
+          <td class="text-center" colspan="4">No sheet exercises found.</td>
         {% endif %}
       </tr>
     {% endif %}

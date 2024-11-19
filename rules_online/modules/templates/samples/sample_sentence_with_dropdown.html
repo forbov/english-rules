@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row my-3">
+        <div class="col">
+          <h3 class="text-center">{{ sheet_exercise.title }}</h3>
+        </div>
+      </div>
+      <div class="row m-3">
+        <div class="col small bg-er-3">
+          {{ sheet_exercise.banner_resolved | safe }}
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-3 text-md-end">
+          <label><strong>Exercise:</strong></label>
+        </div>
+        <div class="col-md">
+          {{ sheet_exercise.instructions_resolved }}
+        </div>
+      </div>
+      <table class="table table-light">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Sentence</th>
+            <th>Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <div class="form-group">
+            {% csrf_token %}
+            {% for field in form %}
+              <tr>
+                {{ field.label | safe }}<td>{{ field }}</td>
+              </tr>
+              {% comment %} need hidden field for recording answer {% endcomment %}
+            {% endfor %}
+            </div>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sample_sentence_with_dropdown' %}" class="btn btn-primary">Reset</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

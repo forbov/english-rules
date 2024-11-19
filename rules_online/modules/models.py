@@ -1,7 +1,7 @@
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 
-from core.models import get_dropdown_type_description, get_module_level_description
+from core.models import get_description_by_domain, get_dropdown_type_description, get_module_level_description
 
 # Create your models here.
 
@@ -40,6 +40,7 @@ class Sheet(models.Model):
   
 class SheetExercise(models.Model):
   sheet = models.ForeignKey(Sheet, related_name='exercises', on_delete=models.CASCADE, null=False)
+  title = models.CharField(max_length=50, null=False)
   order = models.PositiveSmallIntegerField(null=False)
   exercise_type = models.ForeignKey(ExerciseType, related_name='exercises', on_delete=models.CASCADE, null=False)
   banner = CKEditor5Field('Banner', config_name='extends', blank=True, null=True)
@@ -56,6 +57,18 @@ class SheetExercise(models.Model):
   def dropdown_type_description(self):
     return get_dropdown_type_description(self.dropdown_type)
   
+  def banner_resolved(self):
+    if self.banner:
+      return self.banner
+    else:
+      return self.exercise_type.banner
+    
+  def instructions_resolved(self):
+    if self.instructions:
+      return self.instructions
+    else:
+      return self.exercise_type.instructions
+  
 class SheetExerciseItem(models.Model):
   sheet_exercise = models.ForeignKey(SheetExercise, related_name='exercise_items', on_delete=models.CASCADE, null=False)
   content1 = CKEditor5Field('Content 1', config_name='extends', blank=False, null=False)
@@ -66,3 +79,10 @@ class SheetExerciseItem(models.Model):
 
   def __str__(self):
     return f'{self.sheet_exercise} - {self.content1}'
+  
+  def answer1_description(self):
+    if self.sheet_exercise.dropdown_type:
+      print(f"dropdown_type: {self.sheet_exercise.dropdown_type}")
+      return get_description_by_domain(self.sheet_exercise.dropdown_type, self.answer1)
+    else:
+      return self.answer1

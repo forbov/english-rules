@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from modules.forms import ExerciseTypeForm, ModuleForm, NounsForm, SheetExerciseForm, SheetExerciseItemForm, SheetForm, WordListForm
+from modules.forms import ExerciseTypeForm, ModuleForm, NounsForm, SentenceWithDropdownForm, SheetExerciseForm, SheetExerciseItemForm, SheetForm, WordListForm
 from modules.models import ExerciseType, Module, Sheet, SheetExercise, SheetExerciseItem
 from django.contrib import messages
 from core.utilities import BootstrapTabs
@@ -126,7 +126,7 @@ def sheet_show(request, sheet_id):
   
   bootstrap_tabs = BootstrapTabs({'exercises': {'label': 'Exercises', 
                                              'render': 'sheet_exercises/_sheet_exercises.html', 
-                                             'dataset': sheet.exercises.all(), 
+                                             'dataset': sheet.exercises.all().order_by('order'), 
                                              'source': 'sheet'}})
 
   return render(request,'sheets/show.html', {'sheet': sheet, 'page_header': page_header,
@@ -187,7 +187,7 @@ def sheet_edit(request, sheet_id):
 
 def sheet_exercise_show(request, sheet_exercise_id):
   sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
-  page_header = f'Exercise {sheet_exercise.exercise_type.name} for Sheet {sheet_exercise.sheet.name}'
+  page_header = f'Exercise {sheet_exercise.order} for {sheet_exercise.sheet.name}'
   
   bootstrap_tabs = BootstrapTabs({'exercise_items': {'label': 'Items', 
                                              'render': 'sheet_exercise_items/_sheet_exercise_items.html', 
@@ -207,7 +207,7 @@ def sheet_exercise_new(request, sheet_id):
     form = SheetExerciseForm(request.POST)
     if form.is_valid():
       sheet_exercise = form.save(sheet)
-      messages.success(request, f'Exercise {sheet_exercise.exercise_type.name} created successfully.')
+      messages.success(request, f'Exercise {sheet_exercise.order} created successfully.')
       return redirect('modules:sheet_show', sheet_id=sheet.id)
     else:
       messages.error(request, f'<p><strong>Create failed with the following errors:</strong></p>{form.errors}')
@@ -228,12 +228,13 @@ def sheet_exercise_delete(request, sheet_exercise_id):
 def sheet_exercise_edit(request, sheet_exercise_id):
   sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
   sheet = sheet_exercise.sheet
-  page_header = f'Edit Exercise {sheet_exercise.exercise_type.name} for Sheet {sheet.name}'
+  page_header = f'Edit Exercise {sheet_exercise.order} for {sheet.name}'
   if request.method == 'POST':
     form = SheetExerciseForm(request.POST, instance=sheet_exercise)
     if form.is_valid():
       # exercise_type = ExerciseType.objects.get(id=form.cleaned_data['exercise_type'])
       sheet_exercise.exercise_type = form.cleaned_data['exercise_type']
+      sheet_exercise.title = form.cleaned_data['title']
       sheet_exercise.order = form.cleaned_data['order']
       sheet_exercise.banner = form.cleaned_data['banner']
       sheet_exercise.instructions = form.cleaned_data['instructions']
@@ -255,26 +256,26 @@ def sheet_exercise_edit(request, sheet_exercise_id):
 
 def sheet_exercise_item_show(request, sheet_exercise_item_id):
   sheet_exercise_item = SheetExerciseItem.objects.get(id=sheet_exercise_item_id)
-  page_header = f'Exercise Item for Sheet Exercise {sheet_exercise_item.sheet_exercise.exercise_type.name}'
+  page_header = f'Exercise Item for Sheet Exercise {sheet_exercise_item.sheet_exercise.order}'
 
   return render(request,'sheet_exercise_items/show.html', {'sheet_exercise_item': sheet_exercise_item, 
                                                            'page_header': page_header})
 
 def sheet_exercise_item_new(request, sheet_exercise_id):
   sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
-  page_header = f'New Exercise Item for Sheet Exercise {sheet_exercise.exercise_type.name}'
+  page_header = f'New Exercise Item for Sheet Exercise {sheet_exercise.order}'
   if request.method == 'POST':
-    form = SheetExerciseItemForm(request.POST)
+    form = SheetExerciseItemForm(data=request.POST, sheet_exercise=sheet_exercise)
     if form.is_valid():
       sheet_exercise_item = form.save(sheet_exercise)
       messages.success(request, f'Exercise Item created successfully.')
-      return redirect('modules:sheet_exercise_show', sheet_id=sheet_exercise.sheet.id)
+      return redirect('modules:sheet_exercise_show', sheet_exercise_id=sheet_exercise.id)
     else:
       messages.error(request, f'<p><strong>Create failed with the following errors:</strong></p>{form.errors}')
       return render(request,'sheet_exercise_items/new.html', {'form': form, 'page_header': page_header, 
                                                             'sheet_exercise': sheet_exercise})
     
-  form = SheetExerciseItemForm()
+  form = SheetExerciseItemForm(sheet_exercise=sheet_exercise)
   return render(request,'sheet_exercise_items/new.html', {'form': form, 'page_header': page_header, 
                                                         'sheet_exercise': sheet_exercise})
 
@@ -283,18 +284,18 @@ def sheet_exercise_item_delete(request, sheet_exercise_item_id):
   sheet_exercise = sheet_exercise_item.sheet_exercise
   sheet_exercise_item.delete()
   messages.success(request, 'Exercise Item deleted successfully.')
-  return redirect('modules:sheet_exercise_show', sheet_id=sheet_exercise.id)
+  return redirect('modules:sheet_exercise_show', sheet_exercise_id=sheet_exercise.id)
 
 def sheet_exercise_item_edit(request, sheet_exercise_item_id):
   sheet_exercise_item = SheetExerciseItem.objects.get(id=sheet_exercise_item_id)
   sheet_exercise = sheet_exercise_item.sheet_exercise
-  page_header = f'Edit Exercise Item for Sheet Exercise {sheet_exercise.exercise_type_description()}'
+  page_header = f'Edit Exercise Item for Sheet Exercise {sheet_exercise.order}'
   if request.method == 'POST':
-    form = SheetExerciseItemForm(request.POST, instance=sheet_exercise_item)
+    form = SheetExerciseItemForm(data=request.POST, instance=sheet_exercise_item, sheet_exercise=sheet_exercise)
     if form.is_valid():
       sheet_exercise_item.content1 = form.cleaned_data['content1']
-      sheet_exercise_item.content2 = form.cleaned_data['content2']
-      sheet_exercise_item.content3 = form.cleaned_data['content3']
+      # sheet_exercise_item.content2 = form.cleaned_data['content2']
+      # sheet_exercise_item.content3 = form.cleaned_data['content3']
       sheet_exercise_item.answer1 = form.cleaned_data['answer1']
       sheet_exercise_item.answer2 = form.cleaned_data['answer2']
       sheet_exercise_item.save()
@@ -305,7 +306,7 @@ def sheet_exercise_item_edit(request, sheet_exercise_item_id):
       return render(request,'sheet_exercise_items/edit.html', {'form': form, 'sheet_exercise_item': sheet_exercise_item, 
                                                                'sheet_exercise': sheet_exercise, 'page_header': page_header})
     
-  form = SheetExerciseItemForm(instance=sheet_exercise_item)
+  form = SheetExerciseItemForm(instance=sheet_exercise_item, sheet_exercise=sheet_exercise)
   return render(request,'sheet_exercise_items/edit.html', {'form': form, 'sheet_exercise_item': sheet_exercise_item, 
                                                            'sheet_exercise': sheet_exercise, 'page_header': page_header})
 
@@ -315,8 +316,11 @@ def sheet_exercise_item_edit(request, sheet_exercise_item_id):
 
 def sample_spell_wordlist(request):
   page_header = 'Sample Wordlist'
-  form = WordListForm()
-  return render(request,'samples/sample_spell_wordlist.html', {'form': form, 'page_header': page_header})
+  sheet_exercise = SheetExercise.objects.get(id=1)
+
+  form = WordListForm(sheet_exercise=sheet_exercise)
+  return render(request,'samples/sample_spell_wordlist.html', {'form': form, 'page_header': page_header, 
+                                                               'sheet_exercise': sheet_exercise})
 
 def sample_drag_drop(request):
   page_header = 'Sample Drag & Drop'
@@ -346,3 +350,11 @@ def sample_apostrophes(request):
 def sample_grid(request):
   page_header = 'Sample Grid'
   return render(request,'samples/sample_grid.html', {'page_header': page_header})
+
+def sample_sentence_with_dropdown(request):
+  page_header = 'Sample Sentence With Dropdown'
+  sheet_exercise = SheetExercise.objects.get(id=3)
+  form = SentenceWithDropdownForm(sheet_exercise=sheet_exercise)
+  return render(request,'samples/sample_sentence_with_dropdown.html', {'page_header': page_header,
+                                                                       'sheet_exercise': sheet_exercise,
+                                                                       'form': form})

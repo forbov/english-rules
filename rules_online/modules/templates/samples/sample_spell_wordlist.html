@@ -15,11 +15,16 @@
       <div class="row my-3">
         <div class="col-md-9 col-lg-10 order-md-1 order-2">
           <div class="row my-3">
+            <div class="col">
+              <h3 class="text-center">{{ sheet_exercise.title }}</h3>
+            </div>
+          </div>
+          <div class="row my-3">
             <div class="col-md-3 text-md-end">
               <label>Exercise:</label>
             </div>
             <div class="col-md">
-              Click on any word to practice how to spell it. Green means you are correct, red means try again.
+              {{ sheet_exercise.instructions_resolved }}
             </div>
           </div>
           <div class="form-group">

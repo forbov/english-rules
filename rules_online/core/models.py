@@ -222,6 +222,12 @@ class CodeRecord():
 
 # Resolution for each domain 
 
+def get_choices_by_domain_with_blank(domain):
+  return BLANK_LIST_ITEM + CodeSet(domain).as_choices()
+
+def get_description_by_domain(domain, code):
+  return CodeRecord(domain, code).get_descripton()
+
 def get_gender_choices():
   return CodeSet(GENDER_DOMAIN).as_choices()
 

@@ -1,6 +1,6 @@
-from django.forms import ChoiceField, Form, ModelForm, HiddenInput, CharField, Textarea
+from django.forms import ChoiceField, Form, ModelForm, HiddenInput, CharField, Select, TextInput, Textarea
 from django_ckeditor_5.widgets import CKEditor5Widget
-from core.models import get_dropdown_type_choices_with_blank, get_module_level_choices, get_noun_type_choices_with_blank
+from core.models import get_choices_by_domain_with_blank, get_dropdown_type_choices_with_blank, get_module_level_choices, get_noun_type_choices_with_blank
 from modules.models import ExerciseType, Module, Sheet, SheetExercise, SheetExerciseItem
 
 class ModuleForm(ModelForm):
@@ -82,7 +82,7 @@ class SheetExerciseForm(ModelForm):
 
   class Meta:
     model = SheetExercise
-    fields = ['order', 'exercise_type', 'banner', 'instructions', 'line_items_for_student', 'dropdown_type']
+    fields = ['title', 'order', 'exercise_type', 'banner', 'instructions', 'line_items_for_student', 'dropdown_type']
     widgets = {"banner": CKEditor5Widget(attrs={"class": "django_ckeditor_5"}),
                "instructions": Textarea(attrs={'rows': 4}),}
     
@@ -90,7 +90,7 @@ class SheetExerciseForm(ModelForm):
     super().__init__(*args, **kwargs)
 
     for field in self.fields:
-      if field in ['order', 'instructions', 'line_items_for_student']:
+      if field in ['order', 'instructions', 'line_items_for_student', 'title']:
         self.fields[field].widget.attrs.update({'class': 'form-control'})
       elif field in ['exercise_type', 'dropdown_type']:
         self.fields[field].widget.attrs.update({'class': 'form-select'})
@@ -98,6 +98,7 @@ class SheetExerciseForm(ModelForm):
   def save(self, sheet):
     sheet_exercise = SheetExercise.objects.create(sheet=sheet,
                                                  order=self.cleaned_data['order'],
+                                                 title=self.cleaned_data['title'],
                                                  exercise_type=self.cleaned_data['exercise_type'],
                                                  banner=self.cleaned_data['banner'],
                                                  instructions=self.cleaned_data['instructions'],
@@ -107,57 +108,57 @@ class SheetExerciseForm(ModelForm):
     return sheet_exercise
   
 class SheetExerciseItemForm(ModelForm):
+
   class Meta:
     model = SheetExerciseItem
-    fields = ['content1', 'content2', 'content3', 'answer1', 'answer2']
-    widgets = {"content1": CKEditor5Widget(attrs={"class": "django_ckeditor_5"}),
-               "content2": CKEditor5Widget(attrs={"class": "django_ckeditor_5"}),
-               "content3": CKEditor5Widget(attrs={"class": "django_ckeditor_5"}),}
+    fields = ['content1', ]
+    widgets = {"content1": CKEditor5Widget(attrs={"class": "django_ckeditor_5"}),}
     
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    for field in self.fields:
-      if field in ['content1', 'content2', 'content3']:
-        self.fields[field].widget.attrs.update({"rows": 1,
-                                                "height": "100"})
-      elif field in ['answer1', 'answer2']:
-        self.fields[field].widget.attrs.update({"class": "form-control"})
+  def __init__(self, sheet_exercise, *args, **kwargs):
+    super(SheetExerciseItemForm, self).__init__(*args, **kwargs)
+    print(f"Dropdown type: {sheet_exercise.dropdown_type}")
+    if sheet_exercise.dropdown_type:
+      self.fields['answer1'] = ChoiceField(label="Answer 1", required=True, choices=get_choices_by_domain_with_blank(sheet_exercise.dropdown_type),
+                                 widget=Select(attrs={"class": "form-select"}))
+    else:
+      self.fields['answer1'] = CharField(label="Answer 1", required=True, widget=TextInput(attrs={'class': 'form-control'}))
+
+    self.fields['answer2'] = CharField(label="Answer 2", required=False, widget=TextInput(attrs={'class': 'form-control'}))
+
       
   def save(self, sheet_exercise):
     sheet_exercise_item = SheetExerciseItem.objects.create(sheet_exercise=sheet_exercise,
                                                           content1=self.cleaned_data['content1'],
-                                                          content2=self.cleaned_data['content2'],
-                                                          content3=self.cleaned_data['content3'],
+                                                          # content2=self.cleaned_data['content2'],
+                                                          # content3=self.cleaned_data['content3'],
                                                           answer1=self.cleaned_data['answer1'],
                                                           answer2=self.cleaned_data['answer2'])
     sheet_exercise_item.save()
     return sheet_exercise_item
   
 class WordListForm(Form):
-  word01 = CharField(widget=HiddenInput(attrs={'id': 'word01_master'}), required = False, initial="annually")
-  word02 = CharField(widget=HiddenInput(attrs={'id': 'word02_master'}), required = False, initial="luggage")
-  word03 = CharField(widget=HiddenInput(attrs={'id': 'word03_master'}), required = False, initial="overseas")
-  word04 = CharField(widget=HiddenInput(attrs={'id': 'word04_master'}), required = False, initial="delight")
-  word05 = CharField(widget=HiddenInput(attrs={'id': 'word05_master'}), required = False, initial="carnival")
-  word06 = CharField(widget=HiddenInput(attrs={'id': 'word06_master'}), required = False, initial="bikini")
-  word07 = CharField(widget=HiddenInput(attrs={'id': 'word07_master'}), required = False, initial="freckle")
-  word08 = CharField(widget=HiddenInput(attrs={'id': 'word08_master'}), required = False, initial="swimsuit")
-  word09 = CharField(widget=HiddenInput(attrs={'id': 'word09_master'}), required = False, initial="secluded")
-  word10 = CharField(widget=HiddenInput(attrs={'id': 'word10_master'}), required = False, initial="refreshment")
-  word11 = CharField(widget=HiddenInput(attrs={'id': 'word11_master'}), required = False, initial="relaxing")
-  word12 = CharField(widget=HiddenInput(attrs={'id': 'word12_master'}), required = False, initial="sunscreen")
-  word13 = CharField(widget=HiddenInput(attrs={'id': 'word13_master'}), required = False, initial="luxury")
-  word14 = CharField(widget=HiddenInput(attrs={'id': 'word14_master'}), required = False, initial="destination")
-  word15 = CharField(widget=HiddenInput(attrs={'id': 'word15_master'}), required = False, initial="paradise")
-  word16 = CharField(widget=HiddenInput(attrs={'id': 'word16_master'}), required = False, initial="airport")
-  word17 = CharField(widget=HiddenInput(attrs={'id': 'word17_master'}), required = False, initial="oyster")
-  word18 = CharField(widget=HiddenInput(attrs={'id': 'word18_master'}), required = False, initial="lobster")
-  word19 = CharField(widget=HiddenInput(attrs={'id': 'word19_master'}), required = False, initial="casual")
-  word20 = CharField(widget=HiddenInput(attrs={'id': 'word20_master'}), required = False, initial="lifeguard")
+  def __init__(self, sheet_exercise, *args, **kwargs):
+    super(WordListForm, self).__init__(*args, **kwargs)
+    exercise_items = sheet_exercise.exercise_items.all()[:sheet_exercise.line_items_for_student]
+    item_count = 0
+    for item in exercise_items:
+      item_count += 1
+      field_id = f'word{item_count:02}'
+      master_id = f'{field_id}_master'
+      self.fields[field_id] = CharField(widget=HiddenInput(attrs={'id': master_id}), required = False, initial=item.answer1)
 
-  fields = ['word01', 'word02', 'word03', 'word04', 'word05', 'word06', 'word07', 'word08', 'word09', 'word10', 
-            'word11', 'word12', 'word13', 'word14', 'word15', 'word16', 'word17', 'word18', 'word19', 'word20']
-
+class SentenceWithDropdownForm(Form):
+  def __init__(self, sheet_exercise, *args, **kwargs):
+    super(SentenceWithDropdownForm, self).__init__(*args, **kwargs)
+    exercise_items = sheet_exercise.exercise_items.all()[:sheet_exercise.line_items_for_student]
+    item_count = 0
+    for item in exercise_items:
+      item_count += 1
+      field_id = f'sentence{item_count:02}'
+      self.fields[field_id] = ChoiceField(required = False, label=f'<td>{item_count}.</td><td>{item.content1}</td>',
+                                          choices=get_choices_by_domain_with_blank(sheet_exercise.dropdown_type),
+                                          widget=Select(attrs={'id': field_id, 'class': 'form-select'}))
+      
 class NounsForm(Form):
   noun_type = ChoiceField(label = "Type", choices=get_noun_type_choices_with_blank())
 
