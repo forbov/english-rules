@@ -202,7 +202,7 @@ def sheet_exercise_show(request, sheet_exercise_id):
 
 def sheet_exercise_new(request, sheet_id):
   sheet = Sheet.objects.get(id=sheet_id)
-  page_header = f'New Exercise for Sheet {sheet.name}'
+  page_header = f'New Exercise for {sheet.name}'
   if request.method == 'POST':
     form = SheetExerciseForm(request.POST)
     if form.is_valid():
@@ -314,9 +314,9 @@ def sheet_exercise_item_edit(request, sheet_exercise_item_id):
 
 # sample views
 
-def sample_spell_wordlist(request):
+def sample_spell_wordlist(request, sheet_exercise_id):
   page_header = 'Sample Wordlist'
-  sheet_exercise = SheetExercise.objects.get(id=1)
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
 
   form = WordListForm(sheet_exercise=sheet_exercise)
   return render(request,'samples/sample_spell_wordlist.html', {'form': form, 'page_header': page_header, 
@@ -351,9 +351,13 @@ def sample_grid(request):
   page_header = 'Sample Grid'
   return render(request,'samples/sample_grid.html', {'page_header': page_header})
 
-def sample_sentence_with_dropdown(request):
+def sample_punctuation(request):
+  page_header = 'Sample Punctuation'
+  return render(request,'samples/sample_punctuation.html', {'page_header': page_header})
+
+def sample_sentence_with_dropdown(request, sheet_exercise_id):
   page_header = 'Sample Sentence With Dropdown'
-  sheet_exercise = SheetExercise.objects.get(id=3)
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
   form = SentenceWithDropdownForm(sheet_exercise=sheet_exercise)
   return render(request,'samples/sample_sentence_with_dropdown.html', {'page_header': page_header,
                                                                        'sheet_exercise': sheet_exercise,

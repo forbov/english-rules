@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md-9 col-lg-10 order-md-1 order-2">
+      <div class="row m-3">
+        <div class="col small bg-er-3">
+          <h3><strong>Punctuation</strong></h3>
+          <p>Blah blah</p>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-3 text-md-end">
+          <label><strong>Exercise:</strong></label>
+        </div>
+        <div class="col-md">
+          <p>Choose the action you want to do to the word and then click on the word.</p>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-3 text-md-end">
+          <label>Action</label>
+        </div>
+        <div class="col-md">
+          <select id="word_action" class="form-select" name="word_action">
+            <option value="CAPITALISE">Capitalise</option>
+            <option value="UNCAPITALISE">Uncapitalise</option>
+            <option value="ADD_FULLSTOP">Add Fullstop</option>
+            <option value="REMOVE_FULLSTOP">Remove Fullstop</option>
+          </select>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col">
+          <table class="table table-light">
+            <thead>
+              <th>Sentence</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span onclick="modifyWord('word_action', this)">you</span> <span onclick="modifyWord('word_action', this)">have</span> <span onclick="modifyWord('word_action', this)">one</span> <span onclick="modifyWord('word_action', this)">hour</span> <span onclick="modifyWord('word_action', this)">for</span> <span onclick="modifyWord('word_action', this)">the</span> <span onclick="modifyWord('word_action', this)">test</span> <span onclick="modifyWord('word_action', this)">it</span> <span onclick="modifyWord('word_action', this)">finishes</span> <span onclick="modifyWord('word_action', this)">at</span> <span onclick="modifyWord('word_action', this)">midday</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span onclick="modifyWord('word_action', this)">my</span> <span onclick="modifyWord('word_action', this)">father</span> <span onclick="modifyWord('word_action', this)">has</span> <span onclick="modifyWord('word_action', this)">a</span> <span onclick="modifyWord('word_action', this)">new</span> <span onclick="modifyWord('word_action', this)">job</span> <span onclick="modifyWord('word_action', this)">he</span> <span onclick="modifyWord('word_action', this)">will</span> <span onclick="modifyWord('word_action', this)">be</span> <span onclick="modifyWord('word_action', this)">earning</span> <span onclick="modifyWord('word_action', this)">more</span> <span onclick="modifyWord('word_action', this)">money</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'modules:sample_punctuation' %}" class="btn btn-primary">Reset</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

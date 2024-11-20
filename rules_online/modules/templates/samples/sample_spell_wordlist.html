@@ -10,7 +10,7 @@
 
 {% block content %}
   <div id="wordlist" class="container" style="display:block">
-    <form action="{% url 'modules:sample_spell_wordlist' %}" method="post">
+    <form action="{% url 'modules:sample_spell_wordlist' sheet_exercise_id=sheet_exercise.id %}" method="post">
       <input type="hidden" id="hidden_word_id">
       <div class="row my-3">
         <div class="col-md-9 col-lg-10 order-md-1 order-2">
@@ -45,6 +45,9 @@
         <div class="col-md-3 col-lg-2 order-md-2 order-1">
           <div class="d-grid my-3">
             <button class="btn btn-primary" type="submit">Save</button>
+          </div>
+          <div class="d-grid my-3">
+            <a href="{% url 'modules:sample_spell_wordlist' sheet_exercise_id=sheet_exercise.id %}" class="btn btn-primary">Reset</a>
           </div>
           <div class="d-grid my-3">
             <a href="{% url 'home' %}" class="btn btn-primary">Home</a>

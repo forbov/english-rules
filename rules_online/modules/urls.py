@@ -25,19 +25,20 @@ urlpatterns = [
     path('sheet_exercise_items/<sheet_exercise_item_id>/edit/', views.sheet_exercise_item_edit, name='sheet_exercise_item_edit'),
     path('sheet_exercise_items/<sheet_exercise_item_id>/delete/', views.sheet_exercise_item_delete, name='sheet_exercise_item_delete'),
 
+    path('sample_spell_wordlist/<sheet_exercise_id>/', views.sample_spell_wordlist, name='sample_spell_wordlist'),
+    path('sample_drag_drop/', views.sample_drag_drop, name='sample_drag_drop'),
+    path('sample_highlight_nouns/', views.sample_highlight_nouns, name='sample_highlight_nouns'),
+    path('sample_finish_sentences/', views.sample_finish_sentences, name='sample_finish_sentences'),
+    path('sample_nouns/', views.sample_nouns, name='sample_nouns'),
+    path('sample_pronouns/', views.sample_pronouns, name='sample_pronouns'),
+    path('sample_apostrophes/', views.sample_apostrophes, name='sample_apostrophes'),
+    path('sample_grid/', views.sample_grid, name='sample_grid'),
+    path('sample_punctuation/', views.sample_punctuation, name='sample_punctuation'),
+    path('sample_sentence_with_dropdown/<sheet_exercise_id>/', views.sample_sentence_with_dropdown, name='sample_sentence_with_dropdown'),
+
     path('new/', views.module_new, name='module_new'),
     path('<module_id>/', views.module_show, name='module_show'),
     path('<module_id>/edit/', views.module_edit, name='module_edit'),
     path('<module_id>/delete/', views.module_delete, name='module_delete'),
     path('', views.modules_index, name='modules_index'),
-
-    path('sample_spell_wordlist', views.sample_spell_wordlist, name='sample_spell_wordlist'),
-    path('sample_drag_drop', views.sample_drag_drop, name='sample_drag_drop'),
-    path('sample_highlight_nouns', views.sample_highlight_nouns, name='sample_highlight_nouns'),
-    path('sample_finish_sentences', views.sample_finish_sentences, name='sample_finish_sentences'),
-    path('sample_nouns', views.sample_nouns, name='sample_nouns'),
-    path('sample_pronouns', views.sample_pronouns, name='sample_pronouns'),
-    path('sample_apostrophes', views.sample_apostrophes, name='sample_apostrophes'),
-    path('sample_grid', views.sample_grid, name='sample_grid'),
-    path('sample_sentence_with_dropdown', views.sample_sentence_with_dropdown, name='sample_sentence_with_dropdown')
 ]

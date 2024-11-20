@@ -148,3 +148,38 @@ function setSelectedValue(spanId, selectedElement) {
   spanElement = document.getElementById(spanId);
   spanElement.innerHTML = selectedElement.innerHTML;
 }
+
+function capitalizeFirstLetter(val) {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
+function uncapitalizeFirstLetter(val) {
+  return String(val).charAt(0).toLowerCase() + String(val).slice(1);
+}
+
+function addFullstop(val) {
+  return val + ".";
+}
+
+function removeFullstop(val) {
+  return val.replace(/\.$/g, '');
+}
+
+function modifyWord(actionElementId, currentElement) {
+  const CAPITALISE = 'CAPITALISE';
+  const UNCAPITALISE = 'UNCAPITALISE';
+  const ADD_FULLSTOP = 'ADD_FULLSTOP';
+  const REMOVE_FULLSTOP = 'REMOVE_FULLSTOP';
+
+  actionElement = document.getElementById(actionElementId);
+
+  if (actionElement.value == CAPITALISE) {
+    currentElement.innerHTML = capitalizeFirstLetter(currentElement.innerHTML);
+  } else if (actionElement.value == UNCAPITALISE) {
+    currentElement.innerHTML = uncapitalizeFirstLetter(currentElement.innerHTML);
+  } else if (actionElement.value == ADD_FULLSTOP) {
+    currentElement.innerHTML = addFullstop(currentElement.innerHTML);
+  } else if (actionElement.value == REMOVE_FULLSTOP) {
+    currentElement.innerHTML = removeFullstop(currentElement.innerHTML);
+  }
+}
