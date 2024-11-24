@@ -58,7 +58,7 @@ class SheetExercise(models.Model):
     return get_dropdown_type_description(self.dropdown_type)
   
   def banner_resolved(self):
-    if self.banner:
+    if self.banner and self.banner != '<p>&nbsp;</p>':
       return self.banner
     else:
       return self.exercise_type.banner
@@ -68,14 +68,18 @@ class SheetExercise(models.Model):
       return self.instructions
     else:
       return self.exercise_type.instructions
+    
+  def answer1_as_list(self):
+    exercise_items = self.exercise_items.all()
+    return [item.answer1 for item in exercise_items]
   
 class SheetExerciseItem(models.Model):
   sheet_exercise = models.ForeignKey(SheetExercise, related_name='exercise_items', on_delete=models.CASCADE, null=False)
   content1 = CKEditor5Field('Content 1', config_name='extends', blank=False, null=False)
   content2 = CKEditor5Field('Content 2', config_name='extends', blank=True, null=True)
   content3 = CKEditor5Field('Content 3', config_name='extends', blank=True, null=True)
-  answer1 = models.CharField(max_length=50, null=False)
-  answer2 = models.CharField(max_length=50, null=True)
+  answer1 = models.CharField(max_length=255, null=False)
+  answer2 = models.CharField(max_length=255, null=True)
 
   def __str__(self):
     return f'{self.sheet_exercise} - {self.content1}'

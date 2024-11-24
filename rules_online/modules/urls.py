@@ -33,8 +33,10 @@ urlpatterns = [
     path('sample_pronouns/', views.sample_pronouns, name='sample_pronouns'),
     path('sample_apostrophes/', views.sample_apostrophes, name='sample_apostrophes'),
     path('sample_grid/', views.sample_grid, name='sample_grid'),
-    path('sample_punctuation/', views.sample_punctuation, name='sample_punctuation'),
+    path('sample_punctuation/<sheet_exercise_id>/', views.sample_punctuation, name='sample_punctuation'),
     path('sample_sentence_with_dropdown/<sheet_exercise_id>/', views.sample_sentence_with_dropdown, name='sample_sentence_with_dropdown'),
+    path('sample_wordsearch/<sheet_exercise_id>/', views.sample_wordsearch, name='sample_wordsearch'),
+    path('sample_wordladder/<sheet_exercise_id>/', views.sample_wordladder, name='sample_wordladder'),
 
     path('new/', views.module_new, name='module_new'),
     path('<module_id>/', views.module_show, name='module_show'),

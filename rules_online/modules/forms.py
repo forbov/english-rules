@@ -1,7 +1,9 @@
+import csv
 from django.forms import ChoiceField, Form, ModelForm, HiddenInput, CharField, Select, TextInput, Textarea
 from django_ckeditor_5.widgets import CKEditor5Widget
 from core.models import get_choices_by_domain_with_blank, get_dropdown_type_choices_with_blank, get_module_level_choices, get_noun_type_choices_with_blank
 from modules.models import ExerciseType, Module, Sheet, SheetExercise, SheetExerciseItem
+from rules_online import settings
 
 class ModuleForm(ModelForm):
   level = ChoiceField(label='Level', choices=get_module_level_choices())
@@ -111,7 +113,7 @@ class SheetExerciseItemForm(ModelForm):
 
   class Meta:
     model = SheetExerciseItem
-    fields = ['content1', ]
+    fields = ['content1', 'answer1', 'answer2', ]
     widgets = {"content1": CKEditor5Widget(attrs={"class": "django_ckeditor_5"}),}
     
   def __init__(self, sheet_exercise, *args, **kwargs):
@@ -163,3 +165,39 @@ class NounsForm(Form):
   noun_type = ChoiceField(label = "Type", choices=get_noun_type_choices_with_blank())
 
   fields = ['noun_type']
+
+class WordLadderForm(Form):
+  def __init__(self, sheet_exercise, *args, **kwargs):
+    super(WordLadderForm, self).__init__(*args, **kwargs)
+    words = []
+    DATA_DIR = f'{settings.BASE_DIR}/static/data'
+    with open(f'{DATA_DIR}/4_letter_words.csv', 'r') as file:
+      reader = csv.DictReader(file)
+
+      for row in reader:
+        words.append(row['4-letter-word'])
+
+    for x in range(2, (sheet_exercise.line_items_for_student)):
+      field_id = f'word{x:02}'
+      previous_field_id = f'word{x-1:02}'
+      self.fields[field_id] = CharField(widget=TextInput(attrs={'id': field_id,
+                                                                'class': 'form-control',
+                                                                'onchange': f"validateEntry(this, '{previous_field_id}', {words})"}), required=False, max_length=4)
+
+
+class PunctuationForm(Form):
+  def __init__(self, sheet_exercise, *args, **kwargs):
+    super(PunctuationForm, self).__init__(*args, **kwargs)
+    exercise_items = sheet_exercise.exercise_items.all()[:sheet_exercise.line_items_for_student]
+    item_count = 0
+    for item in exercise_items:
+      item_count += 1
+      field_id = f'sentence{item_count:02}'
+      raw_words = item.content1.replace('<p>', '').replace('</p>', '')
+      words_as_spans = ''
+      for word in raw_words.split(' '):
+        words_as_spans = words_as_spans + f"<span onclick=\"modifyWord('word_action', this)\">{word}</span> "
+
+      self.fields[field_id] = CharField(required = False, label=words_as_spans, 
+                                        widget=HiddenInput(attrs={'id': field_id, }))
+      

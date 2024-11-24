@@ -11,14 +11,17 @@
 {% block content %}
   <p>Check the <a href="/about">About</a> page.</p>
   <p><a href="{% url 'modules:sample_spell_wordlist' sheet_exercise_id=1 %}">Wordlist - ER1, Sheet 1</a></p>
+  <p><a href="{% url 'modules:sample_sentence_with_dropdown' sheet_exercise_id=3 %}">Sentence with Dropdown - Parts of Speech</a></p>
+  <p><a href="{% url 'modules:sample_sentence_with_dropdown' sheet_exercise_id=4 %}">Sentence with Dropdown - Punctuation</a></p>
+  <p><a href="{% url 'modules:sample_punctuation' sheet_exercise_id=5 %}">Punctuation</a></p>
+  <p><a href="{% url 'modules:sample_wordladder' sheet_exercise_id=6 %}">Wordladder</a></p>
+  <p><a href="{% url 'modules:sample_wordsearch' sheet_exercise_id=1 %}">Word Search</a></p>
+  <p><a href="{% url 'modules:sample_grid' %}">Grid</a></p>
+  
   <p><a href="{% url 'modules:sample_drag_drop' %}">Drag Drop</a></p>
   <p><a href="{% url 'modules:sample_highlight_nouns' %}">Highlight Nouns</a></p>
   <p><a href="{% url 'modules:sample_finish_sentences' %}">Finish Sentences</a></p>
   <p><a href="{% url 'modules:sample_nouns' %}">Nouns</a></p>
   <p><a href="{% url 'modules:sample_pronouns' %}">Pronouns</a></p>
   <p><a href="{% url 'modules:sample_apostrophes' %}">Apostrophes</a></p>
-  <p><a href="{% url 'modules:sample_grid' %}">Grid</a></p>
-  <p><a href="{% url 'modules:sample_sentence_with_dropdown' sheet_exercise_id=3 %}">Sentence with Dropdown - Parts of Speech</a></p>
-  <p><a href="{% url 'modules:sample_sentence_with_dropdown' sheet_exercise_id=4 %}">Sentence with Dropdown - Punctuation</a></p>
-  <p><a href="{% url 'modules:sample_punctuation' %}">Punctuation</a></p>
 {% endblock content %}

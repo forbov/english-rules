@@ -1,8 +1,10 @@
+import csv
 from django.shortcuts import redirect, render
-from modules.forms import ExerciseTypeForm, ModuleForm, NounsForm, SentenceWithDropdownForm, SheetExerciseForm, SheetExerciseItemForm, SheetForm, WordListForm
+from modules.forms import ExerciseTypeForm, ModuleForm, NounsForm, PunctuationForm, SentenceWithDropdownForm, SheetExerciseForm, SheetExerciseItemForm, SheetForm, WordLadderForm, WordListForm
 from modules.models import ExerciseType, Module, Sheet, SheetExercise, SheetExerciseItem
 from django.contrib import messages
 from core.utilities import BootstrapTabs
+from rules_online import settings
 
 # Create your views here.
 
@@ -351,9 +353,14 @@ def sample_grid(request):
   page_header = 'Sample Grid'
   return render(request,'samples/sample_grid.html', {'page_header': page_header})
 
-def sample_punctuation(request):
+def sample_punctuation(request, sheet_exercise_id):
   page_header = 'Sample Punctuation'
-  return render(request,'samples/sample_punctuation.html', {'page_header': page_header})
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
+  form = PunctuationForm(sheet_exercise=sheet_exercise)
+
+  return render(request,'samples/sample_punctuation.html', {'page_header': page_header,
+                                                            'form': form,
+                                                            'sheet_exercise': sheet_exercise})
 
 def sample_sentence_with_dropdown(request, sheet_exercise_id):
   page_header = 'Sample Sentence With Dropdown'
@@ -362,3 +369,25 @@ def sample_sentence_with_dropdown(request, sheet_exercise_id):
   return render(request,'samples/sample_sentence_with_dropdown.html', {'page_header': page_header,
                                                                        'sheet_exercise': sheet_exercise,
                                                                        'form': form})
+
+def sample_wordsearch(request, sheet_exercise_id):
+  page_header = 'Sample Word Search'
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
+  words = ['save', 'earn', 'invest', 'retirement', 'account', 'money', 'credit', 'debt', 'assets', 'loan', 'interest', 'accrual',
+ 'economy', 'sharing', 'savings', 'budget', 'capital', 'collateral', 'bond', 'market', 'value', 'index']
+  
+  return render(request,'samples/sample_wordsearch.html', {'page_header': page_header,
+                                                           'sheet_exercise': sheet_exercise,
+                                                           'words': sheet_exercise.answer1_as_list(),})
+
+def sample_wordladder(request, sheet_exercise_id):
+  page_header = 'Sample Word Ladder'
+  sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
+  sheet_item_1 = sheet_exercise.exercise_items.all().first()
+
+  form = WordLadderForm(sheet_exercise=sheet_exercise)
+  return render(request,'samples/sample_wordladder.html', {'page_header': page_header,
+                                                            'sheet_exercise': sheet_exercise,
+                                                            'word0': sheet_item_1.answer1,
+                                                            'word_final': sheet_item_1.answer2,
+                                                            'form': form})
