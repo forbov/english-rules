@@ -38,13 +38,15 @@ class StudentInvitationForm(ModelForm):
     student_no = self.cleaned_data['student_no']
     date_of_birth = self.cleaned_data['date_of_birth']
     school_grade = self.cleaned_data['school_grade']
+    school_teacher = user.teacher.current_school_teacher()
 
     invitation = Invitation.objects.create(email=email, invitation_token=invitation_token, 
                                             invited_by=invited_by, created_at=created_at, 
                                             expires_at=expires_at, first_name=first_name, 
                                             last_name=last_name, gender=gender, school=school,
                                             student_no=student_no, date_of_birth=date_of_birth,
-                                            school_grade=school_grade, group_name=role)
+                                            school_grade=school_grade, group_name=role, 
+                                            school_teacher=school_teacher)
     invitation.save()
     return invitation
 

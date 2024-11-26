@@ -79,6 +79,22 @@ class School(models.Model):
     
     return Student.objects.raw(sql)
 
+  def current_school_students(self):
+    sql = f"""select scs.*
+               from schools_school sch
+               inner join schools_schoolstudent scs
+                 on scs.school_id = sch.id
+                and scs.date_end is null
+              inner join schools_student std
+                 on std.id = scs.student_id
+              inner join core_user usr
+                 on usr.id = std.user_id
+              where sch.id = {self.id}
+              order by usr.last_name
+                  , usr.first_name"""
+    
+    return SchoolStudent.objects.raw(sql)
+
 # Create the Student model.
 
 class Student(models.Model):
@@ -89,7 +105,7 @@ class Student(models.Model):
   def __str__(self):
     return self.user.full_name()
   
-  def current_school(self):
+  def current_school_student(self):
     return self.attends.filter(date_end__isnull=True).first()
 
 # Create the Teacher model.
@@ -100,7 +116,7 @@ class Teacher(models.Model):
   def __str__(self):
     return self.user.full_name()
   
-  def current_school(self):
+  def current_school_teacher(self):
     return self.teaches_at.filter(date_end__isnull=True).first()
 
 # Create the School-Teacher model.
@@ -120,6 +136,7 @@ class SchoolTeacher(models.Model):
 class SchoolStudent(models.Model):
   school = models.ForeignKey(School, related_name='students', on_delete=models.CASCADE, null=False)
   student = models.ForeignKey(Student, related_name='attends', on_delete=models.CASCADE, null=False)
+  school_teacher = models.ForeignKey(SchoolTeacher, related_name='teaches', on_delete=models.CASCADE, null=False)
   date_start = models.DateField(null=False)
   date_end = models.DateField(null=True)
   school_grade = models.CharField(max_length=20, null=False)

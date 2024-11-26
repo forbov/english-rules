@@ -72,7 +72,8 @@ def invitation_new(request):
         return redirect('core:users_index')
     else:
       messages.error(request, f'<p><strong>Save failed with the following errors:</strong></p>{form.errors}')
-      return render(request, 'invitations/new.html', {'form': form, 'page_header': page_header, 'school': school, 'role': role})
+      return render(request, 'invitations/new.html', {'form': form, 'page_header': page_header, 
+                                                      'school': school, 'role': role})
   else:
     if role == 'student':
       form = StudentInvitationForm()
@@ -161,7 +162,8 @@ def invitation_accept(request):
         student = Student.objects.create(user=user, date_of_birth=invitation.date_of_birth, student_no=invitation.student_no)
         student.save()
         school_student = SchoolStudent.objects.create(student=student, school=invitation.school, 
-                                                      date_start=datetime.now(), school_grade=invitation.school_grade)
+                                                      date_start=datetime.now(), school_grade=invitation.school_grade,
+                                                      school_teacher=invitation.school_teacher)
         school_student.save()
 
       invitation.status = 'ACCEPTED'

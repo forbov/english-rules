@@ -20,43 +20,50 @@
       <tbody>
           <tr>
             <td class="text-end">Email</td>
-            <td>{{ student.user.email }}</td>
+            <td>{{ school_student.student.user.email }}</td>
           </tr>
           <tr>
-            <td class="text-end">First Name</td>
-            <td>{{ student.user.first_name }}</td>
-          </tr>
-          <tr>
-            <td class="text-end">Last Name</td>
-            <td>{{ student.user.last_name }}</td>
+            <td class="text-end">Full Name</td>
+            <td>{{ school_student.student.user.full_name }}</td>
           </tr>
           <tr>
             <td class="text-end">Gender</td>
-            <td>{{ student.user.gender_description }}</td>
+            <td>{{ school_student.student.user.gender_description }}</td>
           </tr>
           <tr>
             <td class="text-end">Student No</td>
-            <td>{{ student.student_no }}</td>
+            <td>{{ school_student.student.student_no }}</td>
           </tr>
           <tr>
             <td class="text-end">Date of Birth</td>
-            <td>{{ student.date_of_birth }}</td>
+            <td>{{ school_student.student.date_of_birth }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">School</td>
+            <td>{{ school_student.school.school_name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Grade</td>
+            <td>{{ school_student.school_grade_description }}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="col-md-3 col-lg-2 order-md-2 order-1">
       <div class="d-grid my-3">
-        <a href="{% url 'schools:school_show' student.current_school_student.school.id %}" class="btn btn-primary">School</a>
+        <a href="{% url 'subscriptions:subscription_new' school_student.id %}" class="btn btn-primary">Add Subscription</a>
+      </div>
+      <div class="d-grid my-3">
+        <a href="{% url 'schools:school_show' school_student.school.id %}" class="btn btn-primary">School</a>
       </div>
     </div>
   </div>
-  {% comment %} {% if has_tabs %}
+  {% if has_tabs %}
     <ul class="nav nav-tabs" id="bootstrapTab" role="tablist">
       {{ tab_headers | safe }}
     </ul>
     <div class="tab-content" id="bootstrapTabContent">
       {{ tab_contents | safe }}
     </div>
-  {% endif %} {% endcomment %}
+  {% endif %}
 {% endblock content %}

@@ -28,6 +28,7 @@ urlpatterns = [
     path('schools/', include('schools.urls')),
     path('invitations/', include('invitations.urls')),
     path('modules/', include('modules.urls')),
+    path('subscriptions/', include('subscriptions.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 

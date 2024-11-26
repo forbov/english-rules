@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from invitations.utilities import send_pending_invites
-from schools.models import School, Student, Teacher
+from schools.models import School, SchoolStudent, Student, Teacher
 from core.utilities import BootstrapTabs
 from schools.filters import SchoolFilter
 
@@ -48,8 +48,8 @@ def school_show(request, school_id):
                                                'dataset': school.current_teachers(), 
                                                'source': 'school'},
                                   'students': {'label': 'Students', 
-                                               'render': 'students/_students.html', 
-                                               'dataset': school.current_students(), 
+                                               'render': 'school_students/_school_students.html', 
+                                               'dataset': school.current_school_students(), 
                                                'source':'school'},
                                   'invitations': {'label': 'Invitations', 
                                                   'render': 'invitations/_invitations.html', 
@@ -88,24 +88,8 @@ def send_invites(request, school_id):
 def student_show(request, student_id):
   student = Student.objects.get(id=student_id)
   page_header = f'Student: {student.user.full_name()}'
-
-  # bootstrap_tabs = BootstrapTabs({'teachers': {'label': 'Teachers', 
-  #                                              'render': 'teachers/_teachers.html', 
-  #                                              'dataset': school.teachers.all(), 
-  #                                              'source': 'school'},
-  #                                 'students': {'label': 'Students', 
-  #                                              'render': 'students/_students.html', 
-  #                                              'dataset': school.students.all(), 
-  #                                              'source':'school'},
-  #                                 'invitations': {'label': 'Invitations', 
-  #                                                 'render': 'invitations/_invitations.html', 
-  #                                                 'dataset': school.invitations.all(), 
-  #                                                 'source':'school'}})
   
   return render(request, 'students/show.html', {'student': student, 'page_header': page_header, })
-                                              #  'has_tabs': bootstrap_tabs.has_tabs, 
-                                              #  'tab_headers': bootstrap_tabs.render_tab_headers(), 
-                                              #  'tab_contents': bootstrap_tabs.render_tab_contents()})
 
 def teacher_show(request, teacher_id):
   teacher = Teacher.objects.get(id=teacher_id)
@@ -128,3 +112,18 @@ def teacher_show(request, teacher_id):
                                               #  'has_tabs': bootstrap_tabs.has_tabs, 
                                               #  'tab_headers': bootstrap_tabs.render_tab_headers(), 
                                               #  'tab_contents': bootstrap_tabs.render_tab_contents()})
+
+def school_student_show(request, school_student_id):
+  school_student = SchoolStudent.objects.get(id=school_student_id)
+  page_header = f'Student: {school_student.student.user.full_name()}'
+
+  bootstrap_tabs = BootstrapTabs({'subscriptions': {'label': 'Subscriptions', 
+                                                    'render': 'subscriptions/_subscriptions.html', 
+                                                    'dataset': school_student.subscriptions.all(), 
+                                                    'source': 'school_student'}})
+ 
+  
+  return render(request, 'school_students/show.html', {'school_student': school_student, 'page_header': page_header,
+                                                       'has_tabs': bootstrap_tabs.has_tabs, 
+                                                       'tab_headers': bootstrap_tabs.render_tab_headers(), 
+                                                       'tab_contents': bootstrap_tabs.render_tab_contents()})

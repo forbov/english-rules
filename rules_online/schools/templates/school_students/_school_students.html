@@ -12,19 +12,19 @@
   </thead>
   <tbody>
     {% if collection %}
-      {% for student in collection %}
+      {% for school_student in collection %}
         <tr>
           <td>
-            <a href="{% url 'schools:student_show' student_id=student.id %}">
-              {{ student.user.email }}
+            <a href="{% url 'schools:school_student_show' school_student_id=school_student.id %}">
+              {{ school_student.student.user.email }}
             </a>
           </td>
-          <td>{{ student.user.full_name }}</td>
-          <td>{{ student.user.gender_description }}</td>
+          <td>{{ school_student.student.user.full_name }}</td>
+          <td>{{ school_student.student.user.gender_description }}</td>
           {% if source != 'school' %}
-            <td>{{ student.current_school_student.school.school_name }}</td>
+            <td>{{ school_student.school.school_name }}</td>
           {% endif %}
-          <td>{{ student.current_school_student.school_grade_description }}</td>
+          <td>{{ school_student.school_grade_description }}</td>
         </tr>
       {% endfor %}
     {% else %}

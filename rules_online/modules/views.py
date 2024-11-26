@@ -2,10 +2,10 @@ import csv
 from django.shortcuts import redirect, render
 from modules.forms import ExerciseTypeForm, ModuleForm, NounsForm, PunctuationForm, SentenceWithDropdownForm, SheetExerciseForm, SheetExerciseItemForm, SheetForm, WordLadderForm, WordListForm
 from modules.models import ExerciseType, Module, Sheet, SheetExercise, SheetExerciseItem
-from django.contrib import messages
+
 from core.utilities import BootstrapTabs
 from rules_online import settings
-
+from django.contrib import messages
 # Create your views here.
 
 def modules_index(request):

@@ -10,6 +10,9 @@ class Module(models.Model):
   level = models.CharField(max_length=20, null=False)
   description = CKEditor5Field('Description', config_name='extends', blank=True, null=True)
 
+  def __str__(self):
+    return self.name
+
   def level_description(self):
     return get_module_level_description(self.level)
   
