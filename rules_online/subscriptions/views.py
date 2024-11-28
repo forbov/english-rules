@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from subscriptions.models import Subscription
+from core.utilities import BootstrapTabs
+from subscriptions.models import Subscription, SubscriptionExercise, SubscriptionSheet
 from subscriptions.forms import SubscriptionForm
 from schools.models import SchoolStudent
 
@@ -25,39 +26,74 @@ def subscription_new(request, school_student_id):
                                                    'school_student': school_student,
                                                    'form': form})
 
+def subscription_edit(request, subscription_id):
+  subscription = Subscription.objects.get(id=subscription_id)
+  page_header = f'Edit Subscription for {subscription.school_student.student.user.full_name()}'
+  
+  if request.method == 'POST':
+    form = SubscriptionForm(data=request.POST, instance=subscription, school_student=subscription.school_student)
+    if form.is_valid():
+      subscription.module = form.cleaned_data['module']
+      subscription.save()
+      messages.success(request, 'Subscription updated successfully.')
+      return redirect('schools:school_student_show', school_student_id=subscription.school_student.id)
+    else:
+      messages.error(request, f'<p><strong>Update failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'subscriptions/edit.html', {'page_header': page_header,
+                                                        'subscription': subscription,
+                                                        'form': form})
+    
+  form = SubscriptionForm(instance=subscription, school_student=subscription.school_student)
+  return render(request,'subscriptions/edit.html', {'page_header': page_header,
+                                                    'subscription': subscription,
+                                                    'form': form})
+
+def subscription_delete(request, subscription_id):
+  subscription = Subscription.objects.get(id=subscription_id)
+  subscription.delete()
+  messages.success(request, 'Subscription deleted successfully.')
+  return redirect('schools:school_student_show', school_student_id=subscription.school_student.id)
+
 def subscription_show(request, subscription_id):
+  subscription = Subscription.objects.get(id=subscription_id)
   page_header = 'Subscription Details'
-  return render(request,'subscriptions/show.html', {'page_header': page_header})
 
-def subscription_sheet_new(request, subscription_id):
-  page_header = 'New Subscription Sheet'
-  return render(request,'subscription_sheets/new.html', {'page_header': page_header})
+  bootstrap_tabs = BootstrapTabs({'sheets': {'label': 'Sheets', 
+                                             'render': 'subscription_sheets/_subscription_sheets.html', 
+                                             'dataset': subscription.sheets.all(), 
+                                             'source': 'subscription'}})
 
-def subscription_sheet_edit(request, subscription_sheet_id):
-  page_header = 'Edit Subscription Sheet'
-  return render(request,'subscription_sheets/edit.html', {'page_header': page_header})
+  return render(request,'subscriptions/show.html', {'page_header': page_header,
+                                                    'subscription': subscription,
+                                                    'has_tabs': bootstrap_tabs.has_tabs, 
+                                                    'tab_headers': bootstrap_tabs.render_tab_headers(), 
+                                                    'tab_contents': bootstrap_tabs.render_tab_contents()})
 
-def subscription_sheet_delete(request, subscription_sheet_id):
-  page_header = 'Delete Subscription Sheet'
-  return render(request,'subscription_sheets/delete.html', {'page_header': page_header})
+def subscription_start(request, subscription_id):
+  subscription = Subscription.objects.get(id=subscription_id)
+  subscription.start()
+  messages.success(request, 'Subscription started successfully.')
+  return redirect('subscriptions:subscription_show', subscription_id=subscription.id)
 
 def subscription_sheet_show(request, subscription_sheet_id):
   page_header = 'Subscription Sheet Details'
-  return render(request,'subscription_sheets/show.html', {'page_header': page_header})
+  subscription_sheet = SubscriptionSheet.objects.get(id=subscription_sheet_id)
 
-def subscription_exercise_new(request, subscription_sheet_id):
-  page_header = 'New Subscription Exercise'
-  return render(request,'subscription_exercises/new.html', {'page_header': page_header})
+  bootstrap_tabs = BootstrapTabs({'sheets': {'label': 'Exercises', 
+                                             'render': 'subscription_exercises/_subscription_exercises.html', 
+                                             'dataset': subscription_sheet.exercises.all(), 
+                                             'source': 'subscription_sheet'}})
 
-def subscription_exercise_edit(request, subscription_exercise_id):
-  page_header = 'Edit Subscription Exercise'
-  return render(request,'subscription_exercises/edit.html', {'page_header': page_header})
-
-def subscription_exercise_delete(request, subscription_exercise_id):
-  page_header = 'Delete Subscription Exercise'
-  return render(request,'subscription_exercises/delete.html', {'page_header': page_header})
+  return render(request,'subscription_sheets/show.html', {'page_header': page_header,
+                                                          'subscription_sheet': subscription_sheet,
+                                                          'has_tabs': bootstrap_tabs.has_tabs, 
+                                                          'tab_headers': bootstrap_tabs.render_tab_headers(), 
+                                                          'tab_contents': bootstrap_tabs.render_tab_contents()})
 
 def subscription_exercise_show(request, subscription_exercise_id):
   page_header = 'Subscription Exercise Details'
-  return render(request,'subscription_exercises/show.html', {'page_header': page_header})
+  subscription_exercise = SubscriptionExercise.objects.get(id=subscription_exercise_id)
+
+  return render(request,'subscription_exercises/show.html', {'page_header': page_header,
+                                                             'subscription_exercise': subscription_exercise})
 

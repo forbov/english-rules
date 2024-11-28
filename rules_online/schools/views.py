@@ -95,23 +95,7 @@ def teacher_show(request, teacher_id):
   teacher = Teacher.objects.get(id=teacher_id)
   page_header = f'Teacher: {teacher.user.full_name()}'
 
-  # bootstrap_tabs = BootstrapTabs({'teachers': {'label': 'Teachers', 
-  #                                              'render': 'teachers/_teachers.html', 
-  #                                              'dataset': school.teachers.all(), 
-  #                                              'source': 'school'},
-  #                                 'students': {'label': 'Students', 
-  #                                              'render': 'students/_students.html', 
-  #                                              'dataset': school.students.all(), 
-  #                                              'source':'school'},
-  #                                 'invitations': {'label': 'Invitations', 
-  #                                                 'render': 'invitations/_invitations.html', 
-  #                                                 'dataset': school.invitations.all(), 
-  #                                                 'source':'school'}})
-  
   return render(request, 'teachers/show.html', {'teacher': teacher, 'page_header': page_header, })
-                                              #  'has_tabs': bootstrap_tabs.has_tabs, 
-                                              #  'tab_headers': bootstrap_tabs.render_tab_headers(), 
-                                              #  'tab_contents': bootstrap_tabs.render_tab_contents()})
 
 def school_student_show(request, school_student_id):
   school_student = SchoolStudent.objects.get(id=school_student_id)

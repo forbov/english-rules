@@ -1,0 +1,40 @@
+<table class="table table-light">
+  <thead>
+    <tr>
+      {% if source != 'subscription_sheet' %}
+        <th>Sheet</th>
+      {% endif %}
+      <th>Exercise</th>
+      <th>Started</th>
+      <th>Completed</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if collection %}
+      {% for subscription_exercise in collection %}
+        <tr>
+          {% if source != 'subscription_sheet' %}
+            <td>{{ subscription_exercise.subscription_sheet.name }}</td>
+          {% endif %}
+          <td>
+            <a href="{% url 'subscriptions:subscription_exercise_show' subscription_exercise_id=subscription_exercise.id %}">
+              {{ subscription_exercise.exercise.title }}
+            </a>
+          </td>
+          <td>{{ subscription_exercise.start_at }}</td>
+          <td>{{ subscription_exercise.end_at }}</td>
+          <td>{{ subscription_exercise.score }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        {% if source == 'subscription_sheet' %}
+          <td class="text-center" colspan="4">No students found.</td>
+        {% else %}
+          <td class="text-center" colspan="5">No students found.</td>
+        {% endif %}
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

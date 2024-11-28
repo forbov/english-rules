@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+<div class="row my-3">
+  <div class="col-md-9 col-lg-10 order-md-1 order-2">
+    <table class="table table-light">
+        <thead>
+          <tr>
+            <th class="text-center" colspan="2">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-end">Module</td>
+            <td>{{ subscription_exercise.subscription_sheet.subscription.module.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Sheet</td>
+            <td>{{ subscription_exercise.subscription_sheet.sheet.name }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Exercise</td>
+            <td>{{ subscription_exercise.exercise.title }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Started</td>
+            <td>{{ subscription_exercise.start_at }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Completed</td>
+            <td>{{ subscription_exercise.end_at }}</td>
+          </tr>
+          <tr>
+            <td class="text-end">Score</td>
+            <td>{{ subscription_exercise.score }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 col-lg-2 order-md-2 order-1">
+      <div class="d-grid my-3">
+        <a href="{% url 'subscriptions:subscription_sheet_show' subscription_exercise.subscription_sheet.id %}" class="btn btn-primary">Sheet</a>
+      </div>
+    </div>
+  </div>
+  {% comment %} {% if has_tabs %}
+    <ul class="nav nav-tabs" id="bootstrapTab" role="tablist">
+      {{ tab_headers | safe }}
+    </ul>
+    <div class="tab-content" id="bootstrapTabContent">
+      {{ tab_contents | safe }}
+    </div>
+  {% endif %} {% endcomment %}
+{% endblock content %}

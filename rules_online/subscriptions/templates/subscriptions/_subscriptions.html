@@ -6,7 +6,8 @@
       {% endif %}
       <th>Module</th>
       <th>Teacher</th>
-      <th>Date Subscribed</th>
+      <th>Created at</th>
+      <th>Started at</th>
     </tr>
   </thead>
   <tbody>
@@ -23,14 +24,15 @@
           </td>
           <td>{{ subscription.school_student.school_teacher.teacher.user.full_name }}</td>
           <td>{{ subscription.created_at }}</td>
+          <td>{{ subscription.started_at }}</td>
         </tr>
       {% endfor %}
     {% else %}
       <tr>
         {% if source == 'school_student' %}
-          <td class="text-center" colspan="3">No students found.</td>
-        {% else %}
           <td class="text-center" colspan="4">No students found.</td>
+        {% else %}
+          <td class="text-center" colspan="5">No students found.</td>
         {% endif %}
       </tr>
     {% endif %}
