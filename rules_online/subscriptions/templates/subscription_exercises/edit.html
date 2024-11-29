@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ page_header }}
+{% endblock title%}
+
+{% block heading %}
+  {{ page_header }}
+{% endblock heading %}
+
+{% block content %}
+  <div id="wordlist" class="container" style="display:block">
+    <form action="{% url 'subscriptions:subscription_exercise_edit' subscription_exercise_id=subscription_exercise.id %}" method="post">
+      <div class="row my-3">
+        <div class="col-md-9 col-lg-10 order-md-1 order-2">
+          <div class="row my-3">
+            <div class="col">
+              <h3 class="text-center">{{ subscription_exercise.exercise.title }}</h3>
+            </div>
+          </div>
+          <div class="row m-3">
+            <div class="col small bg-er-3">
+              {{ subscription_exercise.exercise.banner_resolved | safe }}
+            </div>
+          </div>
+          <div class="row my-3">
+            <div class="col-md-3 text-md-end">
+              <label><strong>Exercise:</strong></label>
+            </div>
+            <div class="col-md">
+              {{ subscription_exercise.exercise.instructions_resolved }}
+            </div>
+          </div>
+          <div class="form-group">
+            {% csrf_token %}
+            <div class="row my-3">
+              {{ html1 | safe }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-lg-2 order-md-2 order-1">
+          <div class="d-grid my-3">
+            <button class="btn btn-primary" type="submit">Save</button>
+          </div>
+          <div class="d-grid my-3">
+            <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  {{ html2 | safe }}
+  <script>
+    window.onload = function() {
+      setButtonColourOnEntry();
+    };
+  </script>
+{% endblock content %}

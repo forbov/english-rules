@@ -1,14 +1,14 @@
 "use strict";
 
 var wordlistDiv = "wordlist";
-var studentEntryDiv = "student_entry";
+var studentAnswerDiv = "student_answer";
 var wordDisplayDiv = "word_display";
-var studentEntryInputDiv = "student_entry_input_div";
-var studentEntryInputId = "student_entry_input_id";
+var studentAnswerInputDiv = "student_answer_input_div";
+var studentAnswerInputId = "student_answer_input_id";
 var hiddenWordId = "hidden_word_id";
 var wordTextId = "word_text";
 var buttonSuffix = "_button";
-var enteredSuffix = "_entered";
+var answerSuffix = "_answer";
 var masterSuffix = "_master";
 var emptyButtonClass = "btn btn-outline-primary btn-sm";
 var correctButtonClass = "btn btn-success btn-sm";
@@ -27,32 +27,32 @@ function delay(time) {
 }
 
 function spellWord(word, wordId) {
-  var wordlistElement, studentEntryElement, wordDisplayElement, studentEntryInputDivElement, studentEntryInputElement, hiddenWordElement, wordTextElement, enteredWordElement;
+  var wordlistElement, studentAnswerElement, wordDisplayElement, studentAnswerInputDivElement, studentAnswerInputElement, hiddenWordElement, wordTextElement, answerWordElement;
   return regeneratorRuntime.async(function spellWord$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           wordlistElement = document.getElementById(wordlistDiv);
-          studentEntryElement = document.getElementById(studentEntryDiv);
+          studentAnswerElement = document.getElementById(studentAnswerDiv);
           wordDisplayElement = document.getElementById(wordDisplayDiv);
-          studentEntryInputDivElement = document.getElementById(studentEntryInputDiv);
-          studentEntryInputElement = document.getElementById(studentEntryInputId);
+          studentAnswerInputDivElement = document.getElementById(studentAnswerInputDiv);
+          studentAnswerInputElement = document.getElementById(studentAnswerInputId);
           hiddenWordElement = document.getElementById(hiddenWordId);
           wordTextElement = document.getElementById(wordTextId);
-          enteredWordElement = document.getElementById(wordId + enteredSuffix);
+          answerWordElement = document.getElementById(wordId + answerSuffix);
           hiddenWordElement.value = wordId;
-          studentEntryInputElement.value = enteredWordElement.value;
+          studentAnswerInputElement.value = answerWordElement.value;
           wordlistElement.style.display = "none";
-          studentEntryElement.style.display = "block";
+          studentAnswerElement.style.display = "block";
           wordDisplayElement.style.display = "block";
-          studentEntryInputDivElement.style.display = "none";
+          studentAnswerInputDivElement.style.display = "none";
           wordTextElement.innerHTML = word;
           _context.next = 17;
           return regeneratorRuntime.awrap(delay(waitTime));
 
         case 17:
           wordDisplayElement.style.display = "none";
-          studentEntryInputDivElement.style.display = "block";
+          studentAnswerInputDivElement.style.display = "block";
 
         case 19:
         case "end":
@@ -62,27 +62,47 @@ function spellWord(word, wordId) {
   });
 }
 
-function recordStudentEntry() {
+function recordStudentAnswer() {
   var wordlistElement = document.getElementById(wordlistDiv);
-  var studentEntryElement = document.getElementById(studentEntryDiv);
+  var studentAnswerElement = document.getElementById(studentAnswerDiv);
   var currentWordId = document.getElementById(hiddenWordId).value;
   var wordMasterValue = document.getElementById(currentWordId + masterSuffix).value;
-  var studentEntryValue = document.getElementById(studentEntryInputId).value;
+  var studentAnswerValue = document.getElementById(studentAnswerInputId).value;
   var wordButtonElement = document.getElementById(currentWordId + buttonSuffix);
-  var enteredWordElement = document.getElementById(currentWordId + enteredSuffix);
-  enteredWordElement.value = studentEntryValue;
+  var answerWordElement = document.getElementById(currentWordId + answerSuffix);
+  var event = new Event('change');
+  answerWordElement.value = studentAnswerValue;
+  answerWordElement.dispatchEvent(event); // Hide the student Answer form
 
-  if (studentEntryValue == "") {
-    wordButtonElement.className = emptyButtonClass;
-  } else if (wordMasterValue == studentEntryValue) {
-    wordButtonElement.className = correctButtonClass;
-  } else {
-    wordButtonElement.className = incorrectButtonClass;
-  } // Hide the student entry form
-
-
-  studentEntryElement.style.display = "none";
+  studentAnswerElement.style.display = "none";
   wordlistElement.style.display = "block";
+}
+
+function setButtonColourOnEntry() {
+  var wordcountElement = document.getElementById("line_items");
+  var wordcount = parseInt(wordcountElement.value);
+
+  for (var i = 0; i < wordcount; i++) {
+    var wordPrefix = 'word' + (i + 1).toString().padStart(2, '0');
+    var masterId = wordPrefix + masterSuffix;
+    var answerId = wordPrefix + answerSuffix;
+    var buttonId = wordPrefix + buttonSuffix;
+    updateButtonColour(masterId, answerId, buttonId);
+  }
+}
+
+function updateButtonColour(masterId, answerId, buttonId) {
+  answerElement = document.getElementById(answerId);
+  masterElement = document.getElementById(masterId);
+  buttonElement = document.getElementById(buttonId);
+
+  if (answerElement.value == "") {
+    buttonElement.className = emptyButtonClass;
+  } else if (masterElement.value == answerElement.value) {
+    buttonElement.className = correctButtonClass;
+  } else {
+    buttonElement.className = incorrectButtonClass;
+  }
 }
 
 function allowDrop(ev) {

@@ -1,3 +1,4 @@
+from django.template import Context, Template
 from django.template.loader import render_to_string
 
 class BootstrapTabs:
@@ -33,3 +34,24 @@ class BootstrapTabs:
 
   def render_tab_contents(self):
     return self.tab_body
+
+
+class ExerciseTypeContent:
+  def __init__(self, exercise_type, form, line_items):
+    self.exercise_type = exercise_type
+    self.form = form
+    self.line_items = line_items
+    self.context = Context({'form': self.form,
+                            'line_items': self.line_items})
+
+  def render_html_pt1(self):
+    template = Template(self.exercise_type.html_pt1)
+    return template.render(self.context)
+  
+  def render_html_pt2(self):
+    template = Template(self.exercise_type.html_pt2)
+    return template.render(self.context)
+  
+  def render_html_pt3(self):
+    template = Template(self.exercise_type.html_pt3)
+    return template.render(self.context)

@@ -1,12 +1,12 @@
 const wordlistDiv = "wordlist";
-const studentEntryDiv = "student_entry";
+const studentAnswerDiv = "student_answer";
 const wordDisplayDiv = "word_display";
-const studentEntryInputDiv = "student_entry_input_div";
-const studentEntryInputId = "student_entry_input_id";
+const studentAnswerInputDiv = "student_answer_input_div";
+const studentAnswerInputId = "student_answer_input_id";
 const hiddenWordId = "hidden_word_id";
 const wordTextId = "word_text";
 const buttonSuffix = "_button";
-const enteredSuffix = "_entered";
+const answerSuffix = "_answer";
 const masterSuffix = "_master";
 const emptyButtonClass = "btn btn-outline-primary btn-sm";
 const correctButtonClass = "btn btn-success btn-sm";
@@ -24,52 +24,73 @@ function delay(time) {
 
 async function spellWord(word, wordId) {  
   var wordlistElement = document.getElementById(wordlistDiv);
-  var studentEntryElement = document.getElementById(studentEntryDiv);
+  var studentAnswerElement = document.getElementById(studentAnswerDiv);
   var wordDisplayElement = document.getElementById(wordDisplayDiv);
-  var studentEntryInputDivElement = document.getElementById(studentEntryInputDiv);
-  var studentEntryInputElement = document.getElementById(studentEntryInputId);
+  var studentAnswerInputDivElement = document.getElementById(studentAnswerInputDiv);
+  var studentAnswerInputElement = document.getElementById(studentAnswerInputId);
   var hiddenWordElement = document.getElementById(hiddenWordId);
   var wordTextElement = document.getElementById(wordTextId);
-  var enteredWordElement = document.getElementById(wordId + enteredSuffix);
+  var answerWordElement = document.getElementById(wordId + answerSuffix);
 
   hiddenWordElement.value = wordId;
-  studentEntryInputElement.value = enteredWordElement.value;
+  studentAnswerInputElement.value = answerWordElement.value;
 
   wordlistElement.style.display = "none";
-  studentEntryElement.style.display = "block";
+  studentAnswerElement.style.display = "block";
   wordDisplayElement.style.display = "block";
-  studentEntryInputDivElement.style.display = "none";
+  studentAnswerInputDivElement.style.display = "none";
   wordTextElement.innerHTML = word;
 
   await delay(waitTime);
 
   wordDisplayElement.style.display = "none";
-  studentEntryInputDivElement.style.display = "block";
+  studentAnswerInputDivElement.style.display = "block";
 }
 
-function recordStudentEntry() {
+function recordStudentAnswer() {
   var wordlistElement = document.getElementById(wordlistDiv);
-  var studentEntryElement = document.getElementById(studentEntryDiv);
+  var studentAnswerElement = document.getElementById(studentAnswerDiv);
   var currentWordId = document.getElementById(hiddenWordId).value;
 
   var wordMasterValue = document.getElementById(currentWordId + masterSuffix).value;
-  var studentEntryValue = document.getElementById(studentEntryInputId).value;
+  var studentAnswerValue = document.getElementById(studentAnswerInputId).value;
   var wordButtonElement = document.getElementById(currentWordId + buttonSuffix);
-  var enteredWordElement = document.getElementById(currentWordId + enteredSuffix);
+  var answerWordElement = document.getElementById(currentWordId + answerSuffix);
+  var event = new Event('change');
 
-  enteredWordElement.value = studentEntryValue;
+  answerWordElement.value = studentAnswerValue;
+  answerWordElement.dispatchEvent(event);
 
-  if (studentEntryValue == "") {
-    wordButtonElement.className = emptyButtonClass
-  } else if (wordMasterValue == studentEntryValue) {
-    wordButtonElement.className = correctButtonClass;
-  } else {
-    wordButtonElement.className = incorrectButtonClass;
-  }
-
-  // Hide the student entry form
-  studentEntryElement.style.display = "none"
+  // Hide the student Answer form
+  studentAnswerElement.style.display = "none"
   wordlistElement.style.display = "block"
+}
+function setButtonColourOnEntry() {
+  var wordcountElement = document.getElementById("line_items");
+  var wordcount = parseInt(wordcountElement.value);
+
+  for (var i = 0; i < wordcount; i++) {
+    var wordPrefix = 'word' + (i + 1).toString().padStart(2, '0')
+    var masterId = wordPrefix + masterSuffix;
+    var answerId = wordPrefix + answerSuffix;
+    var buttonId = wordPrefix + buttonSuffix;
+
+    updateButtonColour(masterId, answerId, buttonId);
+  }
+}
+
+function updateButtonColour(masterId, answerId, buttonId) {
+  answerElement = document.getElementById(answerId);
+  masterElement = document.getElementById(masterId);
+  buttonElement = document.getElementById(buttonId);
+
+  if (answerElement.value == "") {
+    buttonElement.className = emptyButtonClass
+  } else if (masterElement.value == answerElement.value) {
+    buttonElement.className = correctButtonClass;
+  } else {
+    buttonElement.className = incorrectButtonClass;
+  }
 }
 
 function allowDrop(ev) {

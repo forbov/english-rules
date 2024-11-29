@@ -32,7 +32,7 @@
               <div class="row my-3">
                 {% for field in form %}
                   {{ field }}
-                  <input type="hidden" id="{{ field.name }}_entered" name="{{ field_name }}_entered">
+                  <input type="hidden" id="{{ field.name }}_entered" name="{{ field_name }}_answer">
                   <div class="col-4 col-md">
                     <div class="d-grid my-3">
                       <button id="{{ field.name }}_button" class="btn btn-outline-primary btn-sm" type="button" onclick="spellWord('{{ field.value }}', '{{ field.name }}')">{{ field.value }}</button>

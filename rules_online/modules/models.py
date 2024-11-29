@@ -5,6 +5,13 @@ from core.models import get_description_by_domain, get_dropdown_type_description
 
 # Create your models here.
 
+WORDLIST_EXERCISE = 1
+SENTENCE_WITH_DROPDOWN_EXERCISE = 2
+# 3	Fix Sentence Punctuation
+# 4	Word Ladder
+# 5	Word Search
+# 6	Word Grid
+
 class Module(models.Model):
   name = models.CharField(max_length=50, null=False, unique=True)
   level = models.CharField(max_length=20, null=False)

@@ -1,8 +1,10 @@
 from django.shortcuts import redirect, render
+from django.forms import inlineformset_factory
 from django.contrib import messages
-from core.utilities import BootstrapTabs
-from subscriptions.models import Subscription, SubscriptionExercise, SubscriptionSheet
-from subscriptions.forms import SubscriptionForm
+from core.utilities import BootstrapTabs, ExerciseTypeContent
+from modules.models import SENTENCE_WITH_DROPDOWN_EXERCISE, WORDLIST_EXERCISE
+from subscriptions.models import Subscription, SubscriptionExercise, SubscriptionExerciseItem, SubscriptionSheet
+from subscriptions.forms import SentenceWithDropdownForm, SubscriptionExerciseItemForm, SubscriptionForm, WordListForm
 from schools.models import SchoolStudent
 
 # Create your views here.
@@ -97,3 +99,42 @@ def subscription_exercise_show(request, subscription_exercise_id):
   return render(request,'subscription_exercises/show.html', {'page_header': page_header,
                                                              'subscription_exercise': subscription_exercise})
 
+def subscription_exercise_edit(request, subscription_exercise_id):
+  subscription_exercise = SubscriptionExercise.objects.get(id=subscription_exercise_id)
+  line_items = subscription_exercise.exercise.line_items_for_student
+  exercise_type = subscription_exercise.exercise.exercise_type
+  page_header = f'{subscription_exercise.exercise.title}: {subscription_exercise.subscription_sheet.subscription.school_student.student.user.full_name()}'
+  form = None
+
+  if request.method == 'POST':
+    if exercise_type.id == WORDLIST_EXERCISE:
+      form = WordListForm(data=request.POST, subscription_exercise=subscription_exercise)
+    elif exercise_type.id == SENTENCE_WITH_DROPDOWN_EXERCISE:
+      form = SentenceWithDropdownForm(data=request.POST, subscription_exercise=subscription_exercise)
+      
+    exercise_type_content = ExerciseTypeContent(exercise_type=exercise_type, form=form, line_items=line_items)
+  
+    if form.is_valid():
+      form.save()
+      messages.success(request, 'Exercise saved successfully.')
+      return redirect('subscriptions:subscription_sheet_show', subscription_sheet_id=subscription_exercise.subscription_sheet.id)
+    else:
+      messages.error(request, f'<p><strong>Update failed with the following errors:</strong></p>{form.errors}')
+      return render(request,'subscription_exercises/edit.html', {'page_header': page_header,
+                                                                 'subscription_exercise': subscription_exercise,
+                                                                 'form': form,
+                                                                 'html1': exercise_type_content.render_html_pt1,
+                                                                 'html2': exercise_type_content.render_html_pt2})
+
+  if exercise_type.id == WORDLIST_EXERCISE:
+    form = WordListForm(subscription_exercise=subscription_exercise)
+  elif exercise_type.id == SENTENCE_WITH_DROPDOWN_EXERCISE:
+    form = SentenceWithDropdownForm(subscription_exercise=subscription_exercise)
+    
+  exercise_type_content = ExerciseTypeContent(exercise_type=exercise_type, form=form, line_items=line_items)
+  
+  return render(request,'subscription_exercises/edit.html', {'page_header': page_header,
+                                                             'subscription_exercise': subscription_exercise,
+                                                             'form': form,
+                                                             'html1': exercise_type_content.render_html_pt1,
+                                                             'html2': exercise_type_content.render_html_pt2})

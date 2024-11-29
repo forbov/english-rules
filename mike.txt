@@ -1,2 +1,17 @@
-you have one hour for the test it finishes at midday
-my father has a new job he will be earning more money
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Sentence</th>
+      <th>Answer</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% csrf_token %}
+    {% for field in form %}
+      <tr>
+        {{ field.label | safe }}<td>{{ field }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

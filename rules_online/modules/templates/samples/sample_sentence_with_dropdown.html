@@ -30,25 +30,25 @@
             {{ sheet_exercise.instructions_resolved }}
           </div>
         </div>
-        <table class="table table-light">
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Sentence</th>
-              <th>Answer</th>
-            </tr>
-          </thead>
-          <tbody>
-            <div class="form-group">
+        <div class="form-group">
+          <table class="table table-light">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Sentence</th>
+                <th>Answer</th>
+              </tr>
+            </thead>
+            <tbody>
               {% csrf_token %}
               {% for field in form %}
                 <tr>
                   {{ field.label | safe }}<td>{{ field }}</td>
                 </tr>
               {% endfor %}
-            </div>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="col-md-3 col-lg-2 order-md-2 order-1">
         <div class="d-grid my-3">
