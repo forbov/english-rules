@@ -242,7 +242,7 @@ def get_state_choices():
   return CodeSet(STATE_DOMAIN).as_choices()
 
 def get_state_choices_with_blank():
-  return BLANK_LIST_ITEM + get_gender_choices()
+  return BLANK_LIST_ITEM + get_state_choices()
 
 def get_state_description(code):
   return CodeRecord(STATE_DOMAIN, code).get_descripton()

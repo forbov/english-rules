@@ -7,10 +7,10 @@ from core.models import get_description_by_domain, get_dropdown_type_description
 
 WORDLIST_EXERCISE = 1
 SENTENCE_WITH_DROPDOWN_EXERCISE = 2
-# 3	Fix Sentence Punctuation
-# 4	Word Ladder
-# 5	Word Search
-# 6	Word Grid
+PUNCTUATION_EXERCISE = 3
+WORDLADDER_EXERCISE = 4
+WORDSEARCH_EXERCISE = 5
+WORDGRID_EXERCISE = 6
 
 class Module(models.Model):
   name = models.CharField(max_length=50, null=False, unique=True)

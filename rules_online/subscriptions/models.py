@@ -56,6 +56,9 @@ class SubscriptionSheet(models.Model):
   def __str__(self):
     return f'{self.subscription} - {self.sheet}'
   
+  def completed(self):
+    return self.end_at is not None
+  
 class SubscriptionExercise(models.Model):
   subscription_sheet = models.ForeignKey(SubscriptionSheet, related_name='exercises', on_delete=models.CASCADE)
   exercise = models.ForeignKey(SheetExercise, related_name='subscription_exercises', on_delete=models.CASCADE)
@@ -68,6 +71,51 @@ class SubscriptionExercise(models.Model):
 
   def __str__(self):
     return f'{self.subscription_sheet} - {self.exercise}'
+  
+  def completed(self):
+    return self.end_at is not None
+  
+  def next_exercise(self):
+    sql = f"""select sse1.*
+                from subscriptions_subscriptionexercise sse0
+               inner join modules_sheetexercise mse0
+                  on mse0.id = sse0.exercise_id
+               inner join modules_sheetexercise mse1
+                  on mse1.sheet_id = mse0.sheet_id
+                 and mse1."order" > mse0."order"
+               inner join subscriptions_subscriptionexercise sse1
+                  on sse1.subscription_sheet_id = sse0.subscription_sheet_id
+                 and sse1.exercise_id = mse1.id
+               where sse0.id = {self.id}
+               order by mse1."order" 
+               limit 1"""
+    
+    next_exercises = SubscriptionExercise.objects.raw(sql)
+    for exercise in next_exercises:
+      return exercise
+
+    return None
+  
+  def previous_exercise(self):
+    sql = f"""select sse1.*
+                from subscriptions_subscriptionexercise sse0
+               inner join modules_sheetexercise mse0
+                  on mse0.id = sse0.exercise_id
+               inner join modules_sheetexercise mse1
+                  on mse1.sheet_id = mse0.sheet_id
+                 and mse1."order" < mse0."order"
+               inner join subscriptions_subscriptionexercise sse1
+                  on sse1.subscription_sheet_id = sse0.subscription_sheet_id
+                 and sse1.exercise_id = mse1.id
+               where sse0.id = {self.id}
+               order by mse1."order"
+               limit 1"""
+    
+    previous_exercises = SubscriptionExercise.objects.raw(sql)
+    for exercise in previous_exercises:
+      return exercise
+
+    return None
 
 class SubscriptionExerciseItem(models.Model):
   subscription_exercise = models.ForeignKey(SubscriptionExercise, related_name='items', on_delete=models.CASCADE)
@@ -83,3 +131,6 @@ class SubscriptionExerciseItem(models.Model):
 
   def __str__(self):
     return f'{self.subscription_exercise} - {self.exercise_item}'
+  
+  def completed(self):
+    return self.completed_at is not None

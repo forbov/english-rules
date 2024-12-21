@@ -3,23 +3,26 @@ from django.shortcuts import redirect, render
 from django.forms import inlineformset_factory
 from modules.forms import ExerciseTypeForm, ModuleForm, NounsForm, PunctuationForm, SentenceWithDropdownForm, SheetExerciseForm, SheetExerciseItemForm, SheetForm, WordLadderForm, WordListForm
 from modules.models import ExerciseType, Module, Sheet, SheetExercise, SheetExerciseItem
-
+from core.decorators import authenticated_user
 from core.utilities import BootstrapTabs
 from rules_online import settings
 from django.contrib import messages
 # Create your views here.
 
+@authenticated_user
 def modules_index(request):
   page_header = 'Modules'
   modules = Module.objects.all()
   return render(request,'modules/index.html', {'modules': modules, 'page_header': page_header})
 
+@authenticated_user
 def module_delete(request, module_id):
   module = Module.objects.get(id=module_id)
   module.delete()
   messages.success(request, 'Module deleted successfully.')
   return redirect('modules:modules_index')
 
+@authenticated_user
 def module_show(request, module_id):
   module = Module.objects.get(id=module_id)
   page_header = f'{module.name}'
@@ -34,6 +37,7 @@ def module_show(request, module_id):
                                                'tab_headers': bootstrap_tabs.render_tab_headers(), 
                                                'tab_contents': bootstrap_tabs.render_tab_contents()})
 
+@authenticated_user
 def module_new(request):
   page_header = 'New Module'
   if request.method == 'POST':
@@ -47,6 +51,7 @@ def module_new(request):
   return render(request,'modules/new.html', {'form': form, 'page_header': page_header})
 
 
+@authenticated_user
 def module_edit(request, module_id):
   module = Module.objects.get(id=module_id)
   page_header = f'Edit {module.name}'
@@ -69,22 +74,26 @@ def module_edit(request, module_id):
   return render(request,'modules/edit.html', {'form': form, 'module': module, 
                                                       'page_header': page_header, })
 
+@authenticated_user
 def exercise_types_index(request):
   page_header = 'Exercise Types'
   exercise_types = ExerciseType.objects.all()
   return render(request,'exercise_types/index.html', {'exercise_types': exercise_types, 'page_header': page_header})
 
+@authenticated_user
 def exercise_type_delete(request, exercise_type_id):
   exercise_type = ExerciseType.objects.get(id=exercise_type_id)
   exercise_type.delete()
   messages.success(request, 'Exercise Type deleted successfully.')
   return redirect('modules:exercise_types_index')
 
+@authenticated_user
 def exercise_type_show(request, exercise_type_id):
   exercise_type = ExerciseType.objects.get(id=exercise_type_id)
   page_header = f'{exercise_type.name}'
   return render(request,'exercise_types/show.html', {'exercise_type': exercise_type, 'page_header': page_header})
 
+@authenticated_user
 def exercise_type_new(request):
   page_header = 'New Exercise Type'
   if request.method == 'POST':
@@ -100,6 +109,7 @@ def exercise_type_new(request):
   form = ExerciseTypeForm()
   return render(request,'exercise_types/new.html', {'form': form, 'page_header': page_header})
 
+@authenticated_user
 def exercise_type_edit(request, exercise_type_id):
   exercise_type = ExerciseType.objects.get(id=exercise_type_id)
   page_header = f'Edit {exercise_type.name}'
@@ -122,7 +132,9 @@ def exercise_type_edit(request, exercise_type_id):
     
   form = ExerciseTypeForm(instance=exercise_type)
   return render(request,'exercise_types/edit.html', {'form': form, 'exercise_type': exercise_type, 
-                                                      'page_header': page_header, })
+                                                     'page_header': page_header, })
+
+@authenticated_user
 def sheet_show(request, sheet_id):
   sheet = Sheet.objects.get(id=sheet_id)
   page_header = f'{sheet.name} for {sheet.module.name}'
@@ -137,6 +149,7 @@ def sheet_show(request, sheet_id):
                                              'tab_headers': bootstrap_tabs.render_tab_headers(), 
                                              'tab_contents': bootstrap_tabs.render_tab_contents()})
 
+@authenticated_user
 def sheet_new(request, module_id):
   module = Module.objects.get(id=module_id)
   page_header = f'New Sheet in {module.name}'
@@ -157,6 +170,7 @@ def sheet_new(request, module_id):
   return render(request,'sheets/new.html', {'form': form, 'module': module, 
                                             'page_header': page_header})
 
+@authenticated_user
 def sheet_delete(request, sheet_id):
   sheet = Sheet.objects.get(id=sheet_id)
   module = sheet.module
@@ -164,6 +178,7 @@ def sheet_delete(request, sheet_id):
   messages.success(request, 'Sheet deleted successfully.')
   return redirect('modules:module_show', module_id=module.id)
 
+@authenticated_user
 def sheet_edit(request, sheet_id):
   sheet = Sheet.objects.get(id=sheet_id)
   module = sheet.module
@@ -188,6 +203,7 @@ def sheet_edit(request, sheet_id):
                                              'module': module, 'page_header': page_header, })
 
 
+@authenticated_user
 def sheet_exercise_show(request, sheet_exercise_id):
   sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
   page_header = f'Exercise {sheet_exercise.order} for {sheet_exercise.sheet.name}'
@@ -203,6 +219,7 @@ def sheet_exercise_show(request, sheet_exercise_id):
                                                       'tab_headers': bootstrap_tabs.render_tab_headers(), 
                                                       'tab_contents': bootstrap_tabs.render_tab_contents()})
 
+@authenticated_user
 def sheet_exercise_new(request, sheet_id):
   sheet = Sheet.objects.get(id=sheet_id)
   page_header = f'New Exercise for {sheet.name}'
@@ -221,6 +238,7 @@ def sheet_exercise_new(request, sheet_id):
   return render(request,'sheet_exercises/new.html', {'form': form, 'page_header': page_header, 
                                                      'sheet': sheet})
 
+@authenticated_user
 def sheet_exercise_delete(request, sheet_exercise_id):
   sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
   sheet = sheet_exercise.sheet
@@ -228,6 +246,7 @@ def sheet_exercise_delete(request, sheet_exercise_id):
   messages.success(request, 'Exercise deleted successfully.')
   return redirect('modules:sheet_show', sheet_id=sheet.id)
 
+@authenticated_user
 def sheet_exercise_edit(request, sheet_exercise_id):
   sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
   sheet = sheet_exercise.sheet
@@ -257,6 +276,7 @@ def sheet_exercise_edit(request, sheet_exercise_id):
                                                      'sheet': sheet, 'page_header': page_header, })
 
 
+@authenticated_user
 def sheet_exercise_item_show(request, sheet_exercise_item_id):
   sheet_exercise_item = SheetExerciseItem.objects.get(id=sheet_exercise_item_id)
   page_header = f'Exercise Item for Sheet Exercise {sheet_exercise_item.sheet_exercise.order}'
@@ -264,6 +284,7 @@ def sheet_exercise_item_show(request, sheet_exercise_item_id):
   return render(request,'sheet_exercise_items/show.html', {'sheet_exercise_item': sheet_exercise_item, 
                                                            'page_header': page_header})
 
+@authenticated_user
 def sheet_exercise_item_new(request, sheet_exercise_id):
   sheet_exercise = SheetExercise.objects.get(id=sheet_exercise_id)
   page_header = f'New Exercise Item for Sheet Exercise {sheet_exercise.order}'
@@ -282,6 +303,7 @@ def sheet_exercise_item_new(request, sheet_exercise_id):
   return render(request,'sheet_exercise_items/new.html', {'form': form, 'page_header': page_header, 
                                                         'sheet_exercise': sheet_exercise})
 
+@authenticated_user
 def sheet_exercise_item_delete(request, sheet_exercise_item_id):
   sheet_exercise_item = SheetExerciseItem.objects.get(id=sheet_exercise_item_id)
   sheet_exercise = sheet_exercise_item.sheet_exercise
@@ -289,6 +311,7 @@ def sheet_exercise_item_delete(request, sheet_exercise_item_id):
   messages.success(request, 'Exercise Item deleted successfully.')
   return redirect('modules:sheet_exercise_show', sheet_exercise_id=sheet_exercise.id)
 
+@authenticated_user
 def sheet_exercise_item_edit(request, sheet_exercise_item_id):
   sheet_exercise_item = SheetExerciseItem.objects.get(id=sheet_exercise_item_id)
   sheet_exercise = sheet_exercise_item.sheet_exercise

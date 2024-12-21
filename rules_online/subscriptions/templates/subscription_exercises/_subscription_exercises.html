@@ -18,7 +18,11 @@
             <td>{{ subscription_exercise.subscription_sheet.name }}</td>
           {% endif %}
           <td>
-            <a href="{% url 'subscriptions:subscription_exercise_show' subscription_exercise_id=subscription_exercise.id %}">
+            {% if subscription_exercise.completed %}
+              <a href="{% url 'subscriptions:subscription_exercise_show' subscription_exercise_id=subscription_exercise.id %}">
+            {% else %}
+              <a href="{% url 'subscriptions:subscription_exercise_edit' subscription_exercise_id=subscription_exercise.id %}">
+            {% endif %}
               {{ subscription_exercise.exercise.title }}
             </a>
           </td>

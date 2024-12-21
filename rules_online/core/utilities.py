@@ -37,12 +37,15 @@ class BootstrapTabs:
 
 
 class ExerciseTypeContent:
-  def __init__(self, exercise_type, form, line_items):
+  def __init__(self, exercise_type, form, line_items, exercise_item):
     self.exercise_type = exercise_type
     self.form = form
     self.line_items = line_items
+    self.exercise_item = exercise_item
     self.context = Context({'form': self.form,
-                            'line_items': self.line_items})
+                            'line_items': self.line_items,
+                            'word0': exercise_item.answer1,
+                            'word_final': exercise_item.answer2})
 
   def render_html_pt1(self):
     template = Template(self.exercise_type.html_pt1)

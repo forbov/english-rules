@@ -9,6 +9,7 @@
 {% endblock heading %}
 
 {% block content %}
+  <input type="hidden" id="exercise_type" name="exercise_type" value="{{ exercise_type }}">
   <div id="wordlist" class="container" style="display:block">
     <form action="{% url 'subscriptions:subscription_exercise_edit' subscription_exercise_id=subscription_exercise.id %}" method="post">
       <div class="row my-3">
@@ -42,17 +43,23 @@
           <div class="d-grid my-3">
             <button class="btn btn-primary" type="submit">Save</button>
           </div>
+          {% if subscription_exercise.previous_exercise %}
+            <div class="d-grid my-3">
+              <a href="{% url 'subscriptions:subscription_exercise_edit' subscription_exercise_id=subscription_exercise.previous_exercise.id %}" class="btn btn-primary">Previous</a>
+            </div>
+          {% endif %}
+          {% if subscription_exercise.next_exercise %}
+            <div class="d-grid my-3">
+              <a href="{% url 'subscriptions:subscription_exercise_edit' subscription_exercise_id=subscription_exercise.next_exercise.id %}" class="btn btn-primary">Next</a>
+            </div>
+          {% endif %}
           <div class="d-grid my-3">
-            <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+            <a href="{% url 'subscriptions:subscription_sheet_show' subscription_exercise.subscription_sheet.id %}" class="btn btn-primary">Sheet</a>
           </div>
         </div>
       </div>
     </form>
   </div>
   {{ html2 | safe }}
-  <script>
-    window.onload = function() {
-      setButtonColourOnEntry();
-    };
-  </script>
+  {{ html3 | safe }}
 {% endblock content %}

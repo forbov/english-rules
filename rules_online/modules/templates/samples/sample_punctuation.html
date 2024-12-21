@@ -29,36 +29,36 @@
           {{ sheet_exercise.instructions_resolved }}
         </div>
       </div>
-      <div class="row my-3">
-        <div class="col-md-3 text-md-end">
-          <label>Action</label>
+      <div class="form-group">
+        {% csrf_token %}
+        <div class="row my-3">
+          <div class="col-md-3 text-md-end">
+            <label>Action</label>
+          </div>
+          <div class="col-md">
+            <select id="word_action" class="form-select" name="word_action">
+              <option value="CAPITALISE">Capitalise</option>
+              <option value="UNCAPITALISE">Uncapitalise</option>
+              <option value="ADD_FULLSTOP">Add Fullstop</option>
+              <option value="REMOVE_FULLSTOP">Remove Fullstop</option>
+            </select>
+          </div>
         </div>
-        <div class="col-md">
-          <select id="word_action" class="form-select" name="word_action">
-            <option value="CAPITALISE">Capitalise</option>
-            <option value="UNCAPITALISE">Uncapitalise</option>
-            <option value="ADD_FULLSTOP">Add Fullstop</option>
-            <option value="REMOVE_FULLSTOP">Remove Fullstop</option>
-          </select>
-        </div>
-      </div>
-      <div class="row my-3">
-        <div class="col">
-          <table class="table table-light">
-            <thead>
-              <th class="text-center">Sentence</th>
-            </thead>
-            <tbody>
-              <div class="form-group">
-                {% csrf_token %}
+        <div class="row my-3">
+          <div class="col">
+            <table class="table table-light">
+              <thead>
+                <th class="text-center">Sentence</th>
+              </thead>
+              <tbody>
                 {% for field in form %}
                   <tr>
                     <td>{{ field.label | safe }}</td>
                   </tr>
                 {% endfor %}
-              </div> 
-           </tbody>
-          </table>
+            </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

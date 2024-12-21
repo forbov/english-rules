@@ -5,7 +5,7 @@ from core.decorators import unauthenticated_user
 from .models import Invitation
 from schools.models import School, SchoolStudent, SchoolTeacher, Student, Teacher
 from .forms import StudentInvitationForm, OthersInvitationForm, AcceptForm
-from django.contrib.auth.decorators import login_required
+from core.decorators import authenticated_user
 from django.contrib.auth import login
 from django.contrib.auth.models import Group
 from django.contrib import messages
@@ -16,14 +16,14 @@ from .utilities import send_invitation_email
 
 # Create your views here.
 
-@login_required
+@authenticated_user
 def invitation_show(request, invitation_id):
   invitation = Invitation.objects.get(id=invitation_id)
   page_header = f'Invitation for {invitation.full_name()}'
   
   return render(request, 'invitations/show.html', {'invitation': invitation, 'page_header': page_header})
 
-@login_required
+@authenticated_user
 def invitation_new(request):
   role = None
   school_id = None
@@ -82,7 +82,7 @@ def invitation_new(request):
 
     return render(request, 'invitations/new.html', {'form': form, 'page_header': page_header, 'school': school, 'role': role})
       
-@login_required
+@authenticated_user
 def invitation_edit(request, invitation_id):
   invitation = Invitation.objects.get(id=invitation_id)
   page_header = f'Edit Invitation for {invitation.full_name()}'
@@ -126,7 +126,7 @@ def invitation_edit(request, invitation_id):
     return render(request, 'invitations/edit.html', {'form': form, 'invitation': invitation, 
                                                      'page_header': page_header, 'school': invitation.school})
   
-@login_required
+@authenticated_user
 def invitation_delete(request, invitation_id):
   invitation = Invitation.objects.get(id=invitation_id)
   invitation.delete()
@@ -195,7 +195,7 @@ def invitation_accept(request):
     return render(request, 'invitations/accept.html', {'form': form, 'page_header': page_header, 'invitation': invitation})
 
 
-@login_required
+@authenticated_user
 def invitation_reset(request, invitation_id):
   invitation = Invitation.objects.get(id=invitation_id)
   invitation.status = 'PENDING'

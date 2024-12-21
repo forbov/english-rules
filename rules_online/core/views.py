@@ -37,15 +37,13 @@ def users_index(request):
               inner join auth_group grp
                  on grp.id = ugr.group_id
                 and ('{group_name}' = '' or grp.name = '{group_name}')
-              where lower(usr.first_name) like lower('%%{first_name}%%')
-                and lower(usr.last_name) like lower('%%{last_name}%%')
+              where lower(usr.first_name) like '%%{first_name.lower()}%%'
+                and lower(usr.last_name) like '%%{last_name.lower()}%%'
                 and ('{gender}' = '' or usr.gender = '{gender}')
               order by usr.last_name
                   , usr.first_name"""
 
   users = User.objects.raw(sql)
-  print(f'Users count: {len(users)}')
-  print([(user.id, user.first_name, user.last_name) for user in users])
 
   return render(request, 'users/index.html', {'users': users, 'page_header': page_header,
                                               'users_filter': users_filter,

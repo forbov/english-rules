@@ -202,12 +202,14 @@ function removeFullstop(val) {
   return val.replace(/\.$/g, '');
 }
 
-function modifyWord(actionElementId, currentElement) {
+function modifyWord(actionElementId, currentElement, answerElementId) {
   var CAPITALISE = 'CAPITALISE';
   var UNCAPITALISE = 'UNCAPITALISE';
   var ADD_FULLSTOP = 'ADD_FULLSTOP';
   var REMOVE_FULLSTOP = 'REMOVE_FULLSTOP';
   actionElement = document.getElementById(actionElementId);
+  answerElement = document.getElementById(answerElementId + "_answer");
+  parentElement = document.getElementById(answerElementId + "_parent");
 
   if (actionElement.value == CAPITALISE) {
     currentElement.innerHTML = capitalizeFirstLetter(currentElement.innerHTML);
@@ -217,5 +219,15 @@ function modifyWord(actionElementId, currentElement) {
     currentElement.innerHTML = addFullstop(currentElement.innerHTML);
   } else if (actionElement.value == REMOVE_FULLSTOP) {
     currentElement.innerHTML = removeFullstop(currentElement.innerHTML);
+  } // Set the answer element value
+
+
+  var allWords = parentElement.children;
+  var answer = "";
+
+  for (var i = 0; i < allWords.length; i++) {
+    answer += allWords[i].innerHTML + " ";
   }
+
+  answerElement.value = answer.trim();
 }
